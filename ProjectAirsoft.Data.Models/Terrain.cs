@@ -22,6 +22,9 @@ namespace ProjectAirsoft.Data.Models
 		[MaxLength(LocationUrlMaxLength)]
 		public string LocationUrl { get; set; } = null!;
 
+		[Comment("Flag for soft delete")]
+		public bool IsDeleted { get; set; }
+
 		[ForeignKey(nameof(City))]
 		[Comment("The city identifier")]
 		public int CityId { get; set; }

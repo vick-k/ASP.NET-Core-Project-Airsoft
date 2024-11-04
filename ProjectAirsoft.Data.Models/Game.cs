@@ -35,13 +35,20 @@ namespace ProjectAirsoft.Data.Models
 		[Comment("The one-time fee that players have to pay")]
 		public decimal Fee { get; set; }
 
+		[Comment("Flag for soft delete")]
+		public bool IsDeleted { get; set; }
+
 		[ForeignKey(nameof(Terrain))]
 		[Comment("The terrain identifier")]
 		public Guid TerrainId { get; set; }
 
 		public virtual Terrain Terrain { get; set; } = null!;
 
-		// TODO: - add property OrganizerId (application user)
-		//       - add mapping table UserGames
+		[Comment("The organizer identifier")]
+		public Guid OrganizerId { get; set; }
+
+		public virtual ApplicationUser Organizer { get; set; } = null!;
+
+		public virtual ICollection<UserGame> UserGames { get; set; } = new HashSet<UserGame>();
 	}
 }

@@ -11,7 +11,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 	options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
+builder.Services.AddIdentity<ApplicationUser, IdentityRole<Guid>>(options =>
 {
 	options.SignIn.RequireConfirmedAccount = false;
 	options.User.RequireUniqueEmail = true;
@@ -19,6 +19,7 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
 })
 	.AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
+builder.Services.AddRazorPages();
 
 var app = builder.Build();
 

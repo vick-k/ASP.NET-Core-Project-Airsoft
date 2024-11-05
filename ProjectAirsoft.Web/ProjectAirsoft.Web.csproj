@@ -21,7 +21,12 @@
     <ProjectReference Include="..\ProjectAirsoft.Common\ProjectAirsoft.Common.csproj" />
     <ProjectReference Include="..\ProjectAirsoft.Data\ProjectAirsoft.Data.csproj" />
     <ProjectReference Include="..\ProjectAirsoft.Infrastructure\ProjectAirsoft.Infrastructure.csproj" />
+    <ProjectReference Include="..\ProjectAirsoft.Services.Data\ProjectAirsoft.Services.Data.csproj" />
     <ProjectReference Include="..\ProjectAirsoft.ViewModels\ProjectAirsoft.ViewModels.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\images\" />
   </ItemGroup>
 
 </Project>

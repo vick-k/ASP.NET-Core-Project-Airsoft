@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ProjectAirsoft.Common\ProjectAirsoft.Common.csproj" />
+    <ProjectReference Include="..\ProjectAirsoft.Data.Models\ProjectAirsoft.Data.Models.csproj" />
+    <ProjectReference Include="..\ProjectAirsoft.Data\ProjectAirsoft.Data.csproj" />
+    <ProjectReference Include="..\ProjectAirsoft.ViewModels\ProjectAirsoft.ViewModels.csproj" />
+  </ItemGroup>
+
+</Project>

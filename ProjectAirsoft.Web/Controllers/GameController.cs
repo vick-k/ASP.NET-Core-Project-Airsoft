@@ -5,6 +5,8 @@ using ProjectAirsoft.Data.Models;
 using ProjectAirsoft.Services.Data.Interfaces;
 using ProjectAirsoft.ViewModels.Game;
 
+using static ProjectAirsoft.Common.ValidationMessages.Game;
+
 namespace ProjectAirsoft.Web.Controllers
 {
 	[Authorize]
@@ -47,7 +49,7 @@ namespace ProjectAirsoft.Web.Controllers
 
 			if (result == false)
 			{
-				ModelState.AddModelError(nameof(viewModel.Date), "Please use the built-in calendar to pick a date.");
+				ModelState.AddModelError(nameof(viewModel.Date), InvalidDateMessage);
 
 				return View(viewModel);
 			}

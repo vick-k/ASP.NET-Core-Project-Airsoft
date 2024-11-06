@@ -2,38 +2,39 @@
 using System.ComponentModel.DataAnnotations;
 
 using static ProjectAirsoft.Common.EntityValidationConstants.Game;
+using static ProjectAirsoft.Common.ValidationMessages.Game;
 
 namespace ProjectAirsoft.ViewModels.Game
 {
 	public class GameCreateViewModel
 	{
-		[Required(ErrorMessage = "The Name is required.")]
-		[MinLength(NameMinLength, ErrorMessage = "The Name length must be at least {1} characters.")]
-		[MaxLength(NameMaxLength, ErrorMessage = "The Name length cannot be more than {1} characters.")]
+		[Required(ErrorMessage = RequiredNameMessage)]
+		[MinLength(NameMinLength, ErrorMessage = NameMinLengthMessage)]
+		[MaxLength(NameMaxLength, ErrorMessage = NameMaxLengthMessage)]
 		public string Name { get; set; } = null!;
 
-		[Required(ErrorMessage = "The Description is required.")]
-		[MinLength(DescriptionMinLength, ErrorMessage = "The Description length must be at least {1} characters.")]
-		[MaxLength(DescriptionMaxLength, ErrorMessage = "The Description length cannot be more than {1} characters.")]
+		[Required(ErrorMessage = RequiredDescriptionMessage)]
+		[MinLength(DescriptionMinLength, ErrorMessage = DescriptionMinLengthMessage)]
+		[MaxLength(DescriptionMaxLength, ErrorMessage = DescriptionMaxLengthMessage)]
 		public string Description { get; set; } = null!;
 
-		[MaxLength(ImageUrlMaxLength, ErrorMessage = "The Image Link length cannot be more than {1} characters.")]
+		[MaxLength(ImageUrlMaxLength, ErrorMessage = ImageUrlMaxLengthMessage)]
 		public string? ImageUrl { get; set; }
 
-		[Required(ErrorMessage = "The Date is required.")]
+		[Required(ErrorMessage = RequiredDateMessage)]
 		public string Date { get; set; } = null!;
 
-		[Required(ErrorMessage = "The Capacity is required.")]
-		[Range(CapacityMinValue, CapacityMaxValue, ErrorMessage = "The Capacity must be between {1} and {2}.")]
+		[Required(ErrorMessage = RequiredCapacityMessage)]
+		[Range(CapacityMinValue, CapacityMaxValue, ErrorMessage = CapacityRangeMessage)]
 		public int Capacity { get; set; }
 
-		[Required(ErrorMessage = "The Fee is required.")]
-		[Range(typeof(decimal), FeeMinValue, FeeMaxValue, ErrorMessage = "The Fee must be between {1} and {2}.")]
+		[Required(ErrorMessage = RequiredFeeMessage)]
+		[Range(typeof(decimal), FeeMinValue, FeeMaxValue, ErrorMessage = FeeRangeMessage)]
 		public decimal Fee { get; set; }
 
 		public string? OrganizerId { get; set; }
 
-		[Required(ErrorMessage = "The Terrain is required.")]
+		[Required(ErrorMessage = RequiredTerrainMessage)]
 		public string TerrainId { get; set; } = null!;
 
 		public IEnumerable<TerrainViewModel>? Terrains { get; set; }

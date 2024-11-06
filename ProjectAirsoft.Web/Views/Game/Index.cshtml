@@ -12,11 +12,14 @@
 	{
 		<div class="col-md-4">
 			<div class="card mb-4 shadow-sm">
-				<img src="~/images/airsoft-banner-medium.jpg" class="card-img-top" alt="Game Image" style="height: 200px; object-fit: cover;">
+				<img src="@game.ImageUrl" class="card-img-top" alt="Game Image" style="height: 200px; object-fit: cover;">
 				<div class="card-body">
 					<h5 class="card-title">@game.Name</h5>
 					<p class="card-text">@game.Terrain</p>
 					<a asp-action="Details" asp-route-id="@game.Id" class="btn btn-primary">Game Details</a>
+				</div>
+				<div class="card-footer text-center">
+					@game.Date
 				</div>
 			</div>
 		</div>

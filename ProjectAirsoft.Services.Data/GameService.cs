@@ -18,11 +18,12 @@ namespace ProjectAirsoft.Services.Data
 
 			IEnumerable<GameIndexViewModel> gameIndexViewModels = games
 				.Where(g => g.IsDeleted == false)
+				.OrderBy(g => g.Date)
 				.Select(g => new GameIndexViewModel()
 				{
 					Id = g.Id.ToString(),
 					Name = g.Name,
-					ImageUrl = g.ImageUrl,
+					ImageUrl = g.ImageUrl != null ? g.ImageUrl : "/images/airsoft-banner-medium.jpg",
 					Date = g.Date.ToString(CustomDateFormat),
 					Terrain = g.Terrain.Name
 				});

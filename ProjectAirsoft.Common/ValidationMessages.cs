@@ -16,6 +16,9 @@
 
 			public const string RequiredDateMessage = "The Date is required.";
 
+			public const string RequiredStartTimeMessage = "The Start Time is required.";
+			public const string InvalidStartTimeMessage = "The Start Time must be in the following format: HH:mm";
+
 			public const string RequiredCapacityMessage = "The Capacity is required.";
 			public const string CapacityRangeMessage = "The Capacity must be between {1} and {2}.";
 

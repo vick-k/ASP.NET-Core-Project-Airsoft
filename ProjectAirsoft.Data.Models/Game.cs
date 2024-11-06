@@ -29,6 +29,11 @@ namespace ProjectAirsoft.Data.Models
 		[Comment("The date when the game will be held")]
 		public DateTime Date { get; set; }
 
+		[Required]
+		[Comment("The time when the game will start")]
+		[MaxLength(StartTimeMaxLength)]
+		public string StartTime { get; set; } = null!;
+
 		[Comment("The maximum number of players")]
 		public int Capacity { get; set; }
 

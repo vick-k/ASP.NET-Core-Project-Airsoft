@@ -24,6 +24,10 @@ namespace ProjectAirsoft.ViewModels.Game
 		[Required(ErrorMessage = RequiredDateMessage)]
 		public string Date { get; set; } = null!;
 
+		[Required(ErrorMessage = RequiredStartTimeMessage)]
+		[RegularExpression(StartTimeRegexPattern, ErrorMessage = InvalidStartTimeMessage)]
+		public string StartTime { get; set; } = null!;
+
 		[Required(ErrorMessage = RequiredCapacityMessage)]
 		[Range(CapacityMinValue, CapacityMaxValue, ErrorMessage = CapacityRangeMessage)]
 		public int Capacity { get; set; }

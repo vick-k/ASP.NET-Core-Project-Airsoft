@@ -12,6 +12,9 @@
 
 			public const int ImageUrlMaxLength = 2048;
 
+			public const int StartTimeMaxLength = 5;
+			public const string StartTimeRegexPattern = @"^\d{2}:\d{2}$";
+
 			public const int CapacityMinValue = 1;
 			public const int CapacityMaxValue = 5000;
 

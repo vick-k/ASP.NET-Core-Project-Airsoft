@@ -46,6 +46,7 @@ namespace ProjectAirsoft.Services.Data
 				Description = viewModel.Description,
 				ImageUrl = viewModel.ImageUrl,
 				Date = parsedDate,
+				StartTime = viewModel.StartTime,
 				Capacity = viewModel.Capacity,
 				Fee = viewModel.Fee,
 				TerrainId = Guid.Parse(viewModel.TerrainId),

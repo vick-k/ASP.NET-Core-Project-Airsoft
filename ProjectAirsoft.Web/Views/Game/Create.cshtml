@@ -11,45 +11,45 @@
 	@Html.AntiForgeryToken()
 
 	<div class="form-group mb-3">
-		<label asp-for="Name" class="control-label fw-bold"></label>
-		<input asp-for="Name" class="form-control" />
+		<label asp-for="Name" class="control-label fw-bold">Name</label>
+		<input asp-for="Name" class="form-control" required />
 		<span asp-validation-for="Name" class="text-danger fst-italic"></span>
 	</div>
 
 	<div class="form-group mb-3">
-		<label asp-for="Description" class="control-label fw-bold"></label>
-		<input asp-for="Description" class="form-control" />
+		<label asp-for="Description" class="control-label fw-bold">Description</label>
+		<input asp-for="Description" class="form-control" required />
 		<span asp-validation-for="Description" class="text-danger fst-italic"></span>
 	</div>
 
 	<div class="form-group mb-3">
-		<label asp-for="ImageUrl" class="control-label fw-bold"></label>
+		<label asp-for="ImageUrl" class="control-label fw-bold">Image Link</label>
 		<input asp-for="ImageUrl" class="form-control" />
 		<span asp-validation-for="ImageUrl" class="text-danger fst-italic"></span>
 	</div>
 
 	<div class="form-group mb-3">
-		<label asp-for="Date" class="control-label fw-bold"></label>
-		<input asp-for="Date" class="form-control" />
+		<label asp-for="Date" class="control-label fw-bold">Date</label>
+		<input asp-for="Date" type="date" class="form-control" required />
 		<span asp-validation-for="Date" class="text-danger fst-italic"></span>
 	</div>
 
 	<div class="form-group mb-3">
-		<label asp-for="Capacity" class="control-label fw-bold"></label>
-		<input asp-for="Capacity" class="form-control" />
+		<label asp-for="Capacity" class="control-label fw-bold">Capacity</label>
+		<input asp-for="Capacity" class="form-control" required />
 		<span asp-validation-for="Capacity" class="text-danger fst-italic"></span>
 	</div>
 
 	<div class="form-group mb-3">
-		<label asp-for="Fee" class="control-label fw-bold"></label>
-		<input asp-for="Fee" class="form-control" />
+		<label asp-for="Fee" class="control-label fw-bold">Fee</label>
+		<input asp-for="Fee" class="form-control" required />
 		<span asp-validation-for="Fee" class="text-danger fst-italic"></span>
 	</div>
 
 	<div class="form-group mb-3">
-		<label asp-for="TerrainId" class="control-label fw-bold">Select terrain</label>
-		<select asp-for="TerrainId" class="form-control" asp-items="@(new SelectList(Model.Terrains, "Id", "Name"))">
-			<option value="">Select terrain...</option>
+		<label asp-for="TerrainId" class="control-label fw-bold">Terrain</label>
+		<select asp-for="TerrainId" class="form-control" required asp-items="@(new SelectList(Model.Terrains, "Id", "Name"))">
+			<option value="">Choose a terrain...</option>
 		</select>
 		<span asp-validation-for="TerrainId" class="text-danger fst-italic"></span>
 	</div>

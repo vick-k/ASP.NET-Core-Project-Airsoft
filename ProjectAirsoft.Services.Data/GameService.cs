@@ -2,9 +2,8 @@
 using ProjectAirsoft.Data.Models;
 using ProjectAirsoft.Services.Data.Interfaces;
 using ProjectAirsoft.ViewModels.Game;
-using ProjectAirsoft.ViewModels.Terrain;
 using ProjectAirsoft.Web.Data;
-
+using System.Globalization;
 using static ProjectAirsoft.Common.ApplicationConstants;
 
 namespace ProjectAirsoft.Services.Data
@@ -14,7 +13,7 @@ namespace ProjectAirsoft.Services.Data
 		public async Task<IEnumerable<GameIndexViewModel>> GetAllGamesAsync()
 		{
 			List<Game> games = await dbContext.Games
-				//.Include(g => g.Terrain) // include if needed
+				.Include(g => g.Terrain)
 				.ToListAsync();
 
 			IEnumerable<GameIndexViewModel> gameIndexViewModels = games
@@ -29,6 +28,33 @@ namespace ProjectAirsoft.Services.Data
 				});
 
 			return gameIndexViewModels;
+		}
+
+		public async Task<bool> AddGameAsync(GameCreateViewModel viewModel, string userId)
+		{
+			bool isDateValid = DateTime.TryParse(viewModel.Date, CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime parsedDate);
+
+			if (!isDateValid)
+			{
+				return false;
+			}
+
+			var game = new Game()
+			{
+				Name = viewModel.Name,
+				Description = viewModel.Description,
+				ImageUrl = viewModel.ImageUrl,
+				Date = parsedDate,
+				Capacity = viewModel.Capacity,
+				Fee = viewModel.Fee,
+				TerrainId = Guid.Parse(viewModel.TerrainId),
+				OrganizerId = Guid.Parse(userId)
+			};
+
+			await dbContext.Games.AddAsync(game);
+			await dbContext.SaveChangesAsync();
+
+			return true;
 		}
 	}
 }

@@ -1,13 +1,17 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using ProjectAirsoft.Data.Models;
 using ProjectAirsoft.Services.Data.Interfaces;
 using ProjectAirsoft.ViewModels.Game;
 
 namespace ProjectAirsoft.Web.Controllers
 {
-	public class GameController(IGameService gameService, ITerrainService terrainService) : Controller
+	[Authorize]
+	public class GameController(IGameService gameService, ITerrainService terrainService, UserManager<ApplicationUser> userManager) : Controller
 	{
 		[HttpGet]
+		[AllowAnonymous]
 		public async Task<IActionResult> Index()
 		{
 			var allGames = await gameService.GetAllGamesAsync();
@@ -16,7 +20,6 @@ namespace ProjectAirsoft.Web.Controllers
 		}
 
 		[HttpGet]
-		[Authorize]
 		public async Task<IActionResult> Create()
 		{
 			var terrains = await terrainService.GetAllTerrainsForListAsync();
@@ -27,6 +30,29 @@ namespace ProjectAirsoft.Web.Controllers
 			};
 
 			return View(viewModel);
+		}
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> Create(GameCreateViewModel viewModel)
+		{
+			if (!ModelState.IsValid)
+			{
+				viewModel.Terrains = await terrainService.GetAllTerrainsForListAsync();
+				return View(viewModel);
+			}
+
+			string userId = userManager.GetUserId(User)!;
+			bool result = await gameService.AddGameAsync(viewModel, userId);
+
+			if (result == false)
+			{
+				ModelState.AddModelError(nameof(viewModel.Date), "Please use the built-in calendar to pick a date.");
+
+				return View(viewModel);
+			}
+
+			return RedirectToAction(nameof(Index));
 		}
 	}
 }

@@ -12,6 +12,9 @@
 
 			public const int ImageUrlMaxLength = 2048;
 
+			public const int CapacityMinValue = 1;
+			public const int CapacityMaxValue = 5000;
+
 			public const string FeeMinValue = "0";
 			public const string FeeMaxValue = "1000";
 		}

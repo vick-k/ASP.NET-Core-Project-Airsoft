@@ -3,7 +3,24 @@
 
 @{
 	ViewData["Title"] = "Games";
+	var today = DateTime.Today;
 }
+
+<style>
+	.img-grayscale {
+		filter: grayscale(100%);
+		transition: filter 0.3s ease;
+	}
+
+		.img-grayscale:hover {
+			filter: grayscale(0%);
+		}
+
+	.img-highlight:hover {
+		filter: brightness(120%);
+		transition: filter 0.3s ease;
+	}
+</style>
 
 <h2>All Games</h2>
 
@@ -12,14 +29,41 @@
 	{
 		<div class="col-md-4">
 			<div class="card mb-4 shadow-sm">
-				<img src="@game.ImageUrl" class="card-img-top" alt="Game Image" style="height: 200px; object-fit: cover;">
+				@if (DateTime.Parse(game.Date) > today)
+				{
+					<div class="card-header text-center bg-warning bg-gradient" style="--bs-bg-opacity: .8;">
+						<strong>Upcoming</strong>
+					</div>
+				}
+				else if (DateTime.Parse(game.Date) == today)
+				{
+					<div class="card-header text-center bg-success bg-gradient" style="--bs-bg-opacity: .8;">
+						<strong>Today</strong>
+					</div>
+				}
+				else
+				{
+					<div class="card-header text-center bg-secondary bg-gradient" style="--bs-bg-opacity: .8;">
+						<strong>Ended</strong>
+					</div>
+				}
+
+				@if (DateTime.Parse(game.Date) < today)
+				{
+					<img src="@game.ImageUrl" class="card-img-top img-grayscale" alt="Game Image" style="height: 200px; object-fit: cover;">
+				}
+				else
+				{
+					<img src="@game.ImageUrl" class="card-img-top img-highlight" alt="Game Image" style="height: 200px; object-fit: cover;">
+				}
+
 				<div class="card-body">
 					<h5 class="card-title">@game.Name</h5>
 					<p class="card-text">@game.Terrain</p>
-					<a asp-action="Details" asp-route-id="@game.Id" class="btn btn-primary">Game Details</a>
+					<a asp-action="Details" asp-route-id="@game.Id" class="btn btn-outline-primary">Game Details</a>
 				</div>
 				<div class="card-footer text-center">
-					@game.Date
+					<strong>@game.Date</strong>
 				</div>
 			</div>
 		</div>

@@ -8,11 +8,12 @@ using static ProjectAirsoft.Common.ApplicationConstants;
 
 namespace ProjectAirsoft.Services.Data
 {
-    public class GameService(ApplicationDbContext dbContext) : IGameService
+    public class GameService(ApplicationDbContext dbContext) : BaseService, IGameService
     {
         public async Task<IEnumerable<GameIndexViewModel>> GetAllGamesAsync()
         {
             List<Game> games = await dbContext.Games
+                .AsNoTracking()
                 .Include(g => g.Terrain)
                 .ToListAsync();
 
@@ -40,7 +41,7 @@ namespace ProjectAirsoft.Services.Data
                 return false;
             }
 
-            var game = new Game()
+            Game game = new Game()
             {
                 Name = viewModel.Name,
                 Description = viewModel.Description,
@@ -57,6 +58,37 @@ namespace ProjectAirsoft.Services.Data
             await dbContext.SaveChangesAsync();
 
             return true;
+        }
+
+        public async Task<GameDetailsViewModel> GetGameDetailsAsync(Guid id)
+        {
+            Game? game = await dbContext.Games
+                .AsNoTracking()
+                .Include(g => g.Terrain)
+                .Include(g => g.Organizer)
+                .FirstOrDefaultAsync(g => g.Id == id);
+            GameDetailsViewModel? viewModel = new GameDetailsViewModel();
+
+            int registeredPlayers = await dbContext.UserGames
+                .AsNoTracking()
+                .Where(ug => ug.GameId == id)
+                .CountAsync();
+
+            if (game != null)
+            {
+                viewModel.Name = game.Name;
+                viewModel.Description = game.Description;
+                viewModel.ImageUrl = game.ImageUrl != null ? game.ImageUrl : DefaultGameImage;
+                viewModel.Date = game.Date.ToString(CustomDateFormat);
+                viewModel.StartTime = game.StartTime;
+                viewModel.RegisteredPlayers = registeredPlayers;
+                viewModel.Capacity = game.Capacity;
+                viewModel.Fee = game.Fee;
+                viewModel.Terrain = game.Terrain.Name;
+                viewModel.Organizer = game.Organizer.UserName!;
+            }
+
+            return viewModel;
         }
     }
 }

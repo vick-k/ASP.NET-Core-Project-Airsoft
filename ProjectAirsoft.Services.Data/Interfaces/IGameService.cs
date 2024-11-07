@@ -2,10 +2,12 @@
 
 namespace ProjectAirsoft.Services.Data.Interfaces
 {
-	public interface IGameService
-	{
-		Task<IEnumerable<GameIndexViewModel>> GetAllGamesAsync();
+    public interface IGameService
+    {
+        Task<IEnumerable<GameIndexViewModel>> GetAllGamesAsync();
 
-		Task<bool> AddGameAsync(GameCreateViewModel viewModel, string userId);
-	}
+        Task<bool> AddGameAsync(GameCreateViewModel viewModel, string userId);
+
+        Task<GameDetailsViewModel> GetGameDetailsAsync(Guid id);
+    }
 }

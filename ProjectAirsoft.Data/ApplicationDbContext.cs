@@ -19,7 +19,7 @@ namespace ProjectAirsoft.Web.Data
 
 		public virtual DbSet<City> Cities { get; set; } = null!;
 
-		public virtual DbSet<UserGame> UserGames { get; set; } = null!;
+		public virtual DbSet<UserGame> UsersGames { get; set; } = null!;
 
 		protected override void OnModelCreating(ModelBuilder builder)
 		{

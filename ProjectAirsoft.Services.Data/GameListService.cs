@@ -27,7 +27,7 @@ namespace ProjectAirsoft.Services.Data
 
 			Guid userGuid = Guid.Parse(userId); // should I check for a valid Guid?
 
-			UserGame? userGame = await dbContext.UserGames
+			UserGame? userGame = await dbContext.UsersGames
 				.FirstOrDefaultAsync(ug => ug.UserId == userGuid && ug.GameId == gameGuid);
 
 			if (userGame == null)
@@ -38,7 +38,7 @@ namespace ProjectAirsoft.Services.Data
 					GameId = gameGuid
 				};
 
-				await dbContext.UserGames.AddAsync(newUserGame);
+				await dbContext.UsersGames.AddAsync(newUserGame);
 				await dbContext.SaveChangesAsync();
 			}
 			else

@@ -9,6 +9,6 @@ namespace ProjectAirsoft.Data.Models
 			Id = Guid.NewGuid();
 		}
 
-		public virtual ICollection<UserGame> UserGames { get; set; } = new HashSet<UserGame>();
+		public virtual ICollection<UserGame> UsersGames { get; set; } = new HashSet<UserGame>();
 	}
 }

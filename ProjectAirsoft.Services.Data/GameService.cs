@@ -70,7 +70,7 @@ namespace ProjectAirsoft.Services.Data
 				.FirstOrDefaultAsync(g => g.Id == id);
 			GameDetailsViewModel? viewModel = new GameDetailsViewModel();
 
-			int registeredPlayers = await dbContext.UserGames
+			int registeredPlayers = await dbContext.UsersGames
 				.AsNoTracking()
 				.Where(ug => ug.GameId == id)
 				.CountAsync();

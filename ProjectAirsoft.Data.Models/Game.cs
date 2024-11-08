@@ -54,6 +54,6 @@ namespace ProjectAirsoft.Data.Models
 
 		public virtual ApplicationUser Organizer { get; set; } = null!;
 
-		public virtual ICollection<UserGame> UserGames { get; set; } = new HashSet<UserGame>();
+		public virtual ICollection<UserGame> UsersGames { get; set; } = new HashSet<UserGame>();
 	}
 }

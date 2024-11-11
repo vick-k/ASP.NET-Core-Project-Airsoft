@@ -43,6 +43,9 @@ namespace ProjectAirsoft.Data.Models
 		[Comment("Flag for soft delete")]
 		public bool IsDeleted { get; set; }
 
+		[Comment("Flag for canceled games")]
+		public bool IsCanceled { get; set; }
+
 		[ForeignKey(nameof(Terrain))]
 		[Comment("The terrain identifier")]
 		public Guid TerrainId { get; set; }

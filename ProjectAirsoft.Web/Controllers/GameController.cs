@@ -81,5 +81,30 @@ namespace ProjectAirsoft.Web.Controllers
 
 			return View(viewModel);
 		}
+
+		[HttpPost]
+		public async Task<IActionResult> Cancel(string id)
+		{
+			Guid gameGuid = Guid.Empty;
+			bool isGuidValid = baseService.IsGuidValid(id, ref gameGuid);
+
+			if (!isGuidValid)
+			{
+				return RedirectToAction(nameof(Index));
+			}
+
+			string userId = userManager.GetUserId(User)!;
+
+			bool result = await gameService.CancelGameAsync(gameGuid, userId);
+
+			if (result == false)
+			{
+				// add error message
+				return RedirectToAction(nameof(Index));
+			}
+
+			// add cancel success message
+			return RedirectToAction(nameof(Index));
+		}
 	}
 }

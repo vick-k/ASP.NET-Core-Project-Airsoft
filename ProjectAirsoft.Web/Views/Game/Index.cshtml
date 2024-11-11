@@ -16,23 +16,32 @@
 		<div class="col-md-4">
 			<a asp-action="Details" asp-route-id="@game.Id" class="text-decoration-none">
 				<div class="card mb-4 shadow-sm">
-					@if (DateTime.Parse(game.Date) > today)
+					@if (game.IsCanceled == true)
 					{
-						<div class="card-header text-center bg-warning bg-gradient" style="--bs-bg-opacity: .7;">
-							<strong>Upcoming</strong>
-						</div>
-					}
-					else if (DateTime.Parse(game.Date) == today)
-					{
-						<div class="card-header text-center bg-success bg-gradient" style="--bs-bg-opacity: .7;">
-							<strong>Today</strong>
+						<div class="card-header text-center bg-danger bg-gradient" style="--bs-bg-opacity: .7;">
+							<strong>Canceled</strong>
 						</div>
 					}
 					else
 					{
-						<div class="card-header text-center bg-secondary bg-gradient" style="--bs-bg-opacity: .7;">
-							<strong>Ended</strong>
-						</div>
+						@if (DateTime.Parse(game.Date) > today)
+						{
+							<div class="card-header text-center bg-warning bg-gradient" style="--bs-bg-opacity: .7;">
+								<strong>Upcoming</strong>
+							</div>
+						}
+						else if (DateTime.Parse(game.Date) == today)
+						{
+							<div class="card-header text-center bg-success bg-gradient" style="--bs-bg-opacity: .7;">
+								<strong>Today</strong>
+							</div>
+						}
+						else
+						{
+							<div class="card-header text-center bg-secondary bg-gradient" style="--bs-bg-opacity: .7;">
+								<strong>Ended</strong>
+							</div>
+						}
 					}
 
 					@if (DateTime.Parse(game.Date) < today)

@@ -28,7 +28,8 @@ namespace ProjectAirsoft.Services.Data
 					Name = g.Name,
 					ImageUrl = g.ImageUrl != null ? g.ImageUrl : DefaultGameImage,
 					Date = g.Date.ToString(CustomDateFormat),
-					Terrain = g.Terrain.Name
+					Terrain = g.Terrain.Name,
+					IsCanceled = g.IsCanceled
 				});
 
 			return gameIndexViewModels;
@@ -62,7 +63,7 @@ namespace ProjectAirsoft.Services.Data
 			return true;
 		}
 
-		public async Task<GameDetailsViewModel> GetGameDetailsAsync(Guid id, string userId)
+		public async Task<GameDetailsViewModel> GetGameDetailsAsync(Guid id, string? userId)
 		{
 			Game? game = await dbContext.Games
 				.AsNoTracking()
@@ -92,6 +93,7 @@ namespace ProjectAirsoft.Services.Data
 				viewModel.Terrain = game.Terrain.Name;
 				viewModel.Organizer = game.Organizer.UserName!;
 				viewModel.IsUserRegistered = userId == null ? false : game.UsersGames.Any(ug => ug.UserId == Guid.Parse(userId));
+				viewModel.IsCanceled = game.IsCanceled;
 			}
 			else
 			{
@@ -99,6 +101,23 @@ namespace ProjectAirsoft.Services.Data
 			}
 
 			return viewModel;
+		}
+
+		public async Task<bool> CancelGameAsync(Guid id, string userId)
+		{
+			Game? game = await dbContext.Games
+				.Where(g => g.IsDeleted == false && g.IsCanceled == false)
+				.FirstOrDefaultAsync(g => g.Id == id);
+
+			if (game == null)
+			{
+				return false;
+			}
+
+			game.IsCanceled = true;
+			await dbContext.SaveChangesAsync();
+
+			return true;
 		}
 	}
 }

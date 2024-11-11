@@ -25,5 +25,7 @@
 		public string Organizer { get; set; } = null!;
 
 		public bool IsUserRegistered { get; set; }
+
+		public bool IsCanceled { get; set; }
 	}
 }

@@ -25,7 +25,13 @@ namespace ProjectAirsoft.Services.Data
 				return false;
 			}
 
-			Guid userGuid = Guid.Parse(userId); // should I check for a valid Guid?
+			Guid userGuid = Guid.Empty;
+			isGuidValid = IsGuidValid(userId, ref userGuid);
+
+			if (!isGuidValid)
+			{
+				return false;
+			}
 
 			UserGame? userGame = await dbContext.UsersGames
 				.FirstOrDefaultAsync(ug => ug.UserId == userGuid && ug.GameId == gameGuid);
@@ -67,7 +73,13 @@ namespace ProjectAirsoft.Services.Data
 				return false;
 			}
 
-			Guid userGuid = Guid.Parse(userId); // should I check for a valid Guid?
+			Guid userGuid = Guid.Empty;
+			isGuidValid = IsGuidValid(userId, ref userGuid);
+
+			if (!isGuidValid)
+			{
+				return false;
+			}
 
 			UserGame? userGame = await dbContext.UsersGames
 				.FirstOrDefaultAsync(ug => ug.UserId == userGuid && ug.GameId == gameGuid);

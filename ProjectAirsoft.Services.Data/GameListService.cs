@@ -18,7 +18,8 @@ namespace ProjectAirsoft.Services.Data
 			}
 
 			Game? game = await dbContext.Games
-				.FindAsync(gameGuid);
+				.Where(g => g.IsCanceled == false && g.Date >= DateTime.Today)
+				.FirstOrDefaultAsync(g => g.Id == gameGuid);
 
 			if (game == null)
 			{
@@ -66,7 +67,8 @@ namespace ProjectAirsoft.Services.Data
 			}
 
 			Game? game = await dbContext.Games
-				.FindAsync(gameGuid);
+				.Where(g => g.IsCanceled == false && g.Date >= DateTime.Today)
+				.FirstOrDefaultAsync(g => g.Id == gameGuid);
 
 			if (game == null)
 			{

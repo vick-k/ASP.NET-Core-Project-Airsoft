@@ -27,17 +27,20 @@
 			</form>
 		}
 
-		@if (!Model.IsUserRegistered)
+		@if (!Model.IsCanceled && DateTime.Parse(Model.Date) >= today)
 		{
-			<form asp-controller="GameList" asp-action="AddToGameList" asp-route-id="@Model.Id" method="post" class="d-inline">
-				<button type="submit" class="btn btn-outline-success">Register</button>
-			</form>
-		}
-		else
-		{
-			<form asp-controller="GameList" asp-action="RemoveFromGameList" asp-route-id="@Model.Id" method="post" class="d-inline">
-				<button type="submit" class="btn btn-outline-warning">Unregister</button>
-			</form>
+			@if (!Model.IsUserRegistered)
+			{
+				<form asp-controller="GameList" asp-action="AddToGameList" asp-route-id="@Model.Id" method="post" class="d-inline">
+					<button type="submit" class="btn btn-outline-success">Register</button>
+				</form>
+			}
+			else
+			{
+				<form asp-controller="GameList" asp-action="RemoveFromGameList" asp-route-id="@Model.Id" method="post" class="d-inline">
+					<button type="submit" class="btn btn-outline-warning">Unregister</button>
+				</form>
+			}
 		}
 	}
 

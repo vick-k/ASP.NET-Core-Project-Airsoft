@@ -67,6 +67,7 @@ namespace ProjectAirsoft.Services.Data
 				.AsNoTracking()
 				.Include(g => g.Terrain)
 				.Include(g => g.Organizer)
+				.Where(g => g.IsDeleted == false)
 				.FirstOrDefaultAsync(g => g.Id == id);
 			GameDetailsViewModel? viewModel = new GameDetailsViewModel();
 
@@ -88,6 +89,10 @@ namespace ProjectAirsoft.Services.Data
 				viewModel.Fee = game.Fee;
 				viewModel.Terrain = game.Terrain.Name;
 				viewModel.Organizer = game.Organizer.UserName!;
+			}
+			else
+			{
+				viewModel = null!;
 			}
 
 			return viewModel;

@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using ProjectAirsoft.Data.Models;
 using ProjectAirsoft.Services.Data.Interfaces;
 using ProjectAirsoft.ViewModels.Game;
@@ -61,12 +62,13 @@ namespace ProjectAirsoft.Services.Data
 			return true;
 		}
 
-		public async Task<GameDetailsViewModel> GetGameDetailsAsync(Guid id)
+		public async Task<GameDetailsViewModel> GetGameDetailsAsync(Guid id, string userId)
 		{
 			Game? game = await dbContext.Games
 				.AsNoTracking()
 				.Include(g => g.Terrain)
 				.Include(g => g.Organizer)
+				.Include(g => g.UsersGames)
 				.Where(g => g.IsDeleted == false)
 				.FirstOrDefaultAsync(g => g.Id == id);
 			GameDetailsViewModel? viewModel = new GameDetailsViewModel();
@@ -89,6 +91,7 @@ namespace ProjectAirsoft.Services.Data
 				viewModel.Fee = game.Fee;
 				viewModel.Terrain = game.Terrain.Name;
 				viewModel.Organizer = game.Organizer.UserName!;
+				viewModel.IsUserRegistered = userId == null ? false : game.UsersGames.Any(ug => ug.UserId == Guid.Parse(userId));
 			}
 			else
 			{

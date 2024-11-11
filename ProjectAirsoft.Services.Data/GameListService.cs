@@ -48,5 +48,41 @@ namespace ProjectAirsoft.Services.Data
 
 			return true;
 		}
+
+		public async Task<bool> RemoveGameFromUserGameListAsync(string? gameId, string userId)
+		{
+			Guid gameGuid = Guid.Empty;
+			bool isGuidValid = IsGuidValid(gameId, ref gameGuid);
+
+			if (!isGuidValid)
+			{
+				return false;
+			}
+
+			Game? game = await dbContext.Games
+				.FindAsync(gameGuid);
+
+			if (game == null)
+			{
+				return false;
+			}
+
+			Guid userGuid = Guid.Parse(userId); // should I check for a valid Guid?
+
+			UserGame? userGame = await dbContext.UsersGames
+				.FirstOrDefaultAsync(ug => ug.UserId == userGuid && ug.GameId == gameGuid);
+
+			if (userGame != null)
+			{
+				dbContext.UsersGames.Remove(userGame);
+				await dbContext.SaveChangesAsync();
+			}
+			else
+			{
+				return false;
+			}
+
+			return true;
+		}
 	}
 }

@@ -30,5 +30,21 @@ namespace ProjectAirsoft.Web.Controllers
 			// add successful message
 			return RedirectToAction("Index", "Game");
 		}
+
+		[HttpPost]
+		public async Task<IActionResult> RemoveFromGameList(string? id)
+		{
+			string userId = userManager.GetUserId(User)!;
+			bool result = await gameListService.RemoveGameFromUserGameListAsync(id, userId);
+
+			if (result == false)
+			{
+				// add error message
+				return RedirectToAction("Details", "Game", new { id });
+			}
+
+			// add successful message
+			return RedirectToAction("Index", "Game");
+		}
 	}
 }

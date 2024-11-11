@@ -70,7 +70,9 @@ namespace ProjectAirsoft.Web.Controllers
 				return RedirectToAction(nameof(Index));
 			}
 
-			GameDetailsViewModel viewModel = await gameService.GetGameDetailsAsync(Guid.Parse(id));
+			string? userId = userManager.GetUserId(User);
+
+			GameDetailsViewModel viewModel = await gameService.GetGameDetailsAsync(Guid.Parse(id), userId);
 
 			if (viewModel == null)
 			{

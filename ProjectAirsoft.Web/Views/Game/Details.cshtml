@@ -19,9 +19,18 @@
 
 	@if (User?.Identity?.IsAuthenticated ?? false)
 	{
-		<form asp-controller="GameList" asp-action="AddToGameList" asp-route-id="@Model.Id" method="post" class="d-inline">
-			<button type="submit" class="btn btn-outline-success">Register</button>
-		</form>
+		@if (!Model.IsUserRegistered)
+		{
+			<form asp-controller="GameList" asp-action="AddToGameList" asp-route-id="@Model.Id" method="post" class="d-inline">
+				<button type="submit" class="btn btn-outline-success">Register</button>
+			</form>
+		}
+		else
+		{
+			<form asp-controller="GameList" asp-action="RemoveFromGameList" asp-route-id="@Model.Id" method="post" class="d-inline">
+				<button type="submit" class="btn btn-outline-danger">Unregister</button>
+			</form>
+		}
 	}
 
 	<div class="d-block mt-2">

@@ -3,6 +3,7 @@
 
 @{
 	ViewData["Title"] = "Game Details";
+	var today = DateTime.Today;
 }
 
 <div class="container">
@@ -19,7 +20,7 @@
 
 	@if (User?.Identity?.IsAuthenticated ?? false)
 	{
-		@if (User.Identity.Name == Model.Organizer && Model.IsCanceled == false)
+		@if (User.Identity.Name == Model.Organizer && Model.IsCanceled == false && DateTime.Parse(Model.Date) >= today)
 		{
 			<form asp-controller="Game" asp-action="Cancel" asp-route-id="@Model.Id" method="post" class="d-inline">
 				<button type="submit" class="btn btn-outline-danger" onclick="return confirm('Are you sure you want to cancel the game?');">Cancel</button>

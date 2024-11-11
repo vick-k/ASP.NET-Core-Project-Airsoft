@@ -106,7 +106,10 @@ namespace ProjectAirsoft.Services.Data
 		public async Task<bool> CancelGameAsync(Guid id, string userId)
 		{
 			Game? game = await dbContext.Games
-				.Where(g => g.IsDeleted == false && g.IsCanceled == false)
+				.Where(g => g.IsDeleted == false &&
+							g.IsCanceled == false &&
+							g.OrganizerId == Guid.Parse(userId) &&
+							g.Date >= DateTime.Today)
 				.FirstOrDefaultAsync(g => g.Id == id);
 
 			if (game == null)

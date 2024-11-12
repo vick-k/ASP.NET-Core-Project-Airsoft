@@ -14,7 +14,7 @@
 	<p><strong>Date:</strong> @Model.Date</p>
 	<p><strong>Start Time:</strong> @Model.StartTime</p>
 	<p><strong>Registered Players:</strong> @Model.RegisteredPlayers / @Model.Capacity</p>
-	<p><strong>Fee:</strong> @Model.Fee</p>
+	<p><strong>Fee:</strong> @(Model.Fee == 0 ? "FREE" : $"BGN {Model.Fee}")</p>
 	<p><strong>Terrain:</strong> @Model.Terrain</p>
 	<p><strong>Organizer:</strong> @Model.Organizer</p>
 
@@ -31,9 +31,16 @@
 		{
 			@if (!Model.IsUserRegistered)
 			{
-				<form asp-controller="GameList" asp-action="AddToGameList" asp-route-id="@Model.Id" method="post" class="d-inline">
-					<button type="submit" class="btn btn-outline-success">Register</button>
-				</form>
+				@if (Model.RegisteredPlayers < Model.Capacity)
+				{
+					<form asp-controller="GameList" asp-action="AddToGameList" asp-route-id="@Model.Id" method="post" class="d-inline">
+						<button type="submit" class="btn btn-outline-success">Register</button>
+					</form>
+				}
+				else
+				{
+					<button class="btn btn-outline-light" disabled>Game is Full</button>
+				}
 			}
 			else
 			{

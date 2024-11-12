@@ -26,6 +26,16 @@ namespace ProjectAirsoft.Services.Data
 				return false;
 			}
 
+			int registeredPlayers = await dbContext.UsersGames
+				.AsNoTracking()
+				.Where(ug => ug.GameId == gameGuid)
+				.CountAsync();
+
+			if (registeredPlayers == game.Capacity)
+			{
+				return false;
+			}
+
 			Guid userGuid = Guid.Empty;
 			isGuidValid = IsGuidValid(userId, ref userGuid);
 

@@ -21,6 +21,7 @@
 
 			public const string RequiredCapacityMessage = "The Capacity is required.";
 			public const string CapacityRangeMessage = "The Capacity must be between {1} and {2}.";
+			public const string CapacityLessThanRegisteredPlayers = "The Capacity cannot be less than the current registered players.";
 
 			public const string RequiredFeeMessage = "The Fee is required.";
 			public const string FeeRangeMessage = "The Fee must be between {1} and {2}.";

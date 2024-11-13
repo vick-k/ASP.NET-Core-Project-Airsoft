@@ -27,7 +27,7 @@ namespace ProjectAirsoft.Web.Controllers
 		{
 			IEnumerable<TerrainViewModel> terrains = await terrainService.GetAllTerrainsForListAsync();
 
-			GameCreateViewModel viewModel = new GameCreateViewModel()
+			GameFormViewModel viewModel = new GameFormViewModel()
 			{
 				Terrains = terrains
 			};
@@ -37,7 +37,7 @@ namespace ProjectAirsoft.Web.Controllers
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> Create(GameCreateViewModel viewModel)
+		public async Task<IActionResult> Create(GameFormViewModel viewModel)
 		{
 			if (!ModelState.IsValid)
 			{
@@ -80,6 +80,76 @@ namespace ProjectAirsoft.Web.Controllers
 			}
 
 			return View(viewModel);
+		}
+
+		[HttpGet]
+		public async Task<IActionResult> Edit(string id)
+		{
+			Guid gameGuid = Guid.Empty;
+			bool isGuidValid = baseService.IsGuidValid(id, ref gameGuid);
+
+			if (!isGuidValid)
+			{
+				return RedirectToAction(nameof(Index));
+			}
+
+			GameFormViewModel viewModel = await gameService.GetGameForEditAsync(id);
+
+			if (viewModel == null)
+			{
+				return RedirectToAction(nameof(Index));
+			}
+
+			IEnumerable<TerrainViewModel> terrains = await terrainService.GetAllTerrainsForListAsync();
+			viewModel.Terrains = terrains;
+
+			return View(viewModel);
+		}
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> Edit(GameFormViewModel viewModel, string id)
+		{
+			Guid gameGuid = Guid.Empty;
+			bool isGuidValid = baseService.IsGuidValid(id, ref gameGuid);
+
+			if (!isGuidValid)
+			{
+				return RedirectToAction(nameof(Index));
+			}
+
+			if (!ModelState.IsValid)
+			{
+				viewModel.Terrains = await terrainService.GetAllTerrainsForListAsync();
+				return View(viewModel);
+			}
+
+			bool gameExists = await gameService.GameExistsAsync(id);
+
+			if (gameExists == false)
+			{
+				// add error message
+				return RedirectToAction(nameof(Index));
+			}
+
+			bool isEdited = await gameService.EditGameAsync(viewModel, gameGuid);
+
+			if (isEdited == false)
+			{
+				int registeredPlayers = await gameService.GetGameRegisteredPlayersCountAsync(gameGuid);
+
+				if (registeredPlayers > viewModel.Capacity)
+				{
+					ModelState.AddModelError(nameof(viewModel.Capacity), CapacityLessThanRegisteredPlayers);
+				}
+
+				// add error message
+				viewModel.Terrains = await terrainService.GetAllTerrainsForListAsync();
+				return View(viewModel);
+			}
+
+			// add success message
+			return RedirectToAction(nameof(Details), new { id });
 		}
 
 		[HttpPost]

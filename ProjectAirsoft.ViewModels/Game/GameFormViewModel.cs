@@ -6,7 +6,7 @@ using static ProjectAirsoft.Common.ValidationMessages.Game;
 
 namespace ProjectAirsoft.ViewModels.Game
 {
-	public class GameCreateViewModel
+	public class GameFormViewModel
 	{
 		[Required(ErrorMessage = RequiredNameMessage)]
 		[MinLength(NameMinLength, ErrorMessage = NameMinLengthMessage)]

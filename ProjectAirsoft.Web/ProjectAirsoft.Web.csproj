@@ -25,4 +25,11 @@
     <ProjectReference Include="..\ProjectAirsoft.ViewModels\ProjectAirsoft.ViewModels.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="Views\Game\Edit.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>

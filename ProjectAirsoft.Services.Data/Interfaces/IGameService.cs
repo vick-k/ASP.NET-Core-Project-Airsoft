@@ -6,10 +6,18 @@ namespace ProjectAirsoft.Services.Data.Interfaces
 	{
 		Task<IEnumerable<GameIndexViewModel>> GetAllGamesAsync();
 
-		Task<bool> AddGameAsync(GameCreateViewModel viewModel, string userId);
+		Task<bool> AddGameAsync(GameFormViewModel viewModel, string userId);
 
 		Task<GameDetailsViewModel> GetGameDetailsAsync(Guid id, string? userId);
 
+		Task<GameFormViewModel> GetGameForEditAsync(string id);
+
+		Task<bool> EditGameAsync(GameFormViewModel viewModel, Guid id);
+
+		Task<bool> GameExistsAsync(string id);
+
 		Task<bool> CancelGameAsync(Guid id, string userId);
+
+		Task<int> GetGameRegisteredPlayersCountAsync(Guid id);
 	}
 }

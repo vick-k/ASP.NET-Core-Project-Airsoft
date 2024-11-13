@@ -27,6 +27,13 @@
 			</form>
 		}
 
+		@if (User.Identity.Name == Model.Organizer)
+		{
+			<div class="d-block mt-2 mb-2">
+				<a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-info">Edit</a>
+			</div>
+		}
+
 		@if (!Model.IsCanceled && DateTime.Parse(Model.Date) >= today)
 		{
 			@if (!Model.IsUserRegistered)

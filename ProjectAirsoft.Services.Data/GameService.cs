@@ -35,7 +35,7 @@ namespace ProjectAirsoft.Services.Data
 			return gameIndexViewModels;
 		}
 
-		public async Task<bool> AddGameAsync(GameCreateViewModel viewModel, string userId)
+		public async Task<bool> AddGameAsync(GameFormViewModel viewModel, string userId)
 		{
 			bool isDateValid = DateTime.TryParse(viewModel.Date, CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime parsedDate);
 
@@ -74,10 +74,7 @@ namespace ProjectAirsoft.Services.Data
 				.FirstOrDefaultAsync(g => g.Id == id);
 			GameDetailsViewModel? viewModel = new GameDetailsViewModel();
 
-			int registeredPlayers = await dbContext.UsersGames
-				.AsNoTracking()
-				.Where(ug => ug.GameId == id)
-				.CountAsync();
+			int registeredPlayers = await GetGameRegisteredPlayersCountAsync(id);
 
 			if (game != null)
 			{
@@ -94,6 +91,34 @@ namespace ProjectAirsoft.Services.Data
 				viewModel.Organizer = game.Organizer.UserName!;
 				viewModel.IsUserRegistered = userId == null ? false : game.UsersGames.Any(ug => ug.UserId == Guid.Parse(userId));
 				viewModel.IsCanceled = game.IsCanceled;
+			}
+			else
+			{
+				viewModel = null!;
+			}
+
+			return viewModel;
+		}
+
+		public async Task<GameFormViewModel> GetGameForEditAsync(string id)
+		{
+			Game? game = await dbContext.Games
+				.AsNoTracking()
+				.Where(g => g.IsDeleted == false)
+				.FirstOrDefaultAsync(g => g.Id == Guid.Parse(id));
+
+			GameFormViewModel viewModel = new GameFormViewModel();
+
+			if (game != null)
+			{
+				viewModel.Name = game.Name;
+				viewModel.Description = game.Description;
+				viewModel.ImageUrl = game.ImageUrl;
+				viewModel.Date = game.Date.ToString(ISODateFormat);
+				viewModel.StartTime = game.StartTime;
+				viewModel.Capacity = game.Capacity;
+				viewModel.Fee = game.Fee;
+				viewModel.TerrainId = game.TerrainId.ToString();
 			}
 			else
 			{
@@ -121,6 +146,63 @@ namespace ProjectAirsoft.Services.Data
 			await dbContext.SaveChangesAsync();
 
 			return true;
+		}
+
+		public async Task<bool> GameExistsAsync(string id)
+		{
+			bool result = await dbContext.Games
+				.AsNoTracking()
+				.Where(g => g.IsDeleted == false)
+				.AnyAsync(g => g.Id.ToString() == id);
+
+			return result;
+		}
+
+		public async Task<bool> EditGameAsync(GameFormViewModel viewModel, Guid id)
+		{
+			bool isDateValid = DateTime.TryParse(viewModel.Date, CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime parsedDate);
+
+			if (!isDateValid)
+			{
+				return false;
+			}
+
+			int registeredPlayers = await GetGameRegisteredPlayersCountAsync(id);
+
+			if (registeredPlayers > viewModel.Capacity)
+			{
+				return false;
+			}
+
+			Game? game = await dbContext.Games
+				.Where(g => g.IsDeleted == false)
+				.FirstOrDefaultAsync(g => g.Id == id);
+
+			if (game == null)
+			{
+				return false;
+			}
+
+			game.Name = viewModel.Name;
+			game.Description = viewModel.Description;
+			game.ImageUrl = viewModel.ImageUrl;
+			game.Date = parsedDate;
+			game.StartTime = viewModel.StartTime;
+			game.Capacity = viewModel.Capacity;
+			game.Fee = viewModel.Fee;
+			game.TerrainId = Guid.Parse(viewModel.TerrainId);
+
+			await dbContext.SaveChangesAsync();
+
+			return true;
+		}
+
+		public async Task<int> GetGameRegisteredPlayersCountAsync(Guid id)
+		{
+			return await dbContext.UsersGames
+				.AsNoTracking()
+				.Where(ug => ug.GameId == id)
+				.CountAsync();
 		}
 	}
 }

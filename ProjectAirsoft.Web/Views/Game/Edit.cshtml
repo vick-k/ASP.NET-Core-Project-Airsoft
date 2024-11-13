@@ -2,12 +2,12 @@
 @model GameFormViewModel
 
 @{
-	ViewData["Title"] = "Create New Game";
+	ViewData["Title"] = "Edit Game";
 }
 
-<h2>Create a New Game</h2>
+<h2>Edit Game</h2>
 
-<form asp-action="Create" class="mt-4" method="post">
+<form asp-action="Edit" class="mt-4" method="post">
 	<div class="row">
 		<div class="form-group mb-3 col-md-4">
 			<label asp-for="Name" class="control-label fw-bold">Name</label>
@@ -63,7 +63,7 @@
 	</div>
 
 	<div class="form-group mt-4">
-		<button type="submit" class="btn btn-outline-success">Add Game</button>
+		<button type="submit" class="btn btn-outline-success">Save Changes</button>
 	</div>
 	<a asp-action="Index" class="btn btn-outline-secondary mt-2">Back to All Games</a>
 </form>

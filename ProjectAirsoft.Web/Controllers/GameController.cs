@@ -50,8 +50,7 @@ namespace ProjectAirsoft.Web.Controllers
 
 			if (result == false)
 			{
-				ModelState.AddModelError(nameof(viewModel.Date), InvalidDateMessage);
-
+				// add generic error message
 				return View(viewModel);
 			}
 
@@ -72,7 +71,7 @@ namespace ProjectAirsoft.Web.Controllers
 
 			string? userId = userManager.GetUserId(User);
 
-			GameDetailsViewModel viewModel = await gameService.GetGameDetailsAsync(Guid.Parse(id), userId);
+			GameDetailsViewModel viewModel = await gameService.GetGameDetailsAsync(gameGuid, userId);
 
 			if (viewModel == null)
 			{
@@ -141,9 +140,10 @@ namespace ProjectAirsoft.Web.Controllers
 				if (registeredPlayers > viewModel.Capacity)
 				{
 					ModelState.AddModelError(nameof(viewModel.Capacity), CapacityLessThanRegisteredPlayers);
+					return View(viewModel);
 				}
 
-				// add error message
+				// add generic error message
 				viewModel.Terrains = await terrainService.GetAllTerrainsForListAsync();
 				return View(viewModel);
 			}
@@ -169,7 +169,7 @@ namespace ProjectAirsoft.Web.Controllers
 
 			if (result == false)
 			{
-				// add error message
+				// add generic error message
 				return RedirectToAction(nameof(Index));
 			}
 

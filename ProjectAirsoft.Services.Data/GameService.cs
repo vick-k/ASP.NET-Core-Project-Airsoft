@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using ProjectAirsoft.Data.Models;
 using ProjectAirsoft.Services.Data.Interfaces;
 using ProjectAirsoft.ViewModels.Game;
@@ -44,6 +43,22 @@ namespace ProjectAirsoft.Services.Data
 				return false;
 			}
 
+			Guid terrainGuid = Guid.Empty;
+			bool isGuidValid = IsGuidValid(viewModel.TerrainId, ref terrainGuid);
+
+			if (!isGuidValid)
+			{
+				return false;
+			}
+
+			Guid organizerGuid = Guid.Empty;
+			isGuidValid = IsGuidValid(userId, ref organizerGuid);
+
+			if (!isGuidValid)
+			{
+				return false;
+			}
+
 			Game game = new Game()
 			{
 				Name = viewModel.Name,
@@ -53,8 +68,8 @@ namespace ProjectAirsoft.Services.Data
 				StartTime = viewModel.StartTime,
 				Capacity = viewModel.Capacity,
 				Fee = viewModel.Fee,
-				TerrainId = Guid.Parse(viewModel.TerrainId),
-				OrganizerId = Guid.Parse(userId)
+				TerrainId = terrainGuid,
+				OrganizerId = organizerGuid
 			};
 
 			await dbContext.Games.AddAsync(game);
@@ -128,36 +143,6 @@ namespace ProjectAirsoft.Services.Data
 			return viewModel;
 		}
 
-		public async Task<bool> CancelGameAsync(Guid id, string userId)
-		{
-			Game? game = await dbContext.Games
-				.Where(g => g.IsDeleted == false &&
-							g.IsCanceled == false &&
-							g.OrganizerId == Guid.Parse(userId) &&
-							g.Date >= DateTime.Today)
-				.FirstOrDefaultAsync(g => g.Id == id);
-
-			if (game == null)
-			{
-				return false;
-			}
-
-			game.IsCanceled = true;
-			await dbContext.SaveChangesAsync();
-
-			return true;
-		}
-
-		public async Task<bool> GameExistsAsync(string id)
-		{
-			bool result = await dbContext.Games
-				.AsNoTracking()
-				.Where(g => g.IsDeleted == false)
-				.AnyAsync(g => g.Id.ToString() == id);
-
-			return result;
-		}
-
 		public async Task<bool> EditGameAsync(GameFormViewModel viewModel, Guid id)
 		{
 			bool isDateValid = DateTime.TryParse(viewModel.Date, CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime parsedDate);
@@ -183,6 +168,14 @@ namespace ProjectAirsoft.Services.Data
 				return false;
 			}
 
+			Guid terrainGuid = Guid.Empty;
+			bool isGuidValid = IsGuidValid(viewModel.TerrainId, ref terrainGuid);
+
+			if (!isGuidValid)
+			{
+				return false;
+			}
+
 			game.Name = viewModel.Name;
 			game.Description = viewModel.Description;
 			game.ImageUrl = viewModel.ImageUrl;
@@ -190,11 +183,49 @@ namespace ProjectAirsoft.Services.Data
 			game.StartTime = viewModel.StartTime;
 			game.Capacity = viewModel.Capacity;
 			game.Fee = viewModel.Fee;
-			game.TerrainId = Guid.Parse(viewModel.TerrainId);
+			game.TerrainId = terrainGuid;
 
 			await dbContext.SaveChangesAsync();
 
 			return true;
+		}
+
+		public async Task<bool> CancelGameAsync(Guid id, string userId)
+		{
+			Guid userGuid = Guid.Empty;
+			bool isGuidValid = IsGuidValid(userId, ref userGuid);
+
+			if (!isGuidValid)
+			{
+				return false;
+			}
+
+			Game? game = await dbContext.Games
+				.Where(g => g.IsDeleted == false &&
+							g.IsCanceled == false &&
+							g.OrganizerId == userGuid &&
+							g.Date >= DateTime.Today)
+				.FirstOrDefaultAsync(g => g.Id == id);
+
+			if (game == null)
+			{
+				return false;
+			}
+
+			game.IsCanceled = true;
+			await dbContext.SaveChangesAsync();
+
+			return true;
+		}
+
+		public async Task<bool> GameExistsAsync(string id)
+		{
+			bool result = await dbContext.Games
+				.AsNoTracking()
+				.Where(g => g.IsDeleted == false)
+				.AnyAsync(g => g.Id.ToString() == id);
+
+			return result;
 		}
 
 		public async Task<int> GetGameRegisteredPlayersCountAsync(Guid id)
@@ -203,6 +234,16 @@ namespace ProjectAirsoft.Services.Data
 				.AsNoTracking()
 				.Where(ug => ug.GameId == id)
 				.CountAsync();
+		}
+
+		public async Task<int> GetGameCapacityAsync(string id)
+		{
+			Game game = await dbContext.Games
+				.AsNoTracking()
+				.Where(g => g.IsDeleted == false)
+				.FirstAsync(g => g.Id.ToString() == id);
+
+			return game.Capacity;
 		}
 	}
 }

@@ -7,7 +7,7 @@ using ProjectAirsoft.Services.Data.Interfaces;
 namespace ProjectAirsoft.Web.Controllers
 {
 	[Authorize]
-	public class GameListController(IGameListService gameListService, UserManager<ApplicationUser> userManager) : Controller
+	public class GameListController(IGameListService gameListService, IGameService gameService, IBaseService baseService, UserManager<ApplicationUser> userManager) : Controller
 	{
 		[HttpGet]
 		public IActionResult Index()
@@ -18,12 +18,30 @@ namespace ProjectAirsoft.Web.Controllers
 		[HttpPost]
 		public async Task<IActionResult> AddToGameList(string? id)
 		{
+			Guid gameGuid = Guid.Empty;
+			bool isGuidValid = baseService.IsGuidValid(id, ref gameGuid);
+
+			if (!isGuidValid)
+			{
+				// add error message
+				return RedirectToAction("Index", "Game");
+			}
+
 			string userId = userManager.GetUserId(User)!;
 			bool result = await gameListService.AddGameToUserGameListAsync(id, userId);
 
 			if (result == false)
 			{
-				// add error message
+				int registeredPlayers = await gameService.GetGameRegisteredPlayersCountAsync(gameGuid);
+				int gameCapacity = await gameService.GetGameCapacityAsync(id!);
+
+				if (registeredPlayers == gameCapacity)
+				{
+					// add error message
+					return RedirectToAction("Details", "Game", new { id });
+				}
+
+				// add generic error message
 				return RedirectToAction("Details", "Game", new { id });
 			}
 

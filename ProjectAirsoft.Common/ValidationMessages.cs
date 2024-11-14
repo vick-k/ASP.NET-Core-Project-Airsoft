@@ -28,7 +28,7 @@
 
 			public const string RequiredTerrainMessage = "The Terrain is required.";
 
-			public const string InvalidDateMessage = "Please use the built-in calendar to pick a date.";
+			public const string InvalidDateMessage = "Please use the built-in calendar to pick a date."; // TODO: not used anymore, can be removed
 		}
 	}
 }

@@ -6,6 +6,8 @@ namespace ProjectAirsoft.Services.Data.Interfaces
 	{
 		Task<IEnumerable<TerrainListModel>> GetAllTerrainsForListAsync();
 
+		Task<IEnumerable<TerrainIndexViewModel>> GetAllTerrainsForIndexAsync();
+
 		Task<bool> AddTerrainAsync(TerrainFormModel viewModel);
 	}
 }

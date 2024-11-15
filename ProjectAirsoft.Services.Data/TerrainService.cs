@@ -23,6 +23,29 @@ namespace ProjectAirsoft.Services.Data
 			return terrains;
 		}
 
+		public async Task<IEnumerable<TerrainIndexViewModel>> GetAllTerrainsForIndexAsync()
+		{
+			List<Terrain> terrains = await dbContext.Terrains
+				.AsNoTracking()
+				.Include(t => t.City)
+				.Include(t => t.Games)
+				.ToListAsync();
+
+			IEnumerable<TerrainIndexViewModel> terrainIndexViewModels = terrains
+				.Where(t => t.IsDeleted == false)
+				.OrderBy(t => t.Name)
+				.Select(t => new TerrainIndexViewModel()
+				{
+					Id = t.Id.ToString(),
+					Name = t.Name,
+					LocationUrl = t.LocationUrl,
+					City = t.City.Name,
+					GamesCount = t.Games.Count,
+				});
+
+			return terrainIndexViewModels;
+		}
+
 		public async Task<bool> AddTerrainAsync(TerrainFormModel viewModel)
 		{
 			Terrain terrain = new Terrain()

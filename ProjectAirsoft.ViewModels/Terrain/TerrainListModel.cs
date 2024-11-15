@@ -1,6 +1,6 @@
 ﻿namespace ProjectAirsoft.ViewModels.Terrain
 {
-	public class TerrainViewModel
+	public class TerrainListModel
 	{
 		public string Id { get; set; } = null!;
 

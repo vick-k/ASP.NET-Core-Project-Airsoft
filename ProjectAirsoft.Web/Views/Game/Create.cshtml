@@ -1,11 +1,11 @@
 ﻿@using ProjectAirsoft.ViewModels.Game;
-@model GameFormViewModel
+@model GameFormModel
 
 @{
 	ViewData["Title"] = "Create New Game";
 }
 
-<h2>Create a New Game</h2>
+<h2>@ViewData["Title"]</h2>
 
 <form asp-action="Create" class="mt-4" method="post">
 	<div class="row">

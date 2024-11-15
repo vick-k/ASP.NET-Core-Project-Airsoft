@@ -30,5 +30,17 @@
 
 			public const string InvalidDateMessage = "Please use the built-in calendar to pick a date."; // TODO: not used anymore, can be removed
 		}
+
+		public static class Terrain
+		{
+			public const string RequiredNameMessage = "The Name is required.";
+			public const string NameMinLengthMessage = "The Name length must be at least {1} characters.";
+			public const string NameMaxLengthMessage = "The Name length cannot be more than {1} characters.";
+
+			public const string RequiredLocationMessage = "The Location is required.";
+			public const string LocationUrlMaxLengthMessage = "The Location Link length cannot be more than {1} characters.";
+
+			public const string RequiredCityMessage = "The City is required.";
+		}
 	}
 }

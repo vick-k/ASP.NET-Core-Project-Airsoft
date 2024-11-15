@@ -25,9 +25,9 @@ namespace ProjectAirsoft.Web.Controllers
 		[HttpGet]
 		public async Task<IActionResult> Create()
 		{
-			IEnumerable<TerrainViewModel> terrains = await terrainService.GetAllTerrainsForListAsync();
+			IEnumerable<TerrainListModel> terrains = await terrainService.GetAllTerrainsForListAsync();
 
-			GameFormViewModel viewModel = new GameFormViewModel()
+			GameFormModel viewModel = new GameFormModel()
 			{
 				Terrains = terrains
 			};
@@ -37,7 +37,7 @@ namespace ProjectAirsoft.Web.Controllers
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> Create(GameFormViewModel viewModel)
+		public async Task<IActionResult> Create(GameFormModel viewModel)
 		{
 			if (!ModelState.IsValid)
 			{
@@ -92,14 +92,14 @@ namespace ProjectAirsoft.Web.Controllers
 				return RedirectToAction(nameof(Index));
 			}
 
-			GameFormViewModel viewModel = await gameService.GetGameForEditAsync(id);
+			GameFormModel viewModel = await gameService.GetGameForEditAsync(id);
 
 			if (viewModel == null)
 			{
 				return RedirectToAction(nameof(Index));
 			}
 
-			IEnumerable<TerrainViewModel> terrains = await terrainService.GetAllTerrainsForListAsync();
+			IEnumerable<TerrainListModel> terrains = await terrainService.GetAllTerrainsForListAsync();
 			viewModel.Terrains = terrains;
 
 			return View(viewModel);
@@ -107,7 +107,7 @@ namespace ProjectAirsoft.Web.Controllers
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> Edit(GameFormViewModel viewModel, string id)
+		public async Task<IActionResult> Edit(GameFormModel viewModel, string id)
 		{
 			Guid gameGuid = Guid.Empty;
 			bool isGuidValid = baseService.IsGuidValid(id, ref gameGuid);
@@ -188,7 +188,7 @@ namespace ProjectAirsoft.Web.Controllers
 				return RedirectToAction(nameof(Index));
 			}
 
-			GameDeleteViewModel viewModel = await gameService.GetGameForDeleteAsync(id);
+			GameDeleteViewModel viewModel = await gameService.GetGameForDeleteAsync(id); // TODO: change the parameter to guid
 
 			if (viewModel == null)
 			{

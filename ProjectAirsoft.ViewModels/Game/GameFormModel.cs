@@ -6,7 +6,7 @@ using static ProjectAirsoft.Common.ValidationMessages.Game;
 
 namespace ProjectAirsoft.ViewModels.Game
 {
-	public class GameFormViewModel
+	public class GameFormModel
 	{
 		[Required(ErrorMessage = RequiredNameMessage)]
 		[MinLength(NameMinLength, ErrorMessage = NameMinLengthMessage)]
@@ -41,6 +41,6 @@ namespace ProjectAirsoft.ViewModels.Game
 		[Required(ErrorMessage = RequiredTerrainMessage)]
 		public string TerrainId { get; set; } = null!;
 
-		public IEnumerable<TerrainViewModel>? Terrains { get; set; }
+		public IEnumerable<TerrainListModel>? Terrains { get; set; }
 	}
 }

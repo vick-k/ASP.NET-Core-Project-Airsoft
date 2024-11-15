@@ -34,7 +34,7 @@ namespace ProjectAirsoft.Services.Data
 			return gameIndexViewModels;
 		}
 
-		public async Task<bool> AddGameAsync(GameFormViewModel viewModel, string userId)
+		public async Task<bool> AddGameAsync(GameFormModel viewModel, string userId)
 		{
 			bool isDateValid = DateTime.TryParse(viewModel.Date, CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime parsedDate);
 
@@ -115,14 +115,14 @@ namespace ProjectAirsoft.Services.Data
 			return viewModel;
 		}
 
-		public async Task<GameFormViewModel> GetGameForEditAsync(string id)
+		public async Task<GameFormModel> GetGameForEditAsync(string id)
 		{
 			Game? game = await dbContext.Games
 				.AsNoTracking()
 				.Where(g => g.IsDeleted == false)
 				.FirstOrDefaultAsync(g => g.Id.ToString() == id);
 
-			GameFormViewModel viewModel = new GameFormViewModel();
+			GameFormModel viewModel = new GameFormModel();
 
 			if (game != null)
 			{
@@ -143,7 +143,7 @@ namespace ProjectAirsoft.Services.Data
 			return viewModel;
 		}
 
-		public async Task<bool> EditGameAsync(GameFormViewModel viewModel, Guid id)
+		public async Task<bool> EditGameAsync(GameFormModel viewModel, Guid id)
 		{
 			bool isDateValid = DateTime.TryParse(viewModel.Date, CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime parsedDate);
 

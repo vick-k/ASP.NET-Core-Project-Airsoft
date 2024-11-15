@@ -23,6 +23,7 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
 	.AddEntityFrameworkStores<ApplicationDbContext>();
 
 builder.Services.AddScoped<IBaseService, BaseService>();
+builder.Services.AddScoped<ICityService, CityService>();
 builder.Services.AddScoped<IGameService, GameService>();
 builder.Services.AddScoped<ITerrainService, TerrainService>();
 builder.Services.AddScoped<IGameListService, GameListService>();

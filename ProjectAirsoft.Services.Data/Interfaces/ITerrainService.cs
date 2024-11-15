@@ -4,6 +4,8 @@ namespace ProjectAirsoft.Services.Data.Interfaces
 {
 	public interface ITerrainService
 	{
-		Task<IEnumerable<TerrainViewModel>> GetAllTerrainsForListAsync();
+		Task<IEnumerable<TerrainListModel>> GetAllTerrainsForListAsync();
+
+		Task<bool> AddTerrainAsync(TerrainFormModel viewModel);
 	}
 }

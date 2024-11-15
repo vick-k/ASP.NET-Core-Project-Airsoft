@@ -1,0 +1,48 @@
+﻿@using ProjectAirsoft.ViewModels.GameList;
+@model IEnumerable<GameListViewModel>
+
+@{
+	ViewData["Title"] = "Registered Games";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<hr />
+
+@if (Model.Count() == 0)
+{
+	<p>Track all games that you are registered for. Go to <a asp-controller="Game" asp-action="Index">Games</a> section and register for a game, then it will appear here.</p>
+}
+else
+{
+	<table class="table table-hover">
+		<caption>Total games: @Model.Count()</caption>
+		<thead>
+			<tr>
+				<th>Image</th>
+				<th>Name</th>
+				<th>Date</th>
+				<th>Start Time</th>
+				<th>Terrain</th>
+				<th>Actions</th>
+			</tr>
+		</thead>
+		<tbody class="table-group-divider">
+			@foreach (var game in Model)
+			{
+				<tr>
+					<td>
+						<img src="@game.ImageUrl" alt="@game.Name" width="100" />
+					</td>
+					<td>@game.Name</td>
+					<td>@game.Date</td>
+					<td>@game.StartTime</td>
+					<td>@game.Terrain</td>
+					<td>
+						<a asp-controller="Game" asp-action="Details" asp-route-id="@game.Id" class="btn btn-outline-primary">Details</a>
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+}

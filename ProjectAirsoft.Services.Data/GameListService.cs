@@ -1,7 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ProjectAirsoft.Data.Models;
 using ProjectAirsoft.Services.Data.Interfaces;
+using ProjectAirsoft.ViewModels.GameList;
 using ProjectAirsoft.Web.Data;
+
+using static ProjectAirsoft.Common.ApplicationConstants;
 
 namespace ProjectAirsoft.Services.Data
 {
@@ -107,6 +110,27 @@ namespace ProjectAirsoft.Services.Data
 			}
 
 			return true;
+		}
+
+		public async Task<IEnumerable<GameListViewModel>> GetGameListAsync(string userId)
+		{
+			List<GameListViewModel> gameList = await dbContext.UsersGames
+				.Include(ug => ug.Game)
+				.Where(ug => ug.UserId.ToString() == userId)
+				.Where(ug => ug.Game.IsDeleted == false && ug.Game.IsCanceled == false)
+				.OrderBy(ug => ug.Game.Date)
+				.Select(ug => new GameListViewModel()
+				{
+					Id = ug.GameId.ToString(),
+					ImageUrl = ug.Game.ImageUrl != null ? ug.Game.ImageUrl : DefaultGameImage,
+					Name = ug.Game.Name,
+					Date = ug.Game.Date.ToString(CustomDateFormat),
+					StartTime = ug.Game.StartTime,
+					Terrain = ug.Game.Terrain.Name
+				})
+				.ToListAsync();
+
+			return gameList;
 		}
 	}
 }

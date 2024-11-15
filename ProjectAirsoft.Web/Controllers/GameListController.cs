@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using ProjectAirsoft.Data.Models;
 using ProjectAirsoft.Services.Data.Interfaces;
+using ProjectAirsoft.ViewModels.GameList;
 
 namespace ProjectAirsoft.Web.Controllers
 {
@@ -10,9 +11,13 @@ namespace ProjectAirsoft.Web.Controllers
 	public class GameListController(IGameListService gameListService, IGameService gameService, IBaseService baseService, UserManager<ApplicationUser> userManager) : Controller
 	{
 		[HttpGet]
-		public IActionResult Index()
+		public async Task<IActionResult> Index()
 		{
-			return View();
+			string userId = userManager.GetUserId(User)!;
+
+			IEnumerable<GameListViewModel> gameList = await gameListService.GetGameListAsync(userId);
+
+			return View(gameList);
 		}
 
 		[HttpPost]

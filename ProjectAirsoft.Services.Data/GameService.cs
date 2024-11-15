@@ -120,7 +120,7 @@ namespace ProjectAirsoft.Services.Data
 			Game? game = await dbContext.Games
 				.AsNoTracking()
 				.Where(g => g.IsDeleted == false)
-				.FirstOrDefaultAsync(g => g.Id == Guid.Parse(id));
+				.FirstOrDefaultAsync(g => g.Id.ToString() == id);
 
 			GameFormViewModel viewModel = new GameFormViewModel();
 
@@ -244,6 +244,51 @@ namespace ProjectAirsoft.Services.Data
 				.FirstAsync(g => g.Id.ToString() == id);
 
 			return game.Capacity;
+		}
+
+		public async Task<GameDeleteViewModel> GetGameForDeleteAsync(string id)
+		{
+			Game? game = await dbContext.Games
+				.AsNoTracking()
+				.Include(g => g.Terrain)
+				.Include(g => g.Organizer)
+				.Where(g => g.IsDeleted == false)
+				.FirstOrDefaultAsync(g => g.Id.ToString() == id);
+
+			GameDeleteViewModel viewModel = new GameDeleteViewModel();
+
+			if (game != null)
+			{
+				viewModel.Id = game.Id.ToString();
+				viewModel.Name = game.Name;
+				viewModel.ImageUrl = game.ImageUrl != null ? game.ImageUrl : DefaultGameImage;
+				viewModel.Terrain = game.Terrain.Name;
+				viewModel.Date = game.Date.ToString(CustomDateFormat);
+				viewModel.Organizer = game.Organizer.UserName!;
+			}
+			else
+			{
+				viewModel = null!;
+			}
+
+			return viewModel;
+		}
+
+		public async Task<bool> DeleteGameAsync(Guid id)
+		{
+			Game? game = await dbContext.Games
+				.Where(g => g.IsDeleted == false)
+				.FirstOrDefaultAsync(g => g.Id == id);
+
+			if (game == null)
+			{
+				return false;
+			}
+
+			game.IsDeleted = true;
+			await dbContext.SaveChangesAsync();
+
+			return true;
 		}
 	}
 }

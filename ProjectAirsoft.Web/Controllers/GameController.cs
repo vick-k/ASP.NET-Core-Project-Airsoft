@@ -176,5 +176,49 @@ namespace ProjectAirsoft.Web.Controllers
 			// add cancel success message
 			return RedirectToAction(nameof(Index));
 		}
+
+		[HttpGet]
+		public async Task<IActionResult> Delete(string? id)
+		{
+			Guid gameGuid = Guid.Empty;
+			bool isGuidValid = baseService.IsGuidValid(id, ref gameGuid);
+
+			if (!isGuidValid)
+			{
+				return RedirectToAction(nameof(Index));
+			}
+
+			GameDeleteViewModel viewModel = await gameService.GetGameForDeleteAsync(id);
+
+			if (viewModel == null)
+			{
+				return RedirectToAction(nameof(Index));
+			}
+
+			return View(viewModel);
+		}
+
+		[HttpPost]
+		public async Task<IActionResult> Delete(GameDeleteViewModel viewModel)
+		{
+			Guid gameGuid = Guid.Empty;
+			bool isGuidValid = baseService.IsGuidValid(viewModel.Id, ref gameGuid);
+
+			if (!isGuidValid)
+			{
+				return RedirectToAction(nameof(Index));
+			}
+
+			bool result = await gameService.DeleteGameAsync(gameGuid);
+
+			if (result == false)
+			{
+				// add error message
+				return RedirectToAction(nameof(Index));
+			}
+
+			// add success message
+			return RedirectToAction(nameof(Index));
+		}
 	}
 }

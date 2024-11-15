@@ -40,7 +40,9 @@ namespace ProjectAirsoft.Services.Data
 					Name = t.Name,
 					LocationUrl = t.LocationUrl,
 					City = t.City.Name,
-					GamesCount = t.Games.Count,
+					GamesCount = t.Games
+						.Where(g => g.IsDeleted == false)
+						.Count()
 				});
 
 			return terrainIndexViewModels;

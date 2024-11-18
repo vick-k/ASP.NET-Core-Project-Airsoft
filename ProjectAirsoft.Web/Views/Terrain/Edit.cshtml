@@ -1,0 +1,42 @@
+﻿@using ProjectAirsoft.ViewModels.Terrain;
+@model TerrainFormModel
+
+@{
+	ViewData["Title"] = "Edit Terrain";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<form asp-action="Edit" class="mt-4" method="post">
+	<div class="row">
+		<div class="form-group mb-3 col-md-4">
+			<label asp-for="Name" class="control-label fw-bold">Name</label>
+			<input asp-for="Name" class="form-control" aria-required="true" placeholder="Enter the name of the terrain" />
+			<span asp-validation-for="Name" class="text-danger fst-italic"></span>
+		</div>
+		<div class="form-group mb-3 col-md-8">
+			<label asp-for="LocationUrl" class="control-label fw-bold">Location</label>
+			<input asp-for="LocationUrl" class="form-control" placeholder="Link to Google Maps" />
+			<span asp-validation-for="LocationUrl" class="text-danger fst-italic"></span>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="form-group mb-3 col-md-4">
+			<label asp-for="CityId" class="control-label fw-bold">City</label>
+			<select asp-for="CityId" class="form-select" aria-required="true" asp-items="@(new SelectList(Model.Cities, "Id", "Name"))">
+				<option value="">Choose a city...</option>
+			</select>
+			<span asp-validation-for="CityId" class="text-danger fst-italic"></span>
+		</div>
+	</div>
+
+	<div class="form-group mt-4">
+		<button type="submit" class="btn btn-outline-success">Save Changes</button>
+	</div>
+	<a asp-action="Index" class="btn btn-outline-secondary mt-2">Back to All Terrains</a>
+</form>
+
+@section Scripts {
+	<partial name="_ValidationScriptsPartial" />
+}

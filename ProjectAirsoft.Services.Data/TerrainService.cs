@@ -13,10 +13,10 @@ namespace ProjectAirsoft.Services.Data
 			List<TerrainListModel> terrains = await dbContext.Terrains
 				.AsNoTracking()
 				.Where(t => t.IsDeleted == false)
-				.Select(c => new TerrainListModel()
+				.Select(t => new TerrainListModel()
 				{
-					Id = c.Id.ToString(),
-					Name = c.Name
+					Id = t.Id.ToString(),
+					Name = t.Name
 				})
 				.ToListAsync();
 
@@ -58,6 +58,59 @@ namespace ProjectAirsoft.Services.Data
 			};
 
 			await dbContext.Terrains.AddAsync(terrain);
+			await dbContext.SaveChangesAsync();
+
+			return true;
+		}
+
+		public async Task<TerrainFormModel> GetTerrainForEditAsync(string id)
+		{
+			Terrain? terrain = await dbContext.Terrains
+				.AsNoTracking()
+				.Where(t => t.IsDeleted == false)
+				.FirstOrDefaultAsync(t => t.Id.ToString() == id);
+
+			TerrainFormModel viewModel = new TerrainFormModel();
+
+			if (terrain != null)
+			{
+				viewModel.Name = terrain.Name;
+				viewModel.LocationUrl = terrain.LocationUrl;
+				viewModel.CityId = terrain.CityId;
+			}
+			else
+			{
+				viewModel = null!;
+			}
+
+			return viewModel;
+		}
+
+		public async Task<bool> TerrainExistsAsync(string id)
+		{
+			bool result = await dbContext.Terrains
+				.AsNoTracking()
+				.Where(t => t.IsDeleted == false)
+				.AnyAsync(t => t.Id.ToString() == id);
+
+			return result;
+		}
+
+		public async Task<bool> EditTerrainAsync(TerrainFormModel viewModel, Guid id)
+		{
+			Terrain? terrain = await dbContext.Terrains
+				.Where(t => t.IsDeleted == false)
+				.FirstOrDefaultAsync(t => t.Id == id);
+
+			if (terrain == null)
+			{
+				return false;
+			}
+
+			terrain.Name = viewModel.Name;
+			terrain.LocationUrl = viewModel.LocationUrl;
+			terrain.CityId = viewModel.CityId;
+
 			await dbContext.SaveChangesAsync();
 
 			return true;

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using ProjectAirsoft.Services.Data;
 using ProjectAirsoft.Services.Data.Interfaces;
 using ProjectAirsoft.ViewModels.City;
+using ProjectAirsoft.ViewModels.Game;
 using ProjectAirsoft.ViewModels.Terrain;
 
 namespace ProjectAirsoft.Web.Controllers
@@ -56,8 +57,8 @@ namespace ProjectAirsoft.Web.Controllers
 		[HttpGet]
 		public async Task<IActionResult> Edit(string id)
 		{
-			Guid gameGuid = Guid.Empty;
-			bool isGuidValid = baseService.IsGuidValid(id, ref gameGuid);
+			Guid terrainGuid = Guid.Empty;
+			bool isGuidValid = baseService.IsGuidValid(id, ref terrainGuid);
 
 			if (!isGuidValid)
 			{
@@ -110,6 +111,50 @@ namespace ProjectAirsoft.Web.Controllers
 				// add generic error message
 				viewModel.Cities = await cityService.GetAllCitiesForListAsync();
 				return View(viewModel);
+			}
+
+			// add success message
+			return RedirectToAction(nameof(Index));
+		}
+
+		[HttpGet]
+		public async Task<IActionResult> Delete(string id)
+		{
+			Guid terrainGuid = Guid.Empty;
+			bool isGuidValid = baseService.IsGuidValid(id, ref terrainGuid);
+
+			if (!isGuidValid)
+			{
+				return RedirectToAction(nameof(Index));
+			}
+
+			TerrainDeleteViewModel viewModel = await terrainService.GetTerrainForDeleteAsync(id); // TODO: change the parameter to guid
+
+			if (viewModel == null)
+			{
+				return RedirectToAction(nameof(Index));
+			}
+
+			return View(viewModel);
+		}
+
+		[HttpPost]
+		public async Task<IActionResult> Delete(TerrainDeleteViewModel viewModel)
+		{
+			Guid terrainGuid = Guid.Empty;
+			bool isGuidValid = baseService.IsGuidValid(viewModel.Id, ref terrainGuid);
+
+			if (!isGuidValid)
+			{
+				return RedirectToAction(nameof(Index));
+			}
+
+			bool result = await terrainService.DeleteTerrainAsync(terrainGuid);
+
+			if (result == false)
+			{
+				// add error message
+				return RedirectToAction(nameof(Index));
 			}
 
 			// add success message

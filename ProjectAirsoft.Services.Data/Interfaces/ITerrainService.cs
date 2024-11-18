@@ -1,4 +1,5 @@
-﻿using ProjectAirsoft.ViewModels.Terrain;
+﻿using ProjectAirsoft.ViewModels.Game;
+using ProjectAirsoft.ViewModels.Terrain;
 
 namespace ProjectAirsoft.Services.Data.Interfaces
 {
@@ -15,5 +16,9 @@ namespace ProjectAirsoft.Services.Data.Interfaces
 		Task<bool> EditTerrainAsync(TerrainFormModel viewModel, Guid id);
 
 		Task<bool> TerrainExistsAsync(string id);
+
+		Task<TerrainDeleteViewModel> GetTerrainForDeleteAsync(string id);
+
+		Task<bool> DeleteTerrainAsync(Guid id);
 	}
 }

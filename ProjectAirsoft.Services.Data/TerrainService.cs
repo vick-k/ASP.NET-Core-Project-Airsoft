@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ProjectAirsoft.Data.Models;
 using ProjectAirsoft.Services.Data.Interfaces;
+using ProjectAirsoft.ViewModels.Game;
 using ProjectAirsoft.ViewModels.Terrain;
 using ProjectAirsoft.Web.Data;
 
@@ -111,6 +112,47 @@ namespace ProjectAirsoft.Services.Data
 			terrain.LocationUrl = viewModel.LocationUrl;
 			terrain.CityId = viewModel.CityId;
 
+			await dbContext.SaveChangesAsync();
+
+			return true;
+		}
+
+		public async Task<TerrainDeleteViewModel> GetTerrainForDeleteAsync(string id)
+		{
+			Terrain? terrain = await dbContext.Terrains
+				.AsNoTracking()
+				.Include(t => t.City)
+				.Where(t => t.IsDeleted == false)
+				.FirstOrDefaultAsync(t => t.Id.ToString() == id);
+
+			TerrainDeleteViewModel viewModel = new TerrainDeleteViewModel();
+
+			if (terrain != null)
+			{
+				viewModel.Id = terrain.Id.ToString();
+				viewModel.Name = terrain.Name;
+				viewModel.City = terrain.City.Name;
+			}
+			else
+			{
+				viewModel = null!;
+			}
+
+			return viewModel;
+		}
+
+		public async Task<bool> DeleteTerrainAsync(Guid id)
+		{
+			Terrain? terrain = await dbContext.Terrains
+				.Where(t => t.IsDeleted == false)
+				.FirstOrDefaultAsync(t => t.Id == id);
+
+			if (terrain == null)
+			{
+				return false;
+			}
+
+			terrain.IsDeleted = true;
 			await dbContext.SaveChangesAsync();
 
 			return true;

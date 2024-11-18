@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ProjectAirsoft.Data.Models;
 using ProjectAirsoft.Services.Data.Interfaces;
+using ProjectAirsoft.ViewModels.Comment;
 using ProjectAirsoft.ViewModels.Game;
 using ProjectAirsoft.Web.Data;
 using System.Globalization;
@@ -90,6 +91,7 @@ namespace ProjectAirsoft.Services.Data
 			GameDetailsViewModel? viewModel = new GameDetailsViewModel();
 
 			int registeredPlayers = await GetGameRegisteredPlayersCountAsync(id);
+			IEnumerable<CommentViewModel> comments = await GetAllCommentsAsync(id);
 
 			if (game != null)
 			{
@@ -106,6 +108,7 @@ namespace ProjectAirsoft.Services.Data
 				viewModel.Organizer = game.Organizer.UserName!;
 				viewModel.IsUserRegistered = userId == null ? false : game.UsersGames.Any(ug => ug.UserId == Guid.Parse(userId));
 				viewModel.IsCanceled = game.IsCanceled;
+				viewModel.Comments = comments;
 			}
 			else
 			{
@@ -289,6 +292,27 @@ namespace ProjectAirsoft.Services.Data
 			await dbContext.SaveChangesAsync();
 
 			return true;
+		}
+
+		public async Task<IEnumerable<CommentViewModel>> GetAllCommentsAsync(Guid id)
+		{
+			List<Comment> comments = await dbContext.Comments
+				.AsNoTracking()
+				.Include(c => c.Author)
+				.Where(c => c.GameId == id)
+				.ToListAsync();
+
+			IEnumerable<CommentViewModel> viewModels = comments
+				.OrderBy(c => c.CreatedOn)
+				.Select(c => new CommentViewModel()
+				{
+					Id = c.Id,
+					Author = c.Author.UserName!,
+					CreatedOn = c.CreatedOn.ToString(CommentDateFormat),
+					Content = c.Content
+				});
+
+			return viewModels;
 		}
 	}
 }

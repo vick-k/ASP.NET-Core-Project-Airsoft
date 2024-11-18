@@ -1,4 +1,5 @@
-﻿using ProjectAirsoft.ViewModels.Game;
+﻿using ProjectAirsoft.ViewModels.Comment;
+using ProjectAirsoft.ViewModels.Game;
 
 namespace ProjectAirsoft.Services.Data.Interfaces
 {
@@ -25,5 +26,7 @@ namespace ProjectAirsoft.Services.Data.Interfaces
 		Task<GameDeleteViewModel> GetGameForDeleteAsync(string id);
 
 		Task<bool> DeleteGameAsync(Guid id);
+
+		Task<IEnumerable<CommentViewModel>> GetAllCommentsAsync(Guid id);
 	}
 }

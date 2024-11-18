@@ -1,0 +1,13 @@
+﻿@using ProjectAirsoft.ViewModels.Comment;
+@model IEnumerable<CommentViewModel>
+
+<h3 class="mt-4">Comments</h3>
+
+<hr />
+
+@foreach (var comment in Model)
+{
+	<p><strong>@comment.Author</strong> <span class="text-secondary">@comment.CreatedOn</span></p>
+	<p>@comment.Content</p>
+	<hr	/>
+}

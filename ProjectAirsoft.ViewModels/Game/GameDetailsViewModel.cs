@@ -1,4 +1,6 @@
-﻿namespace ProjectAirsoft.ViewModels.Game
+﻿using ProjectAirsoft.ViewModels.Comment;
+
+namespace ProjectAirsoft.ViewModels.Game
 {
 	public class GameDetailsViewModel
 	{
@@ -27,5 +29,7 @@
 		public bool IsUserRegistered { get; set; }
 
 		public bool IsCanceled { get; set; }
+
+		public IEnumerable<CommentViewModel> Comments { get; set; } = new HashSet<CommentViewModel>();
 	}
 }

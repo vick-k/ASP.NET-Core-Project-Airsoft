@@ -32,7 +32,6 @@ namespace ProjectAirsoft.Services.Data
 				.ToListAsync();
 
 			IEnumerable<TerrainIndexViewModel> terrainIndexViewModels = terrains
-				.Where(t => t.IsDeleted == false)
 				.OrderBy(t => t.Name)
 				.Select(t => new TerrainIndexViewModel()
 				{
@@ -42,7 +41,8 @@ namespace ProjectAirsoft.Services.Data
 					City = t.City.Name,
 					GamesCount = t.Games
 						.Where(g => g.IsDeleted == false)
-						.Count()
+						.Count(),
+					IsDeleted = t.IsDeleted
 				});
 
 			return terrainIndexViewModels;

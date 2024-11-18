@@ -11,5 +11,7 @@
 		public string City { get; set; } = null!;
 
 		public int GamesCount { get; set; }
+
+		public bool IsDeleted { get; set; }
 	}
 }

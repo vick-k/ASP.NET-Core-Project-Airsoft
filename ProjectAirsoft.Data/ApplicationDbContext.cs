@@ -21,6 +21,8 @@ namespace ProjectAirsoft.Web.Data
 
 		public virtual DbSet<UserGame> UsersGames { get; set; } = null!;
 
+		public virtual DbSet<Comment> Comments { get; set; } = null!;
+
 		protected override void OnModelCreating(ModelBuilder builder)
 		{
 			base.OnModelCreating(builder);

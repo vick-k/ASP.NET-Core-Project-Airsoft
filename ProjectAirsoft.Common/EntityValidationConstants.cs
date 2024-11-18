@@ -35,5 +35,11 @@
 			public const int NameMinLength = 2;
 			public const int NameMaxLength = 80;
 		}
+
+		public static class Comment
+		{
+			public const int ContentMinLength = 1;
+			public const int ContentMaxLength = 500;
+		}
 	}
 }

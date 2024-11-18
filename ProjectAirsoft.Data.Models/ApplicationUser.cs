@@ -10,5 +10,7 @@ namespace ProjectAirsoft.Data.Models
 		}
 
 		public virtual ICollection<UserGame> UsersGames { get; set; } = new HashSet<UserGame>();
+
+		public virtual ICollection<Comment> Comments { get; set; } = new HashSet<Comment>();
 	}
 }

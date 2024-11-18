@@ -52,6 +52,7 @@ namespace ProjectAirsoft.Data.Models
 
 		public virtual Terrain Terrain { get; set; } = null!;
 
+		[ForeignKey(nameof(Organizer))]
 		[Comment("The organizer identifier")]
 		public Guid OrganizerId { get; set; }
 

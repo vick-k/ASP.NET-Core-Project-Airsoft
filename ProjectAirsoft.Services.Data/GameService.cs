@@ -274,6 +274,7 @@ namespace ProjectAirsoft.Services.Data
 				viewModel.Terrain = game.Terrain.Name;
 				viewModel.Date = game.Date.ToString(CustomDateFormat);
 				viewModel.Organizer = game.Organizer.UserName!;
+				viewModel.OrganizerId = game.OrganizerId.ToString();
 			}
 			else
 			{

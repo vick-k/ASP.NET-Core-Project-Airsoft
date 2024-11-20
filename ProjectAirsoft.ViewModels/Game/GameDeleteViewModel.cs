@@ -13,5 +13,7 @@
 		public string Date { get; set; } = null!;
 
 		public string Organizer { get; set; } = null!;
+
+		public string OrganizerId { get; set; } = null!;
 	}
 }

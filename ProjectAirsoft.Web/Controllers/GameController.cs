@@ -189,8 +189,9 @@ namespace ProjectAirsoft.Web.Controllers
 			}
 
 			GameDeleteViewModel viewModel = await gameService.GetGameForDeleteAsync(id); // TODO: change the parameter to guid
+			string userId = userManager.GetUserId(User)!;
 
-			if (viewModel == null)
+			if (viewModel == null || userId != viewModel.OrganizerId)
 			{
 				return RedirectToAction(nameof(Index));
 			}
@@ -206,6 +207,14 @@ namespace ProjectAirsoft.Web.Controllers
 
 			if (!isGuidValid)
 			{
+				return RedirectToAction(nameof(Index));
+			}
+
+			string userId = userManager.GetUserId(User)!;
+
+			if (userId != viewModel.OrganizerId)
+			{
+				// add error message
 				return RedirectToAction(nameof(Index));
 			}
 

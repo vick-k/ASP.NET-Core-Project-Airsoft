@@ -93,6 +93,11 @@ namespace ProjectAirsoft.Services.Data
 			int registeredPlayers = await GetGameRegisteredPlayersCountAsync(id);
 			IEnumerable<CommentViewModel> comments = await GetAllCommentsAsync(id);
 
+			CommentFormModel commentForm = new CommentFormModel()
+			{
+				GameId = id.ToString()
+			};
+
 			if (game != null)
 			{
 				viewModel.Id = game.Id.ToString();
@@ -109,6 +114,7 @@ namespace ProjectAirsoft.Services.Data
 				viewModel.IsUserRegistered = userId == null ? false : game.UsersGames.Any(ug => ug.UserId == Guid.Parse(userId));
 				viewModel.IsCanceled = game.IsCanceled;
 				viewModel.Comments = comments;
+				viewModel.CommentForm = commentForm;
 			}
 			else
 			{
@@ -313,6 +319,38 @@ namespace ProjectAirsoft.Services.Data
 				});
 
 			return viewModels;
+		}
+
+		public async Task<bool> AddCommentAsync(CommentFormModel viewModel, string userId)
+		{
+			Guid userGuid = Guid.Empty;
+			bool isGuidValid = IsGuidValid(userId, ref userGuid);
+
+			if (!isGuidValid)
+			{
+				return false;
+			}
+
+			Guid gameGuid = Guid.Empty;
+			isGuidValid = IsGuidValid(viewModel.GameId, ref gameGuid);
+
+			if (!isGuidValid)
+			{
+				return false;
+			}
+
+			Comment comment = new Comment()
+			{
+				Content = viewModel.Content,
+				CreatedOn = DateTime.Now,
+				AuthorId = userGuid,
+				GameId = gameGuid
+			};
+
+			await dbContext.Comments.AddAsync(comment);
+			await dbContext.SaveChangesAsync();
+
+			return true;
 		}
 	}
 }

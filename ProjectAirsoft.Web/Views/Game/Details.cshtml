@@ -66,4 +66,10 @@
 	</div>
 
 	<partial name="_CommentsPartial" model="@Model.Comments" />
+	<p class="mt-5"></p>
+	<partial name="_AddCommentPartial" model="@Model.CommentForm" />
 </div>
+
+@section Scripts {
+	<partial name="_ValidationScriptsPartial" />
+}

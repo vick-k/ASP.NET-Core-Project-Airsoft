@@ -31,5 +31,7 @@ namespace ProjectAirsoft.ViewModels.Game
 		public bool IsCanceled { get; set; }
 
 		public IEnumerable<CommentViewModel> Comments { get; set; } = new HashSet<CommentViewModel>();
+
+		public CommentFormModel CommentForm { get; set; } = null!;
 	}
 }

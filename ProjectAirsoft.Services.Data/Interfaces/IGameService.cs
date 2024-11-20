@@ -28,5 +28,7 @@ namespace ProjectAirsoft.Services.Data.Interfaces
 		Task<bool> DeleteGameAsync(Guid id);
 
 		Task<IEnumerable<CommentViewModel>> GetAllCommentsAsync(Guid id);
+
+		Task<bool> AddCommentAsync(CommentFormModel viewModel, string userId);
 	}
 }

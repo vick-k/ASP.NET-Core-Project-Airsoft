@@ -43,8 +43,9 @@ namespace ProjectAirsoft.Web.Controllers
 			}
 
 			CommentDeleteViewModel viewModel = await gameService.GetCommentForDeleteAsync(id);
+			string userId = userManager.GetUserId(User)!;
 
-			if (viewModel == null)
+			if (viewModel == null || userId != viewModel.AuthorId)
 			{
 				// add error message
 				return RedirectToAction("Details", "Game");
@@ -59,6 +60,14 @@ namespace ProjectAirsoft.Web.Controllers
 			bool commentExists = await gameService.CommentExistsAsync(viewModel.Id);
 
 			if (!commentExists)
+			{
+				// add error message
+				return RedirectToAction("Details", "Game");
+			}
+
+			string userId = userManager.GetUserId(User)!;
+
+			if (userId != viewModel.AuthorId)
 			{
 				// add error message
 				return RedirectToAction("Details", "Game");

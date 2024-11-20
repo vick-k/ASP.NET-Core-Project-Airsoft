@@ -193,6 +193,7 @@ namespace ProjectAirsoft.Web.Controllers
 
 			if (viewModel == null || userId != viewModel.OrganizerId)
 			{
+				// add error message
 				return RedirectToAction(nameof(Index));
 			}
 

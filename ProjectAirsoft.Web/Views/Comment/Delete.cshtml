@@ -17,6 +17,7 @@
 
 <form asp-action="Delete" method="post">
 	<input type="hidden" asp-for="GameId" />
+	<input type="hidden" asp-for="AuthorId" />
 	<button type="submit" class="btn btn-outline-danger">Confirm Delete</button>
 	<a asp-controller="Game" asp-action="Details" asp-route-id="@Model.GameId" class="btn btn-outline-secondary">Cancel</a>
 </form>

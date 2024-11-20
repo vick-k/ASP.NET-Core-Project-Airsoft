@@ -11,5 +11,7 @@
 		public string Game { get; set; } = null!;
 
 		public string GameId { get; set; } = null!;
+
+		public string AuthorId { get; set; } = null!;
 	}
 }

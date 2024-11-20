@@ -382,6 +382,7 @@ namespace ProjectAirsoft.Services.Data
 				viewModel.CreatedOn = comment.CreatedOn.ToString(CommentDateFormat);
 				viewModel.Game = comment.Game.Name;
 				viewModel.GameId = comment.Game.Id.ToString();
+				viewModel.AuthorId = comment.AuthorId.ToString();
 			}
 			else
 			{

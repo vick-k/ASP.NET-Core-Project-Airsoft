@@ -31,5 +31,7 @@ namespace ProjectAirsoft.Data.Models
 		public Guid GameId { get; set; }
 
 		public virtual Game Game { get; set; } = null!;
+
+		public bool IsDeleted { get; set; }
 	}
 }

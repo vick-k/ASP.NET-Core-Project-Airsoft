@@ -309,6 +309,7 @@ namespace ProjectAirsoft.Services.Data
 				.ToListAsync();
 
 			IEnumerable<CommentViewModel> viewModels = comments
+				.Where(c => c.IsDeleted == false)
 				.OrderBy(c => c.CreatedOn)
 				.Select(c => new CommentViewModel()
 				{
@@ -348,6 +349,59 @@ namespace ProjectAirsoft.Services.Data
 			};
 
 			await dbContext.Comments.AddAsync(comment);
+			await dbContext.SaveChangesAsync();
+
+			return true;
+		}
+
+		public async Task<bool> CommentExistsAsync(int id)
+		{
+			bool result = await dbContext.Comments
+				.AsNoTracking()
+				.Where(c => c.IsDeleted == false)
+				.AnyAsync(c => c.Id == id);
+
+			return result;
+		}
+
+		public async Task<CommentDeleteViewModel> GetCommentForDeleteAsync(int id)
+		{
+			Comment? comment = await dbContext.Comments
+				.AsNoTracking()
+				.Include(c => c.Game)
+				.Where(c => c.IsDeleted == false)
+				.FirstOrDefaultAsync(c => c.Id == id);
+
+			CommentDeleteViewModel viewModel = new CommentDeleteViewModel();
+
+			if (comment != null)
+			{
+				viewModel.Id = comment.Id;
+				viewModel.Content = comment.Content;
+				viewModel.CreatedOn = comment.CreatedOn.ToString(CommentDateFormat);
+				viewModel.Game = comment.Game.Name;
+				viewModel.GameId = comment.Game.Id.ToString();
+			}
+			else
+			{
+				viewModel = null!;
+			}
+
+			return viewModel;
+		}
+
+		public async Task<bool> DeleteCommentAsync(int id)
+		{
+			Comment? comment = await dbContext.Comments
+				.Where(c => c.IsDeleted == false)
+				.FirstOrDefaultAsync(c => c.Id == id);
+
+			if (comment == null)
+			{
+				return false;
+			}
+
+			comment.IsDeleted = true;
 			await dbContext.SaveChangesAsync();
 
 			return true;

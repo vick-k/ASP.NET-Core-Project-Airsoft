@@ -30,5 +30,49 @@ namespace ProjectAirsoft.Web.Controllers
 
 			return RedirectToAction("Details", "Game", new { id = viewModel.GameId });
 		}
+
+		[HttpGet]
+		public async Task<IActionResult> Delete(int id)
+		{
+			bool commentExists = await gameService.CommentExistsAsync(id);
+
+			if (!commentExists)
+			{
+				// add error message
+				return RedirectToAction("Details", "Game");
+			}
+
+			CommentDeleteViewModel viewModel = await gameService.GetCommentForDeleteAsync(id);
+
+			if (viewModel == null)
+			{
+				// add error message
+				return RedirectToAction("Details", "Game");
+			}
+
+			return View(viewModel);
+		}
+
+		[HttpPost]
+		public async Task<IActionResult> Delete(CommentDeleteViewModel viewModel)
+		{
+			bool commentExists = await gameService.CommentExistsAsync(viewModel.Id);
+
+			if (!commentExists)
+			{
+				// add error message
+				return RedirectToAction("Details", "Game");
+			}
+
+			bool result = await gameService.DeleteCommentAsync(viewModel.Id);
+
+			if (result == false)
+			{
+				// add error message
+				return RedirectToAction("Details", "Game", new { id = viewModel.GameId });
+			}
+
+			return RedirectToAction("Details", "Game", new { id = viewModel.GameId });
+		}
 	}
 }

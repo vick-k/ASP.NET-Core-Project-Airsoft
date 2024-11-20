@@ -30,5 +30,11 @@ namespace ProjectAirsoft.Services.Data.Interfaces
 		Task<IEnumerable<CommentViewModel>> GetAllCommentsAsync(Guid id);
 
 		Task<bool> AddCommentAsync(CommentFormModel viewModel, string userId);
+
+		Task<bool> CommentExistsAsync(int id);
+
+		Task<CommentDeleteViewModel> GetCommentForDeleteAsync(int id);
+
+		Task<bool> DeleteCommentAsync(int id);
 	}
 }

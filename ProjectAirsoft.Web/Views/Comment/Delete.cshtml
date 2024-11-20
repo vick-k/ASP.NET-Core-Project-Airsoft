@@ -1,0 +1,22 @@
+﻿@using ProjectAirsoft.ViewModels.Comment;
+@model CommentDeleteViewModel
+
+@{
+	ViewData["Title"] = "Delete Comment";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<hr />
+
+<p>Comment for the game: @Model.Game</p>
+<p>Comment: @Model.Content</p>
+<p>Created on: @Model.CreatedOn</p>
+
+<p class="text-danger mt-3">Are you sure you want to delete this comment?</p>
+
+<form asp-action="Delete" method="post">
+	<input type="hidden" asp-for="GameId" />
+	<button type="submit" class="btn btn-outline-danger">Confirm Delete</button>
+	<a asp-controller="Game" asp-action="Details" asp-route-id="@Model.GameId" class="btn btn-outline-secondary">Cancel</a>
+</form>

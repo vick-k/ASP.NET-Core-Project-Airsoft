@@ -13,7 +13,13 @@ else
 {
 	@foreach (var comment in Model)
 	{
-		<p><strong>@comment.Author</strong> <span class="text-secondary">@comment.CreatedOn</span></p>
+		<p class="mb-0">
+			<strong>@comment.Author</strong> <span class="text-secondary">@comment.CreatedOn</span>
+			@if (User?.Identity?.Name == comment.Author)
+			{
+				<a asp-controller="Comment" asp-action="Delete" asp-route-id="@comment.Id" class="badge rounded text-bg-danger text-decoration-none">Delete</a>
+			}
+		</p>
 		<p>@comment.Content</p>
 		<hr />
 	}

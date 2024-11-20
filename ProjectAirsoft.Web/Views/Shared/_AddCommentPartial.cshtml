@@ -3,15 +3,23 @@
 
 <h3>Add Comment</h3>
 
-<form asp-controller="Comment" asp-action="Create" class="mt-2" method="post">
-	<div class="row">
-		<div class="form-group mb-3 col-md-12">
-			<textarea asp-for="Content" class="form-control" aria-required="true" placeholder="Write a comment" rows="6"></textarea>
-			<span asp-validation-for="Content" class="text-danger fst-italic"></span>
+@if (User?.Identity?.IsAuthenticated ?? false)
+{
+	<form asp-controller="Comment" asp-action="Create" class="mt-2" method="post">
+		<div class="row">
+			<div class="form-group mb-3 col-md-12">
+				<textarea asp-for="Content" class="form-control" aria-required="true" placeholder="Write a comment" rows="6"></textarea>
+				<span asp-validation-for="Content" class="text-danger fst-italic"></span>
+			</div>
 		</div>
-	</div>
-	<input type="hidden" asp-for="GameId" />
-	<div class="form-group">
-		<button type="submit" class="btn btn-outline-success">Send Comment</button>
-	</div>
-</form>
+		<input type="hidden" asp-for="GameId" />
+		<div class="form-group">
+			<button type="submit" class="btn btn-outline-success">Send Comment</button>
+		</div>
+	</form>
+}
+else
+{
+	<hr />
+	<p class="text-secondary">You have to be logged in to add a comment.</p>
+}

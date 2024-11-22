@@ -49,5 +49,17 @@
 			public const string ContentMinLengthMessage = "The Comment length must be at least {1} characters.";
 			public const string ContentMaxLengthMessage = "The Comment length cannot be more than {1} characters.";
 		}
+
+		public static class Team
+		{
+			public const string RequiredNameMessage = "The Name is required.";
+			public const string NameMinLengthMessage = "The Name length must be at least {1} characters.";
+			public const string NameMaxLengthMessage = "The Name length cannot be more than {1} characters.";
+
+			public const string RequiredLogoMessage = "The Logo is required.";
+			public const string LogoUrlMaxLengthMessage = "The Logo Link length cannot be more than {1} characters.";
+
+			public const string RequiredCityMessage = "The City is required.";
+		}
 	}
 }

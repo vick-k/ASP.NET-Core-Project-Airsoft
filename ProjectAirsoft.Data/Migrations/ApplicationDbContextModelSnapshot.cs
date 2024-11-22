@@ -245,7 +245,7 @@ namespace ProjectAirsoft.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Cities");
+                    b.ToTable("Cities", (string)null);
                 });
 
             modelBuilder.Entity("ProjectAirsoft.Data.Models.Comment", b =>
@@ -284,7 +284,7 @@ namespace ProjectAirsoft.Data.Migrations
 
                     b.HasIndex("GameId");
 
-                    b.ToTable("Comments");
+                    b.ToTable("Comments", (string)null);
                 });
 
             modelBuilder.Entity("ProjectAirsoft.Data.Models.Game", b =>
@@ -351,7 +351,7 @@ namespace ProjectAirsoft.Data.Migrations
 
                     b.HasIndex("TerrainId");
 
-                    b.ToTable("Games");
+                    b.ToTable("Games", (string)null);
                 });
 
             modelBuilder.Entity("ProjectAirsoft.Data.Models.Team", b =>
@@ -387,7 +387,7 @@ namespace ProjectAirsoft.Data.Migrations
 
                     b.HasIndex("LeaderId");
 
-                    b.ToTable("Teams");
+                    b.ToTable("Teams", (string)null);
                 });
 
             modelBuilder.Entity("ProjectAirsoft.Data.Models.Terrain", b =>
@@ -421,7 +421,7 @@ namespace ProjectAirsoft.Data.Migrations
 
                     b.HasIndex("CityId");
 
-                    b.ToTable("Terrains");
+                    b.ToTable("Terrains", (string)null);
                 });
 
             modelBuilder.Entity("ProjectAirsoft.Data.Models.UserGame", b =>
@@ -438,7 +438,7 @@ namespace ProjectAirsoft.Data.Migrations
 
                     b.HasIndex("GameId");
 
-                    b.ToTable("UsersGames");
+                    b.ToTable("UsersGames", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>

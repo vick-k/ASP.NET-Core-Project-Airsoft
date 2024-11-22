@@ -27,6 +27,7 @@ builder.Services.AddScoped<ICityService, CityService>();
 builder.Services.AddScoped<IGameService, GameService>();
 builder.Services.AddScoped<ITerrainService, TerrainService>();
 builder.Services.AddScoped<IGameListService, GameListService>();
+builder.Services.AddScoped<ITeamService, TeamService>();
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();

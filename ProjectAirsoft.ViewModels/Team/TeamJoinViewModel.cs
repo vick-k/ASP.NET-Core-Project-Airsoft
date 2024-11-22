@@ -1,6 +1,6 @@
 ﻿namespace ProjectAirsoft.ViewModels.Team
 {
-	public class TeamIndexViewModel
+	public class TeamJoinViewModel
 	{
 		public string Id { get; set; } = null!;
 
@@ -9,7 +9,5 @@
 		public string LogoUrl { get; set; } = null!;
 
 		public string City { get; set; } = null!;
-
-		public string Leader { get; set; } = null!;
 	}
 }

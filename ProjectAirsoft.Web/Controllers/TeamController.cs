@@ -57,6 +57,7 @@ namespace ProjectAirsoft.Web.Controllers
 		}
 
 		[HttpGet]
+		[AllowAnonymous]
 		public async Task<IActionResult> Details(string id)
 		{
 			Guid teamGuid = Guid.Empty;
@@ -67,8 +68,6 @@ namespace ProjectAirsoft.Web.Controllers
 				return RedirectToAction(nameof(Index));
 			}
 
-			string? userId = userManager.GetUserId(User);
-
 			TeamDetailsViewModel viewModel = await teamService.GetTeamDetailsAsync(teamGuid);
 
 			if (viewModel == null)
@@ -77,6 +76,66 @@ namespace ProjectAirsoft.Web.Controllers
 			}
 
 			return View(viewModel);
+		}
+
+		[HttpGet]
+		public async Task<IActionResult> Join(string id)
+		{
+			Guid teamGuid = Guid.Empty;
+			bool isGuidValid = baseService.IsGuidValid(id, ref teamGuid);
+
+			if (!isGuidValid)
+			{
+				return RedirectToAction(nameof(Index));
+			}
+
+			ApplicationUser? user = await userManager.GetUserAsync(User);
+
+			if (user!.TeamId != null)
+			{
+				// add error message
+				return RedirectToAction(nameof(Index));
+			}
+
+			TeamJoinViewModel viewModel = await teamService.GetTeamJoinAsync(teamGuid);
+
+			if (viewModel == null)
+			{
+				return RedirectToAction(nameof(Index));
+			}
+
+			return View(viewModel);
+		}
+
+		[HttpPost]
+		public async Task<IActionResult> Join(TeamJoinViewModel viewModel)
+		{
+			Guid teamGuid = Guid.Empty;
+			bool isGuidValid = baseService.IsGuidValid(viewModel.Id, ref teamGuid);
+
+			if (!isGuidValid)
+			{
+				return RedirectToAction(nameof(Index));
+			}
+
+			ApplicationUser? user = await userManager.GetUserAsync(User);
+
+			if (user!.TeamId != null)
+			{
+				// add error message
+				return RedirectToAction(nameof(Index));
+			}
+
+			bool result = await teamService.JoinTeamAsync(teamGuid, user);
+
+			if (result == false)
+			{
+				// add error message
+				return RedirectToAction(nameof(Index));
+			}
+
+			// add success message
+			return RedirectToAction(nameof(Details), new { id = viewModel.Id });
 		}
 	}
 }

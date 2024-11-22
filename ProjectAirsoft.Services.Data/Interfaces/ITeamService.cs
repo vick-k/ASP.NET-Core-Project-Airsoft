@@ -1,4 +1,5 @@
-﻿using ProjectAirsoft.ViewModels.Team;
+﻿using ProjectAirsoft.Data.Models;
+using ProjectAirsoft.ViewModels.Team;
 
 namespace ProjectAirsoft.Services.Data.Interfaces
 {
@@ -9,5 +10,9 @@ namespace ProjectAirsoft.Services.Data.Interfaces
 		Task<bool> AddTeamAsync(TeamFormModel viewModel, string userId);
 
 		Task<TeamDetailsViewModel> GetTeamDetailsAsync(Guid id);
+
+		Task<TeamJoinViewModel> GetTeamJoinAsync(Guid id);
+
+		Task<bool> JoinTeamAsync(Guid id, ApplicationUser user);
 	}
 }

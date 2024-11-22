@@ -14,6 +14,7 @@ namespace ProjectAirsoft.Services.Data
 			List<Team> teams = await dbContext.Teams
 				.AsNoTracking()
 				.Include(t => t.City)
+				.Include(t => t.Leader)
 				.ToListAsync();
 
 			IEnumerable<TeamIndexViewModel> teamIndexViewModels = teams
@@ -22,7 +23,8 @@ namespace ProjectAirsoft.Services.Data
 					Id = t.Id.ToString(),
 					Name = t.Name,
 					LogoUrl = t.LogoUrl,
-					City = t.City.Name
+					City = t.City.Name,
+					Leader = t.Leader.UserName!
 				});
 
 			return teamIndexViewModels;
@@ -96,6 +98,48 @@ namespace ProjectAirsoft.Services.Data
 			}
 
 			return viewModel;
+		}
+
+		public async Task<TeamJoinViewModel> GetTeamJoinAsync(Guid id)
+		{
+			Team? team = await dbContext.Teams
+				.AsNoTracking()
+				.Include(t => t.City)
+				.FirstOrDefaultAsync(t => t.Id == id);
+
+			TeamJoinViewModel viewModel = new TeamJoinViewModel();
+
+			if (team != null)
+			{
+				viewModel.Id = team.Id.ToString();
+				viewModel.Name = team.Name;
+				viewModel.LogoUrl = team.LogoUrl;
+				viewModel.City = team.City.Name;
+			}
+			else
+			{
+				viewModel = null!;
+			}
+
+			return viewModel;
+		}
+
+		public async Task<bool> JoinTeamAsync(Guid id, ApplicationUser user)
+		{
+			Team? team = await dbContext.Teams
+				.FirstOrDefaultAsync(t => t.Id == id);
+
+			if (team == null)
+			{
+				return false;
+			}
+
+			user.TeamId = team.Id;
+			team.Members.Add(user);
+
+			await dbContext.SaveChangesAsync();
+
+			return true;
 		}
 	}
 }

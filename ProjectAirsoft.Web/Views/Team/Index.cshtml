@@ -36,6 +36,14 @@ else
 					<td>@team.City</td>
 					<td>
 						<a asp-controller="Team" asp-action="Details" asp-route-id="@team.Id" class="btn btn-outline-primary">More Info</a>
+
+						@if (User?.Identity?.IsAuthenticated ?? false)
+						{
+							@if (User.Identity.Name != team.Leader)
+							{
+								<a asp-controller="Team" asp-action="Join" asp-route-id="@team.Id" class="btn btn-outline-success">Join</a>
+							}
+						}
 					</td>
 				</tr>
 			}

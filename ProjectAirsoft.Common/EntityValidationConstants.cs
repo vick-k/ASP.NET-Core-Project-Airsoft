@@ -41,5 +41,13 @@
 			public const int ContentMinLength = 1;
 			public const int ContentMaxLength = 500;
 		}
+
+		public static class Team
+		{
+			public const int NameMinLength = 2;
+			public const int NameMaxLength = 60;
+
+			public const int LogoUrlMaxLength = 2048;
+		}
 	}
 }

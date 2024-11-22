@@ -23,6 +23,8 @@ namespace ProjectAirsoft.Web.Data
 
 		public virtual DbSet<Comment> Comments { get; set; } = null!;
 
+		public virtual DbSet<Team> Teams { get; set; } = null!;
+
 		protected override void OnModelCreating(ModelBuilder builder)
 		{
 			base.OnModelCreating(builder);

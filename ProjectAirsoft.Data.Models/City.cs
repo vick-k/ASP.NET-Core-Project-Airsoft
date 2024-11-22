@@ -17,5 +17,7 @@ namespace ProjectAirsoft.Data.Models
 		public string Name { get; set; } = null!;
 
 		public virtual ICollection<Terrain> Terrains { get; set; } = new HashSet<Terrain>();
+
+		public virtual ICollection<Team> Teams { get; set; } = new HashSet<Team>();
 	}
 }

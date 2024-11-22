@@ -7,5 +7,7 @@ namespace ProjectAirsoft.Services.Data.Interfaces
 		Task<IEnumerable<TeamIndexViewModel>> GetAllTeamsAsync();
 
 		Task<bool> AddTeamAsync(TeamFormModel viewModel, string userId);
+
+		Task<TeamDetailsViewModel> GetTeamDetailsAsync(Guid id);
 	}
 }

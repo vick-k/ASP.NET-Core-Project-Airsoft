@@ -1,0 +1,52 @@
+﻿@using ProjectAirsoft.ViewModels.Team;
+@model TeamDetailsViewModel
+
+@{
+	ViewData["Title"] = Model.Name;
+}
+
+<div class="container">
+	<img src="@Model.LogoUrl" height="400" />
+	<h2>@Model.Name</h2>
+
+	<p><strong>Leader:</strong> @Model.Leader</p>
+
+	@if (Model.Members != null && Model.Members.Any())
+	{
+		<h5>Members</h5>
+		<hr />
+
+		@foreach (var member in Model.Members)
+		{
+			if (member.UserName == Model.Leader)
+			{
+				<p>@member.UserName (Leader)</p>
+			}
+			else
+			{
+				<p>@member.UserName</p>
+			}
+		}
+	}
+	else
+	{
+		<p>The team has no members yet.</p>
+	}
+
+	@if (User?.Identity?.IsAuthenticated ?? false)
+	{
+		@if (User.Identity.Name == Model.Leader)
+		{
+			<div class="d-block mt-2 mb-2">
+				<a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-info">Edit</a>
+			</div>
+			<div class="d-block mt-2 mb-2">
+				<a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-outline-danger">Delete</a>
+			</div>
+		}
+	}
+
+	<div class="d-block mt-2">
+		<a asp-action="Index" class="btn btn-outline-secondary">Back to All Teams</a>
+	</div>
+</div>

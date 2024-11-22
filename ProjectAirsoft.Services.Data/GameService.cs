@@ -111,7 +111,7 @@ namespace ProjectAirsoft.Services.Data
 				viewModel.Fee = game.Fee;
 				viewModel.Terrain = game.Terrain.Name;
 				viewModel.Organizer = game.Organizer.UserName!;
-				viewModel.IsUserRegistered = userId == null ? false : game.UsersGames.Any(ug => ug.UserId == Guid.Parse(userId));
+				viewModel.IsUserRegistered = userId == null ? false : game.UsersGames.Any(ug => ug.UserId.ToString() == userId);
 				viewModel.IsCanceled = game.IsCanceled;
 				viewModel.Comments = comments;
 				viewModel.CommentForm = commentForm;

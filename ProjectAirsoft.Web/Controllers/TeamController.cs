@@ -9,7 +9,7 @@ using ProjectAirsoft.ViewModels.Team;
 namespace ProjectAirsoft.Web.Controllers
 {
 	[Authorize]
-	public class TeamController(ITeamService teamService, ICityService cityService, UserManager<ApplicationUser> userManager) : Controller
+	public class TeamController(IBaseService baseService, ITeamService teamService, ICityService cityService, UserManager<ApplicationUser> userManager) : Controller
 	{
 		[HttpGet]
 		[AllowAnonymous]
@@ -54,6 +54,29 @@ namespace ProjectAirsoft.Web.Controllers
 			}
 
 			return RedirectToAction(nameof(Index));
+		}
+
+		[HttpGet]
+		public async Task<IActionResult> Details(string id)
+		{
+			Guid teamGuid = Guid.Empty;
+			bool isGuidValid = baseService.IsGuidValid(id, ref teamGuid);
+
+			if (!isGuidValid)
+			{
+				return RedirectToAction(nameof(Index));
+			}
+
+			string? userId = userManager.GetUserId(User);
+
+			TeamDetailsViewModel viewModel = await teamService.GetTeamDetailsAsync(teamGuid);
+
+			if (viewModel == null)
+			{
+				return RedirectToAction(nameof(Index));
+			}
+
+			return View(viewModel);
 		}
 	}
 }

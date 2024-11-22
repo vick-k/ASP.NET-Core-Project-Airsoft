@@ -13,9 +13,11 @@ namespace ProjectAirsoft.Web.Controllers
 	{
 		[HttpGet]
 		[AllowAnonymous]
-		public IActionResult Index()
+		public async Task<IActionResult> Index()
 		{
-			return View();
+			IEnumerable<TeamIndexViewModel> allTeams = await teamService.GetAllTeamsAsync();
+
+			return View(allTeams);
 		}
 
 		[HttpGet]

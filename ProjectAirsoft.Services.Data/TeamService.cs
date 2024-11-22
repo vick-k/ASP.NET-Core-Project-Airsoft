@@ -8,6 +8,25 @@ namespace ProjectAirsoft.Services.Data
 {
 	public class TeamService(ApplicationDbContext dbContext) : BaseService, ITeamService
 	{
+		public async Task<IEnumerable<TeamIndexViewModel>> GetAllTeamsAsync()
+		{
+			List<Team> teams = await dbContext.Teams
+				.AsNoTracking()
+				.Include(t => t.City)
+				.ToListAsync();
+
+			IEnumerable<TeamIndexViewModel> teamIndexViewModels = teams
+				.Select(t => new TeamIndexViewModel()
+				{
+					Id = t.Id.ToString(),
+					Name = t.Name,
+					LogoUrl = t.LogoUrl,
+					City = t.City.Name
+				});
+
+			return teamIndexViewModels;
+		}
+
 		public async Task<bool> AddTeamAsync(TeamFormModel viewModel, string userId)
 		{
 			Guid leaderGuid = Guid.Empty;

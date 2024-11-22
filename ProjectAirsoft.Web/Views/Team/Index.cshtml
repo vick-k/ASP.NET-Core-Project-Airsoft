@@ -1,0 +1,44 @@
+﻿@using ProjectAirsoft.ViewModels.Team;
+@model IEnumerable<TeamIndexViewModel>
+
+@{
+	ViewData["Title"] = "Teams";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<hr />
+
+@if (Model.Count() == 0)
+{
+	<p>There are no teams created yet. Be the first to create one - <a asp-controller="Team" asp-action="Create">Create Team</a>.</p>
+}
+else
+{
+	<table class="table table-hover">
+		<caption>Total teams: @Model.Count()</caption>
+		<thead>
+			<tr>
+				<th>Team Logo</th>
+				<th>Name</th>
+				<th>City</th>
+				<th>Actions</th>
+			</tr>
+		</thead>
+		<tbody class="table-group-divider">
+			@foreach (var team in Model)
+			{
+				<tr>
+					<td>
+						<img src="@team.LogoUrl" alt="@team.Name" width="200" />
+					</td>
+					<td>@team.Name</td>
+					<td>@team.City</td>
+					<td>
+						<a asp-controller="Team" asp-action="Details" asp-route-id="@team.Id" class="btn btn-outline-primary">More Info</a>
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+}

@@ -14,5 +14,9 @@ namespace ProjectAirsoft.Services.Data.Interfaces
 		Task<TeamJoinViewModel> GetTeamJoinAsync(Guid id);
 
 		Task<bool> JoinTeamAsync(Guid id, ApplicationUser user);
+
+		Task<TeamLeaveViewModel> GetTeamLeaveAsync(Guid id);
+
+		Task<bool> LeaveTeamAsync(Guid id, ApplicationUser user);
 	}
 }

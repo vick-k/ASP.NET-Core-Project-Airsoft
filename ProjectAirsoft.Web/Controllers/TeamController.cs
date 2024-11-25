@@ -101,6 +101,7 @@ namespace ProjectAirsoft.Web.Controllers
 
 			if (viewModel == null)
 			{
+				// add error message
 				return RedirectToAction(nameof(Index));
 			}
 
@@ -136,6 +137,73 @@ namespace ProjectAirsoft.Web.Controllers
 
 			// add success message
 			return RedirectToAction(nameof(Details), new { id = viewModel.Id });
+		}
+
+		[HttpGet]
+		public async Task<IActionResult> Leave(string id)
+		{
+			Guid teamGuid = Guid.Empty;
+			bool isGuidValid = baseService.IsGuidValid(id, ref teamGuid);
+
+			if (!isGuidValid)
+			{
+				return RedirectToAction(nameof(Index));
+			}
+
+			ApplicationUser? user = await userManager.GetUserAsync(User);
+
+			if (user!.TeamId == null)
+			{
+				// add error message
+				return RedirectToAction(nameof(Index));
+			}
+
+			TeamLeaveViewModel viewModel = await teamService.GetTeamLeaveAsync(teamGuid);
+
+			if (viewModel == null)
+			{
+				// add error message
+				return RedirectToAction(nameof(Index));
+			}
+
+			if (viewModel.Id != user.TeamId.ToString() || viewModel.Leader == user.UserName)
+			{
+				// add error message
+				return RedirectToAction(nameof(Index));
+			}
+
+			return View(viewModel);
+		}
+
+		[HttpPost]
+		public async Task<IActionResult> Leave(TeamLeaveViewModel viewModel)
+		{
+			Guid teamGuid = Guid.Empty;
+			bool isGuidValid = baseService.IsGuidValid(viewModel.Id, ref teamGuid);
+
+			if (!isGuidValid)
+			{
+				return RedirectToAction(nameof(Index));
+			}
+
+			ApplicationUser? user = await userManager.GetUserAsync(User);
+
+			if (user!.TeamId == null)
+			{
+				// add error message
+				return RedirectToAction(nameof(Index));
+			}
+
+			bool result = await teamService.LeaveTeamAsync(teamGuid, user);
+
+			if (result == false)
+			{
+				// add error message
+				return RedirectToAction(nameof(Index));
+			}
+
+			// add success message
+			return RedirectToAction(nameof(Index));
 		}
 	}
 }

@@ -141,5 +141,49 @@ namespace ProjectAirsoft.Services.Data
 
 			return true;
 		}
+
+		public async Task<TeamLeaveViewModel> GetTeamLeaveAsync(Guid id)
+		{
+			Team? team = await dbContext.Teams
+				.AsNoTracking()
+				.Include(t => t.City)
+				.Include(t => t.Leader)
+				.FirstOrDefaultAsync(t => t.Id == id);
+
+			TeamLeaveViewModel viewModel = new TeamLeaveViewModel();
+
+			if (team != null)
+			{
+				viewModel.Id = team.Id.ToString();
+				viewModel.Name = team.Name;
+				viewModel.LogoUrl = team.LogoUrl;
+				viewModel.City = team.City.Name;
+				viewModel.Leader = team.Leader.UserName!;
+			}
+			else
+			{
+				viewModel = null!;
+			}
+
+			return viewModel;
+		}
+
+		public async Task<bool> LeaveTeamAsync(Guid id, ApplicationUser user)
+		{
+			Team? team = await dbContext.Teams
+				.FirstOrDefaultAsync(t => t.Id == id);
+
+			if (team == null)
+			{
+				return false;
+			}
+
+			user.TeamId = null;
+			team.Members.Remove(user);
+
+			await dbContext.SaveChangesAsync();
+
+			return true;
+		}
 	}
 }

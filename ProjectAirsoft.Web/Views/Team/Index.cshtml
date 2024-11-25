@@ -1,8 +1,14 @@
-﻿@using ProjectAirsoft.ViewModels.Team;
+﻿@using Microsoft.AspNetCore.Identity;
+@using ProjectAirsoft.Data.Models;
+@using ProjectAirsoft.ViewModels.Team;
+
+@inject UserManager<ApplicationUser> UserManager
+
 @model IEnumerable<TeamIndexViewModel>
 
 @{
 	ViewData["Title"] = "Teams";
+	var currentUser = await UserManager.GetUserAsync(User);
 }
 
 <h2>@ViewData["Title"]</h2>
@@ -39,9 +45,14 @@ else
 
 						@if (User?.Identity?.IsAuthenticated ?? false)
 						{
-							@if (User.Identity.Name != team.Leader)
+							@if (User.Identity.Name != team.Leader && currentUser!.TeamId == null)
 							{
 								<a asp-controller="Team" asp-action="Join" asp-route-id="@team.Id" class="btn btn-outline-success">Join</a>
+							}
+
+							@if (currentUser!.TeamId.ToString() == team.Id && User.Identity.Name != team.Leader)
+							{
+								<a asp-controller="Team" asp-action="Leave" asp-route-id="@team.Id" class="btn btn-outline-danger">Leave</a>
 							}
 						}
 					</td>

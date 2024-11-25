@@ -270,5 +270,56 @@ namespace ProjectAirsoft.Web.Controllers
 			// add success message
 			return RedirectToAction(nameof(Details), new { id });
 		}
+
+		[HttpGet]
+		public async Task<IActionResult> Delete(string id)
+		{
+			Guid teamGuid = Guid.Empty;
+			bool isGuidValid = baseService.IsGuidValid(id, ref teamGuid);
+
+			if (!isGuidValid)
+			{
+				return RedirectToAction(nameof(Index));
+			}
+
+			TeamDeleteViewModel viewModel = await teamService.GetTeamForDeleteAsync(id);
+
+			if (viewModel == null)
+			{
+				return RedirectToAction(nameof(Index));
+			}
+
+			ApplicationUser? user = await userManager.GetUserAsync(User);
+
+			if (user!.UserName != viewModel.Leader)
+			{
+				return RedirectToAction(nameof(Index));
+			}
+
+			return View(viewModel);
+		}
+
+		[HttpPost]
+		public async Task<IActionResult> Delete(TeamDeleteViewModel viewModel)
+		{
+			Guid teamGuid = Guid.Empty;
+			bool isGuidValid = baseService.IsGuidValid(viewModel.Id, ref teamGuid);
+
+			if (!isGuidValid)
+			{
+				return RedirectToAction(nameof(Index));
+			}
+
+			bool result = await teamService.DeleteTeamAsync(teamGuid);
+
+			if (result == false)
+			{
+				// add error message
+				return RedirectToAction(nameof(Index));
+			}
+
+			// add success message
+			return RedirectToAction(nameof(Index));
+		}
 	}
 }

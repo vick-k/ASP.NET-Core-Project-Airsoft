@@ -18,6 +18,7 @@ namespace ProjectAirsoft.Services.Data
 				.ToListAsync();
 
 			IEnumerable<TeamIndexViewModel> teamIndexViewModels = teams
+				.Where(t => t.IsDeleted == false)
 				.Select(t => new TeamIndexViewModel()
 				{
 					Id = t.Id.ToString(),
@@ -68,6 +69,7 @@ namespace ProjectAirsoft.Services.Data
 		{
 			Team? team = await dbContext.Teams
 				.AsNoTracking()
+				.Where(t => t.IsDeleted == false)
 				.Include(t => t.City)
 				.Include(t => t.Leader)
 				.FirstOrDefaultAsync(t => t.Id == id);
@@ -104,6 +106,7 @@ namespace ProjectAirsoft.Services.Data
 		{
 			Team? team = await dbContext.Teams
 				.AsNoTracking()
+				.Where(t => t.IsDeleted == false)
 				.Include(t => t.City)
 				.FirstOrDefaultAsync(t => t.Id == id);
 
@@ -127,6 +130,7 @@ namespace ProjectAirsoft.Services.Data
 		public async Task<bool> JoinTeamAsync(Guid id, ApplicationUser user)
 		{
 			Team? team = await dbContext.Teams
+				.Where(t => t.IsDeleted == false)
 				.FirstOrDefaultAsync(t => t.Id == id);
 
 			if (team == null)
@@ -146,6 +150,7 @@ namespace ProjectAirsoft.Services.Data
 		{
 			Team? team = await dbContext.Teams
 				.AsNoTracking()
+				.Where(t => t.IsDeleted == false)
 				.Include(t => t.City)
 				.Include(t => t.Leader)
 				.FirstOrDefaultAsync(t => t.Id == id);
@@ -171,6 +176,7 @@ namespace ProjectAirsoft.Services.Data
 		public async Task<bool> LeaveTeamAsync(Guid id, ApplicationUser user)
 		{
 			Team? team = await dbContext.Teams
+				.Where(t => t.IsDeleted == false)
 				.FirstOrDefaultAsync(t => t.Id == id);
 
 			if (team == null)
@@ -190,6 +196,7 @@ namespace ProjectAirsoft.Services.Data
 		{
 			bool result = await dbContext.Teams
 				.AsNoTracking()
+				.Where(t => t.IsDeleted == false)
 				.AnyAsync(t => t.Id.ToString() == id);
 
 			return result;
@@ -199,6 +206,7 @@ namespace ProjectAirsoft.Services.Data
 		{
 			Team? team = await dbContext.Teams
 				.AsNoTracking()
+				.Where(t => t.IsDeleted == false)
 				.FirstOrDefaultAsync(t => t.Id.ToString() == teamId);
 
 			TeamFormModel viewModel = new TeamFormModel();
@@ -225,6 +233,7 @@ namespace ProjectAirsoft.Services.Data
 		public async Task<bool> EditTeamAsync(TeamFormModel viewModel, Guid id)
 		{
 			Team? team = await dbContext.Teams
+				.Where(t => t.IsDeleted == false)
 				.FirstOrDefaultAsync(t => t.Id == id);
 
 			if (team == null)
@@ -235,6 +244,57 @@ namespace ProjectAirsoft.Services.Data
 			team.Name = viewModel.Name;
 			team.LogoUrl = viewModel.LogoUrl;
 			team.CityId = viewModel.CityId;
+
+			await dbContext.SaveChangesAsync();
+
+			return true;
+		}
+
+		public async Task<TeamDeleteViewModel> GetTeamForDeleteAsync(string id)
+		{
+			Team? team = await dbContext.Teams
+				.AsNoTracking()
+				.Where(t => t.IsDeleted == false)
+				.Include(t => t.City)
+				.Include(t => t.Leader)
+				.FirstOrDefaultAsync(t => t.Id.ToString() == id);
+
+			TeamDeleteViewModel viewModel = new TeamDeleteViewModel();
+
+			if (team != null)
+			{
+				viewModel.Id = team.Id.ToString();
+				viewModel.Name = team.Name;
+				viewModel.LogoUrl = team.LogoUrl;
+				viewModel.City = team.City.Name;
+				viewModel.Leader = team.Leader.UserName!;
+			}
+			else
+			{
+				viewModel = null!;
+			}
+
+			return viewModel;
+		}
+
+		public async Task<bool> DeleteTeamAsync(Guid id)
+		{
+			Team? team = await dbContext.Teams
+				.Include(t => t.Members)
+				.Where(t => t.IsDeleted == false)
+				.FirstOrDefaultAsync(t => t.Id == id);
+
+			if (team == null)
+			{
+				return false;
+			}
+
+			team.IsDeleted = true;
+
+			foreach (ApplicationUser member in team.Members)
+			{
+				member.TeamId = null;
+			}
 
 			await dbContext.SaveChangesAsync();
 

@@ -24,5 +24,9 @@ namespace ProjectAirsoft.Services.Data.Interfaces
 		Task<bool> EditTeamAsync(TeamFormModel viewModel, Guid id);
 
 		Task<bool> TeamExistsAsync(string id);
+
+		Task<TeamDeleteViewModel> GetTeamForDeleteAsync(string id);
+
+		Task<bool> DeleteTeamAsync(Guid id);
 	}
 }

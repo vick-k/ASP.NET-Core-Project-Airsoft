@@ -205,5 +205,70 @@ namespace ProjectAirsoft.Web.Controllers
 			// add success message
 			return RedirectToAction(nameof(Index));
 		}
+
+		[HttpGet]
+		public async Task<IActionResult> Edit(string id)
+		{
+			Guid teamGuid = Guid.Empty;
+			bool isGuidValid = baseService.IsGuidValid(id, ref teamGuid);
+
+			if (!isGuidValid)
+			{
+				return RedirectToAction(nameof(Index));
+			}
+
+			string userId = userManager.GetUserId(User)!;
+
+			TeamFormModel viewModel = await teamService.GetTeamForEditAsync(id, userId);
+
+			if (viewModel == null)
+			{
+				return RedirectToAction(nameof(Index));
+			}
+
+			IEnumerable<CityListModel> cities = await cityService.GetAllCitiesForListAsync();
+			viewModel.Cities = cities;
+
+			return View(viewModel);
+		}
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> Edit(TeamFormModel viewModel, string id)
+		{
+			Guid teamGuid = Guid.Empty;
+			bool isGuidValid = baseService.IsGuidValid(id, ref teamGuid);
+
+			if (!isGuidValid)
+			{
+				return RedirectToAction(nameof(Index));
+			}
+
+			if (!ModelState.IsValid)
+			{
+				viewModel.Cities = await cityService.GetAllCitiesForListAsync();
+				return View(viewModel);
+			}
+
+			bool teamExists = await teamService.TeamExistsAsync(id);
+
+			if (teamExists == false)
+			{
+				// add error message
+				return RedirectToAction(nameof(Index));
+			}
+
+			bool isEdited = await teamService.EditTeamAsync(viewModel, teamGuid);
+
+			if (isEdited == false)
+			{
+				// add generic error message
+				viewModel.Cities = await cityService.GetAllCitiesForListAsync();
+				return View(viewModel);
+			}
+
+			// add success message
+			return RedirectToAction(nameof(Details), new { id });
+		}
 	}
 }

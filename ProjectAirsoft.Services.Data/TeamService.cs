@@ -185,5 +185,60 @@ namespace ProjectAirsoft.Services.Data
 
 			return true;
 		}
+
+		public async Task<bool> TeamExistsAsync(string id)
+		{
+			bool result = await dbContext.Teams
+				.AsNoTracking()
+				.AnyAsync(t => t.Id.ToString() == id);
+
+			return result;
+		}
+
+		public async Task<TeamFormModel> GetTeamForEditAsync(string teamId, string userId)
+		{
+			Team? team = await dbContext.Teams
+				.AsNoTracking()
+				.FirstOrDefaultAsync(t => t.Id.ToString() == teamId);
+
+			TeamFormModel viewModel = new TeamFormModel();
+
+			if (team != null)
+			{
+				viewModel.Name = team.Name;
+				viewModel.LogoUrl = team.LogoUrl;
+				viewModel.CityId = team.CityId;
+			}
+			else
+			{
+				viewModel = null!;
+			}
+
+			if (team!.LeaderId.ToString() != userId)
+			{
+				viewModel = null!;
+			}
+
+			return viewModel;
+		}
+
+		public async Task<bool> EditTeamAsync(TeamFormModel viewModel, Guid id)
+		{
+			Team? team = await dbContext.Teams
+				.FirstOrDefaultAsync(t => t.Id == id);
+
+			if (team == null)
+			{
+				return false;
+			}
+
+			team.Name = viewModel.Name;
+			team.LogoUrl = viewModel.LogoUrl;
+			team.CityId = viewModel.CityId;
+
+			await dbContext.SaveChangesAsync();
+
+			return true;
+		}
 	}
 }

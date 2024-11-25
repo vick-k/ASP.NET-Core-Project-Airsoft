@@ -18,5 +18,11 @@ namespace ProjectAirsoft.Services.Data.Interfaces
 		Task<TeamLeaveViewModel> GetTeamLeaveAsync(Guid id);
 
 		Task<bool> LeaveTeamAsync(Guid id, ApplicationUser user);
+
+		Task<TeamFormModel> GetTeamForEditAsync(string teamId, string userId);
+
+		Task<bool> EditTeamAsync(TeamFormModel viewModel, Guid id);
+
+		Task<bool> TeamExistsAsync(string id);
 	}
 }

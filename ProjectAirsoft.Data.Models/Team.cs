@@ -34,6 +34,8 @@ namespace ProjectAirsoft.Data.Models
 
 		public virtual ApplicationUser Leader { get; set; } = null!;
 
+		public bool IsDeleted { get; set; }
+
 		public virtual ICollection<ApplicationUser> Members { get; set; } = new HashSet<ApplicationUser>();
 	}
 }

@@ -99,6 +99,13 @@ namespace ProjectAirsoft.Web.Controllers
 				return RedirectToAction(nameof(Index));
 			}
 
+			string? userId = userManager.GetUserId(User);
+
+			if (viewModel.OrganizerId != userId)
+			{
+				return RedirectToAction(nameof(Index));
+			}
+
 			IEnumerable<TerrainListModel> terrains = await terrainService.GetAllTerrainsForListAsync();
 			viewModel.Terrains = terrains;
 
@@ -128,6 +135,13 @@ namespace ProjectAirsoft.Web.Controllers
 			if (gameExists == false)
 			{
 				// add error message
+				return RedirectToAction(nameof(Index));
+			}
+
+			string? userId = userManager.GetUserId(User);
+
+			if (viewModel.OrganizerId != userId)
+			{
 				return RedirectToAction(nameof(Index));
 			}
 

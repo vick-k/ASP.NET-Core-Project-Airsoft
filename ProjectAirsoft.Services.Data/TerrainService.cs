@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ProjectAirsoft.Data.Models;
 using ProjectAirsoft.Services.Data.Interfaces;
-using ProjectAirsoft.ViewModels.Game;
 using ProjectAirsoft.ViewModels.Terrain;
 using ProjectAirsoft.Web.Data;
 

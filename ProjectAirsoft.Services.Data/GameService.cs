@@ -143,6 +143,7 @@ namespace ProjectAirsoft.Services.Data
 				viewModel.Capacity = game.Capacity;
 				viewModel.Fee = game.Fee;
 				viewModel.TerrainId = game.TerrainId.ToString();
+				viewModel.OrganizerId = game.OrganizerId.ToString();
 			}
 			else
 			{

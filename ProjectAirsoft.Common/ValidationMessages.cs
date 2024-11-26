@@ -66,5 +66,11 @@
 			public const string PastDateMessage = "The selected date cannot be in the past.";
 			public const string InvalidDateMessage = "Invalid date format.";
 		}
+
+		public static class ValidTimeAttribute
+		{
+			public const string RequiredStartTimeMessage = "The start time is required.";
+			public const string InvalidStartTimeMessage = "Invalid time. Please use the following format: HH:mm";
+		}
 	}
 }

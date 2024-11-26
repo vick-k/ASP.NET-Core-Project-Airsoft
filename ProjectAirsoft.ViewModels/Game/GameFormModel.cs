@@ -28,6 +28,7 @@ namespace ProjectAirsoft.ViewModels.Game
 
 		[Required(ErrorMessage = RequiredStartTimeMessage)]
 		[RegularExpression(StartTimeRegexPattern, ErrorMessage = InvalidStartTimeMessage)]
+		[ValidTime]
 		public string StartTime { get; set; } = null!;
 
 		[Required(ErrorMessage = RequiredCapacityMessage)]

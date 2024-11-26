@@ -27,8 +27,6 @@
 			public const string FeeRangeMessage = "The Fee must be between {1} and {2}.";
 
 			public const string RequiredTerrainMessage = "The Terrain is required.";
-
-			public const string InvalidDateMessage = "Please use the built-in calendar to pick a date."; // TODO: not used anymore, can be removed
 		}
 
 		public static class Terrain
@@ -60,6 +58,13 @@
 			public const string LogoUrlMaxLengthMessage = "The Logo Link length cannot be more than {1} characters.";
 
 			public const string RequiredCityMessage = "The City is required.";
+		}
+
+		public static class FutureDateAttribute
+		{
+			public const string RequiredDateMessage = "The Date is required.";
+			public const string PastDateMessage = "The selected date cannot be in the past.";
+			public const string InvalidDateMessage = "Invalid date format.";
 		}
 	}
 }

@@ -1,4 +1,5 @@
-﻿using ProjectAirsoft.ViewModels.Terrain;
+﻿using ProjectAirsoft.ViewModels.CustomAttributes;
+using ProjectAirsoft.ViewModels.Terrain;
 using System.ComponentModel.DataAnnotations;
 
 using static ProjectAirsoft.Common.EntityValidationConstants.Game;
@@ -22,6 +23,7 @@ namespace ProjectAirsoft.ViewModels.Game
 		public string? ImageUrl { get; set; }
 
 		[Required(ErrorMessage = RequiredDateMessage)]
+		[FutureDate]
 		public string Date { get; set; } = null!;
 
 		[Required(ErrorMessage = RequiredStartTimeMessage)]

@@ -26,7 +26,7 @@ namespace ProjectAirsoft.Data.Models
 		public bool IsDeleted { get; set; }
 
 		[Comment("Flag for active/inactive terrain")]
-		public bool IsActive { get; set; }
+		public bool IsActive { get; set; } = true;
 
 		[ForeignKey(nameof(City))]
 		[Comment("The city identifier")]

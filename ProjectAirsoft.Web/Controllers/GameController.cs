@@ -166,11 +166,34 @@ namespace ProjectAirsoft.Web.Controllers
 			return RedirectToAction(nameof(Details), new { id });
 		}
 
-		[HttpPost]
+		[HttpGet]
 		public async Task<IActionResult> Cancel(string id)
 		{
 			Guid gameGuid = Guid.Empty;
 			bool isGuidValid = baseService.IsGuidValid(id, ref gameGuid);
+
+			if (!isGuidValid)
+			{
+				return RedirectToAction(nameof(Index));
+			}
+
+			GameCancelViewModel viewModel = await gameService.GetGameForCancelAsync(id);
+			string userId = userManager.GetUserId(User)!;
+
+			if (viewModel == null || userId != viewModel.OrganizerId)
+			{
+				// add error message
+				return RedirectToAction(nameof(Index));
+			}
+
+			return View(viewModel);
+		}
+
+		[HttpPost]
+		public async Task<IActionResult> Cancel(GameDeleteViewModel viewModel)
+		{
+			Guid gameGuid = Guid.Empty;
+			bool isGuidValid = baseService.IsGuidValid(viewModel.Id, ref gameGuid);
 
 			if (!isGuidValid)
 			{
@@ -192,7 +215,7 @@ namespace ProjectAirsoft.Web.Controllers
 		}
 
 		[HttpGet]
-		public async Task<IActionResult> Delete(string? id)
+		public async Task<IActionResult> Delete(string id)
 		{
 			Guid gameGuid = Guid.Empty;
 			bool isGuidValid = baseService.IsGuidValid(id, ref gameGuid);
@@ -202,7 +225,7 @@ namespace ProjectAirsoft.Web.Controllers
 				return RedirectToAction(nameof(Index));
 			}
 
-			GameDeleteViewModel viewModel = await gameService.GetGameForDeleteAsync(id); // TODO: change the parameter to guid
+			GameDeleteViewModel viewModel = await gameService.GetGameForDeleteAsync(id);
 			string userId = userManager.GetUserId(User)!;
 
 			if (viewModel == null || userId != viewModel.OrganizerId)

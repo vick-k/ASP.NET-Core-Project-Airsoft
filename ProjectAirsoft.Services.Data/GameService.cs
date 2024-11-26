@@ -200,6 +200,35 @@ namespace ProjectAirsoft.Services.Data
 			return true;
 		}
 
+		public async Task<GameCancelViewModel> GetGameForCancelAsync(string id)
+		{
+			Game? game = await dbContext.Games
+				.AsNoTracking()
+				.Include(g => g.Terrain)
+				.Include(g => g.Organizer)
+				.Where(g => g.IsDeleted == false && g.IsCanceled == false)
+				.FirstOrDefaultAsync(g => g.Id.ToString() == id);
+
+			GameCancelViewModel viewModel = new GameCancelViewModel();
+
+			if (game != null)
+			{
+				viewModel.Id = game.Id.ToString();
+				viewModel.Name = game.Name;
+				viewModel.ImageUrl = game.ImageUrl != null ? game.ImageUrl : DefaultGameImage;
+				viewModel.Terrain = game.Terrain.Name;
+				viewModel.Date = game.Date.ToString(CustomDateFormat);
+				viewModel.Organizer = game.Organizer.UserName!;
+				viewModel.OrganizerId = game.OrganizerId.ToString();
+			}
+			else
+			{
+				viewModel = null!;
+			}
+
+			return viewModel;
+		}
+
 		public async Task<bool> CancelGameAsync(Guid id, string userId)
 		{
 			Guid userGuid = Guid.Empty;

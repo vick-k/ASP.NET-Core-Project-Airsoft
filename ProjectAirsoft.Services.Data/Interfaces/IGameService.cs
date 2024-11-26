@@ -17,6 +17,8 @@ namespace ProjectAirsoft.Services.Data.Interfaces
 
 		Task<bool> GameExistsAsync(string id);
 
+		Task<GameCancelViewModel> GetGameForCancelAsync(string id);
+
 		Task<bool> CancelGameAsync(Guid id, string userId);
 
 		Task<int> GetGameRegisteredPlayersCountAsync(Guid id);

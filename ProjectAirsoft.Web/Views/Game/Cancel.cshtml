@@ -1,0 +1,35 @@
+﻿@using ProjectAirsoft.ViewModels.Game;
+@model GameCancelViewModel
+
+@{
+	ViewData["Title"] = "Cancel Game";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<hr />
+
+<div class="row">
+	<div class="col-md-4">
+		<div class="card mb-2 shadow-sm">
+			<img src="@Model.ImageUrl" class="card-img-top" alt="Game Image" style="height: 200px; object-fit: cover;">
+
+			<div class="card-body">
+				<h4 class="card-title">@Model.Name</h4>
+				<p class="card-text">@Model.Terrain</p>
+				<p class="card-text">Organized by: @Model.Organizer</p>
+			</div>
+			<div class="card-footer text-center">
+				<strong>@Model.Date</strong>
+			</div>
+		</div>
+	</div>
+</div>
+
+<p class="text-danger mt-3">Are you sure you want to cancel this game?</p>
+
+<form asp-action="Cancel" method="post">
+	<input type="hidden" asp-for="OrganizerId" />
+	<button type="submit" class="btn btn-outline-danger">Confirm Cancel</button>
+	<a asp-action="Details" asp-route-id="@Model.Id" class="btn btn-outline-secondary">Back</a>
+</form>

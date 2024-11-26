@@ -118,6 +118,50 @@ namespace ProjectAirsoft.Web.Controllers
 		}
 
 		[HttpGet]
+		public async Task<IActionResult> Status(string id)
+		{
+			Guid terrainGuid = Guid.Empty;
+			bool isGuidValid = baseService.IsGuidValid(id, ref terrainGuid);
+
+			if (!isGuidValid)
+			{
+				return RedirectToAction(nameof(Index));
+			}
+
+			TerrainStatusViewModel viewModel = await terrainService.GetTerrainForStatusChangeAsync(id);
+
+			if (viewModel == null)
+			{
+				return RedirectToAction(nameof(Index));
+			}
+
+			return View(viewModel);
+		}
+
+		[HttpPost]
+		public async Task<IActionResult> Status(TerrainStatusViewModel viewModel)
+		{
+			Guid terrainGuid = Guid.Empty;
+			bool isGuidValid = baseService.IsGuidValid(viewModel.Id, ref terrainGuid);
+
+			if (!isGuidValid)
+			{
+				return RedirectToAction(nameof(Index));
+			}
+
+			bool result = await terrainService.TerrainStatusChangeAsync(terrainGuid);
+
+			if (result == false)
+			{
+				// add error message
+				return RedirectToAction(nameof(Index));
+			}
+
+			// add success message
+			return RedirectToAction(nameof(Index));
+		}
+
+		[HttpGet]
 		public async Task<IActionResult> Delete(string id)
 		{
 			Guid terrainGuid = Guid.Empty;
@@ -128,7 +172,7 @@ namespace ProjectAirsoft.Web.Controllers
 				return RedirectToAction(nameof(Index));
 			}
 
-			TerrainDeleteViewModel viewModel = await terrainService.GetTerrainForDeleteAsync(id); // TODO: change the parameter to guid
+			TerrainDeleteViewModel viewModel = await terrainService.GetTerrainForDeleteAsync(id);
 
 			if (viewModel == null)
 			{

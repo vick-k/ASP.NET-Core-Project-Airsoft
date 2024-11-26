@@ -16,7 +16,7 @@
 else
 {
 	<table class="table table-hover">
-		<caption>Total active terrains: @Model.Where(t => t.IsDeleted == false).Count()</caption>
+		<caption>Total active terrains: @Model.Where(t => t.IsDeleted == false && t.IsActive == true).Count()</caption>
 		<thead>
 			<tr>
 				<th>Name</th>
@@ -30,7 +30,7 @@ else
 			</tr>
 		</thead>
 		<tbody class="table-group-divider">
-			@foreach (var terrain in Model.Where(t => t.IsDeleted == false))
+			@foreach (var terrain in Model.Where(t => t.IsDeleted == false && t.IsActive == true))
 			{
 				<tr>
 					<td>@terrain.Name</td>
@@ -41,6 +41,7 @@ else
 					{
 						<td>
 							<a asp-controller="Terrain" asp-action="Edit" asp-route-id="@terrain.Id" class="btn btn-outline-info">Edit</a>
+							<a asp-controller="Terrain" asp-action="Status" asp-route-id="@terrain.Id" class="btn btn-outline-warning">Set Inactive</a>
 							<a asp-controller="Terrain" asp-action="Delete" asp-route-id="@terrain.Id" class="btn btn-outline-danger">Delete</a>
 						</td>
 					}
@@ -53,14 +54,14 @@ else
 
 	<hr />
 
-	@if (Model.Where(t => t.IsDeleted == true).Count() == 0)
+	@if (Model.Where(t => t.IsActive == false).Count() == 0)
 	{
 		<p>There are no inactive terrains.</p>
 	}
 	else
 	{
 		<table class="table table-hover">
-			<caption>Total inactive terrains: @Model.Where(t => t.IsDeleted).Count()</caption>
+			<caption>Total inactive terrains: @Model.Where(t => t.IsDeleted == false && t.IsActive == false).Count()</caption>
 			<thead>
 				<tr>
 					<th>Name</th>
@@ -69,7 +70,7 @@ else
 				</tr>
 			</thead>
 			<tbody class="table-group-divider">
-				@foreach (var terrain in Model.Where(t => t.IsDeleted))
+				@foreach (var terrain in Model.Where(t => t.IsDeleted == false && t.IsActive == false))
 				{
 					<tr>
 						<td>@terrain.Name</td>

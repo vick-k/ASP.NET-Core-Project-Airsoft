@@ -12,7 +12,7 @@ namespace ProjectAirsoft.Services.Data
 		{
 			List<TerrainListModel> terrains = await dbContext.Terrains
 				.AsNoTracking()
-				.Where(t => t.IsDeleted == false)
+				.Where(t => t.IsDeleted == false && t.IsActive)
 				.Select(t => new TerrainListModel()
 				{
 					Id = t.Id.ToString(),
@@ -42,7 +42,8 @@ namespace ProjectAirsoft.Services.Data
 					GamesCount = t.Games
 						.Where(g => g.IsDeleted == false)
 						.Count(),
-					IsDeleted = t.IsDeleted
+					IsDeleted = t.IsDeleted,
+					IsActive = t.IsActive
 				});
 
 			return terrainIndexViewModels;
@@ -152,6 +153,48 @@ namespace ProjectAirsoft.Services.Data
 			}
 
 			terrain.IsDeleted = true;
+			terrain.IsActive = false;
+			await dbContext.SaveChangesAsync();
+
+			return true;
+		}
+
+		public async Task<TerrainStatusViewModel> GetTerrainForStatusChangeAsync(string id)
+		{
+			Terrain? terrain = await dbContext.Terrains
+				.AsNoTracking()
+				.Include(t => t.City)
+				.Where(t => t.IsDeleted == false && t.IsActive == true)
+				.FirstOrDefaultAsync(t => t.Id.ToString() == id);
+
+			TerrainStatusViewModel viewModel = new TerrainStatusViewModel();
+
+			if (terrain != null)
+			{
+				viewModel.Id = terrain.Id.ToString();
+				viewModel.Name = terrain.Name;
+				viewModel.City = terrain.City.Name;
+			}
+			else
+			{
+				viewModel = null!;
+			}
+
+			return viewModel;
+		}
+
+		public async Task<bool> TerrainStatusChangeAsync(Guid id)
+		{
+			Terrain? terrain = await dbContext.Terrains
+				.Where(t => t.IsDeleted == false && t.IsActive == true)
+				.FirstOrDefaultAsync(t => t.Id == id);
+
+			if (terrain == null)
+			{
+				return false;
+			}
+
+			terrain.IsActive = false;
 			await dbContext.SaveChangesAsync();
 
 			return true;

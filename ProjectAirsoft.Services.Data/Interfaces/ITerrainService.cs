@@ -17,6 +17,10 @@ namespace ProjectAirsoft.Services.Data.Interfaces
 
 		Task<bool> TerrainExistsAsync(string id);
 
+		Task<TerrainStatusViewModel> GetTerrainForStatusChangeAsync(string id);
+
+		Task<bool> TerrainStatusChangeAsync(Guid id);
+
 		Task<TerrainDeleteViewModel> GetTerrainForDeleteAsync(string id);
 
 		Task<bool> DeleteTerrainAsync(Guid id);

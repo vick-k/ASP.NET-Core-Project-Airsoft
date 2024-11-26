@@ -13,14 +13,17 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 	options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
+builder.Services.AddIdentity<ApplicationUser, IdentityRole<Guid>>(options =>
 {
 	options.SignIn.RequireConfirmedAccount = false;
 	options.User.RequireUniqueEmail = true;
 	options.Password.RequireNonAlphanumeric = false;
 })
+	.AddEntityFrameworkStores<ApplicationDbContext>()
 	.AddRoles<IdentityRole<Guid>>()
-	.AddEntityFrameworkStores<ApplicationDbContext>();
+	.AddSignInManager<SignInManager<ApplicationUser>>()
+	.AddUserManager<UserManager<ApplicationUser>>()
+	.AddDefaultUI();
 
 builder.Services.AddScoped<IBaseService, BaseService>();
 builder.Services.AddScoped<ICityService, CityService>();

@@ -1,0 +1,36 @@
+﻿@using ProjectAirsoft.ViewModels.Game;
+@model GameRegisteredPlayersViewModel
+
+@{
+	ViewData["Title"] = "Registered Players";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<hr />
+<p><strong>Game:</strong> @Model.Name</p>
+<p><strong>Date:</strong> @Model.Date</p>
+
+@if (Model.RegisteredPlayers!.Count() == 0)
+{
+	<p>There are no registered players yet for this game.</p>
+}
+else
+{
+	<table class="table table-hover">
+		<caption>Registered players: @Model.RegisteredPlayers!.Count()</caption>
+		<thead>
+			<tr>
+				<th>Player</th>
+			</tr>
+		</thead>
+		<tbody class="table-group-divider">
+			@foreach (var player in Model.RegisteredPlayers!)
+			{
+				<tr>
+					<td>@player.UserName</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+}

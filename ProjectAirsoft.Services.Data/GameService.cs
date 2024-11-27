@@ -3,6 +3,7 @@ using ProjectAirsoft.Data.Models;
 using ProjectAirsoft.Services.Data.Interfaces;
 using ProjectAirsoft.ViewModels.Comment;
 using ProjectAirsoft.ViewModels.Game;
+using ProjectAirsoft.ViewModels.User;
 using ProjectAirsoft.Web.Data;
 using System.Globalization;
 
@@ -437,6 +438,38 @@ namespace ProjectAirsoft.Services.Data
 			await dbContext.SaveChangesAsync();
 
 			return true;
+		}
+
+		public async Task<GameRegisteredPlayersViewModel> GetGameRegisteredPlayersAsync(Guid id)
+		{
+			Game? game = await dbContext.Games
+				.AsNoTracking()
+				.Where(g => g.IsDeleted == false)
+				.FirstOrDefaultAsync(g => g.Id == id);
+
+			GameRegisteredPlayersViewModel viewModel = new GameRegisteredPlayersViewModel();
+
+			if (game != null)
+			{
+				IEnumerable<UserViewModel> registeredPlayers = await dbContext.UsersGames
+					.AsNoTracking()
+					.Where(ug => ug.GameId == game.Id)
+					.Select(ug => new UserViewModel()
+					{
+						UserName = ug.User.UserName!
+					})
+					.ToListAsync();
+
+				viewModel.Name = game.Name;
+				viewModel.Date = game.Date.ToString(CustomDateFormat);
+				viewModel.RegisteredPlayers = registeredPlayers;
+			}
+			else
+			{
+				viewModel = null!;
+			}
+
+			return viewModel;
 		}
 	}
 }

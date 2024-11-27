@@ -38,5 +38,7 @@ namespace ProjectAirsoft.Services.Data.Interfaces
 		Task<CommentDeleteViewModel> GetCommentForDeleteAsync(int id);
 
 		Task<bool> DeleteCommentAsync(int id);
+
+		Task<GameRegisteredPlayersViewModel> GetGameRegisteredPlayersAsync(Guid id);
 	}
 }

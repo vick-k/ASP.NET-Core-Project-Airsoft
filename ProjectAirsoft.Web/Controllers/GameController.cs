@@ -267,5 +267,27 @@ namespace ProjectAirsoft.Web.Controllers
 			// add success message
 			return RedirectToAction(nameof(Index));
 		}
+
+		[HttpGet]
+		[AllowAnonymous]
+		public async Task<IActionResult> RegisteredPlayers(string id)
+		{
+			Guid gameGuid = Guid.Empty;
+			bool isGuidValid = baseService.IsGuidValid(id, ref gameGuid);
+
+			if (!isGuidValid)
+			{
+				return RedirectToAction(nameof(Index));
+			}
+
+			GameRegisteredPlayersViewModel viewModel = await gameService.GetGameRegisteredPlayersAsync(gameGuid);
+
+			if (viewModel == null)
+			{
+				return RedirectToAction(nameof(Index));
+			}
+
+			return View(viewModel);
+		}
 	}
 }

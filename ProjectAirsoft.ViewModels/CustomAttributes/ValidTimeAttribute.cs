@@ -2,7 +2,7 @@
 
 using static ProjectAirsoft.Common.ValidationMessages.ValidTimeAttribute;
 
-namespace ProjectAirsoft.Infrastructure.CustomAttributes
+namespace ProjectAirsoft.ViewModels.CustomAttributes
 {
 	public class ValidTimeAttribute : ValidationAttribute
 	{

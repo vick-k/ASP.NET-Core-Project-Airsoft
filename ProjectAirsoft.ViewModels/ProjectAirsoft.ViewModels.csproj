@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ProjectAirsoft.Common\ProjectAirsoft.Common.csproj" />
-    <ProjectReference Include="..\ProjectAirsoft.Infrastructure\ProjectAirsoft.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

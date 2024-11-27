@@ -2,7 +2,7 @@
 
 using static ProjectAirsoft.Common.ValidationMessages.FutureDateAttribute;
 
-namespace ProjectAirsoft.Infrastructure.CustomAttributes
+namespace ProjectAirsoft.ViewModels.CustomAttributes
 {
 	public class FutureDateAttribute : ValidationAttribute
 	{

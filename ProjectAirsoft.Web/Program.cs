@@ -1,8 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using ProjectAirsoft.Data.Models;
-using ProjectAirsoft.Services.Data;
-using ProjectAirsoft.Services.Data.Interfaces;
+using ProjectAirsoft.Infrastructure.Extensions;
 using ProjectAirsoft.Web.Data;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -25,12 +24,7 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole<Guid>>(options =>
 	.AddUserManager<UserManager<ApplicationUser>>()
 	.AddDefaultUI();
 
-builder.Services.AddScoped<IBaseService, BaseService>();
-builder.Services.AddScoped<ICityService, CityService>();
-builder.Services.AddScoped<IGameService, GameService>();
-builder.Services.AddScoped<ITerrainService, TerrainService>();
-builder.Services.AddScoped<IGameListService, GameListService>();
-builder.Services.AddScoped<ITeamService, TeamService>();
+builder.Services.AddCustomServices();
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();

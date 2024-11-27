@@ -1,4 +1,4 @@
-﻿using ProjectAirsoft.ViewModels.CustomAttributes;
+﻿using ProjectAirsoft.Infrastructure.CustomAttributes;
 using ProjectAirsoft.ViewModels.Terrain;
 using System.ComponentModel.DataAnnotations;
 

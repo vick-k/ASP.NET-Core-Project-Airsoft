@@ -32,7 +32,7 @@ namespace ProjectAirsoft.Data.Configurations
 		{
 			UserManager<ApplicationUser> userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
 
-			string adminUserName = "Administrator";
+			string adminUserName = "admin";
 			string adminEmail = "admin@gmail.com";
 			string adminPassword = "ASDqwe123";
 

@@ -11,6 +11,8 @@ namespace ProjectAirsoft.Data.Models
 
 		public Guid? TeamId { get; set; }
 
+		public bool IsDeleted { get; set; }
+
 		public virtual ICollection<UserGame> UsersGames { get; set; } = new HashSet<UserGame>();
 
 		public virtual ICollection<Comment> Comments { get; set; } = new HashSet<Comment>();

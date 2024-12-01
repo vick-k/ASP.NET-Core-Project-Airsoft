@@ -2,6 +2,8 @@
 using Microsoft.Extensions.DependencyInjection;
 using ProjectAirsoft.Data.Models;
 
+using static ProjectAirsoft.Common.ApplicationConstants;
+
 namespace ProjectAirsoft.Data.Configurations
 {
 	public static class DatabaseSeeder
@@ -10,7 +12,7 @@ namespace ProjectAirsoft.Data.Configurations
 		{
 			RoleManager<IdentityRole<Guid>> roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
 
-			string[] roles = { "Admin", "Manager", "User" };
+			string[] roles = { AdminRoleName, ManagerRoleName, UserRoleName };
 
 			foreach (var role in roles)
 			{

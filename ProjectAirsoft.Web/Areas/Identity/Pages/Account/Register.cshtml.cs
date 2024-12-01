@@ -20,6 +20,8 @@ using System.Text.Encodings.Web;
 using System.Threading;
 using System.Threading.Tasks;
 
+using static ProjectAirsoft.Common.ApplicationConstants;
+
 namespace ProjectAirsoft.Web.Areas.Identity.Pages.Account
 {
 	public class RegisterModel : PageModel
@@ -131,6 +133,7 @@ namespace ProjectAirsoft.Web.Areas.Identity.Pages.Account
 
 					var userId = await _userManager.GetUserIdAsync(user);
 
+					await _userManager.AddToRoleAsync(user, UserRoleName);
 					await _signInManager.SignInAsync(user, isPersistent: false);
 					return LocalRedirect(returnUrl);
 				}

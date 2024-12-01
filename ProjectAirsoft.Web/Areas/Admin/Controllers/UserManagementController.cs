@@ -18,7 +18,7 @@ namespace ProjectAirsoft.Web.Areas.Admin.Controllers
 		public async Task<IActionResult> Index()
 		{
 			List<ApplicationUser> users = await userManager.Users
-				.Where(u => u.IsDeleted == false)
+				.Where(u => u.IsDeleted == false && User!.Identity!.Name != u.UserName)
 				.ToListAsync();
 			List<UserViewModel> userViewModels = new List<UserViewModel>();
 

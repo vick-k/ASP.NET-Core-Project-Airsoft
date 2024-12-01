@@ -11,7 +11,11 @@
 	var currentUser = await UserManager.GetUserAsync(User);
 }
 
-<h2>@ViewData["Title"]</h2>
+<h2 class="d-inline">@ViewData["Title"]</h2>
+@if (currentUser != null && currentUser.TeamId == null)
+{
+	<span class="ms-2"><a asp-controller="Team" asp-action="Create" class="btn btn-outline-success mb-2">Create Team</a></span>
+}
 
 <hr />
 

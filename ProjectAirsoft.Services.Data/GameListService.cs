@@ -47,6 +47,13 @@ namespace ProjectAirsoft.Services.Data
 				return false;
 			}
 
+			ApplicationUser? user = await dbContext.Users.FindAsync(userGuid);
+
+			if (user != null && user.IsDeleted)
+			{
+				return false;
+			}
+
 			UserGame? userGame = await dbContext.UsersGames
 				.FirstOrDefaultAsync(ug => ug.UserId == userGuid && ug.GameId == gameGuid);
 

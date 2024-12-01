@@ -78,7 +78,7 @@ namespace ProjectAirsoft.Services.Data
 
 			IEnumerable<UserViewModel> members = await dbContext.Users
 				.AsNoTracking()
-				.Where(u => u.TeamId == id)
+				.Where(u => u.TeamId == id && u.IsDeleted == false)
 				.Select(u => new UserViewModel()
 				{
 					UserName = u.UserName!
@@ -87,11 +87,13 @@ namespace ProjectAirsoft.Services.Data
 
 			if (team != null)
 			{
+				bool isLeaderDeleted = team.Leader.IsDeleted == true;
+
 				viewModel.Id = team.Id.ToString();
 				viewModel.Name = team.Name;
 				viewModel.LogoUrl = team.LogoUrl;
 				viewModel.City = team.City.Name;
-				viewModel.Leader = team.Leader.UserName!;
+				viewModel.Leader = isLeaderDeleted ? "(Deleted User)" : team.Leader.UserName!;
 				viewModel.Members = members;
 			}
 			else

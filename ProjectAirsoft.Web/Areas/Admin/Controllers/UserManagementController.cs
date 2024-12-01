@@ -5,13 +5,14 @@ using Microsoft.EntityFrameworkCore;
 using ProjectAirsoft.Data.Models;
 using ProjectAirsoft.Services.Data.Interfaces;
 using ProjectAirsoft.Web.Areas.Admin.ViewModels;
+using ProjectAirsoft.Web.Data;
 using System.Data;
 
 namespace ProjectAirsoft.Web.Areas.Admin.Controllers
 {
 	[Area("Admin")]
 	[Authorize(Roles = "Admin")]
-	public class UserManagementController(IBaseService baseService, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole<Guid>> roleManager) : Controller
+	public class UserManagementController(ApplicationDbContext dbContext, IBaseService baseService, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole<Guid>> roleManager) : Controller
 	{
 		[HttpGet]
 		public async Task<IActionResult> Index()
@@ -96,7 +97,14 @@ namespace ProjectAirsoft.Web.Areas.Admin.Controllers
 
 			if (user != null)
 			{
+				await dbContext
+					.Entry(user)
+					.Collection(u => u.UsersGames)
+					.LoadAsync();
+
+				user.UsersGames.Clear();
 				user.IsDeleted = true;
+
 				await userManager.UpdateAsync(user);
 			}
 

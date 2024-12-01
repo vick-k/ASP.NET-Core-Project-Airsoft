@@ -71,6 +71,11 @@ namespace ProjectAirsoft.Web.Areas.Admin.Controllers
 				return RedirectToAction(nameof(Index));
 			}
 
+			if (string.IsNullOrEmpty(role))
+			{
+				return RedirectToAction(nameof(Index));
+			}
+
 			ApplicationUser? user = await userManager.FindByIdAsync(userId);
 			bool roleExists = await roleManager.RoleExistsAsync(role);
 

@@ -108,6 +108,14 @@ namespace ProjectAirsoft.Web.Areas.Identity.Pages.Account
 
 			if (ModelState.IsValid)
 			{
+				ApplicationUser user = await _userManager.FindByNameAsync(Input.Username);
+
+				if (user != null && user.IsDeleted)
+				{
+					ModelState.AddModelError(string.Empty, "This user has been deleted. For more information please contact the system administrator.");
+					return Page();
+				}
+
 				// This doesn't count login failures towards account lockout
 				// To enable password failures to trigger account lockout, set lockoutOnFailure: true
 				var result = await _signInManager.PasswordSignInAsync(Input.Username, Input.Password, Input.RememberMe, lockoutOnFailure: false);

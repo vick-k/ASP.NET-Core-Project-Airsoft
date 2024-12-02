@@ -1,8 +1,8 @@
-﻿@using ProjectAirsoft.ViewModels.Team;
-@model TeamFormModel
+﻿@using ProjectAirsoft.ViewModels.Terrain;
+@model TerrainFormModel
 
 @{
-	ViewData["Title"] = "Edit Team";
+	ViewData["Title"] = "Edit Terrain";
 }
 
 <h2>@ViewData["Title"]</h2>
@@ -11,13 +11,13 @@
 	<div class="row">
 		<div class="form-group mb-3 col-md-4">
 			<label asp-for="Name" class="control-label fw-bold">Name</label>
-			<input asp-for="Name" class="form-control" aria-required="true" placeholder="Enter the name of the team" />
+			<input asp-for="Name" class="form-control" aria-required="true" placeholder="Enter the name of the terrain" />
 			<span asp-validation-for="Name" class="text-danger fst-italic"></span>
 		</div>
 		<div class="form-group mb-3 col-md-8">
-			<label asp-for="LogoUrl" class="control-label fw-bold">Team Logo</label>
-			<input asp-for="LogoUrl" class="form-control" placeholder="http://site.com/logo-image.jpg" />
-			<span asp-validation-for="LogoUrl" class="text-danger fst-italic"></span>
+			<label asp-for="LocationUrl" class="control-label fw-bold">Location</label>
+			<input asp-for="LocationUrl" class="form-control" placeholder="Link to Google Maps" />
+			<span asp-validation-for="LocationUrl" class="text-danger fst-italic"></span>
 		</div>
 	</div>
 
@@ -34,7 +34,7 @@
 	<div class="form-group mt-4">
 		<button type="submit" class="btn btn-outline-success">Save Changes</button>
 	</div>
-	<a asp-action="Index" class="btn btn-outline-secondary mt-2">Back to All Teams</a>
+	<a asp-action="Index" class="btn btn-outline-secondary mt-2">Cancel</a>
 </form>
 
 @section Scripts {

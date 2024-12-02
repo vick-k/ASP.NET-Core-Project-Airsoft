@@ -23,10 +23,6 @@ else
 				<th>Location</th>
 				<th>City</th>
 				<th># of Games</th>
-				@if (User?.Identity?.IsAuthenticated ?? false)
-				{
-					<th>Actions</th>
-				}
 			</tr>
 		</thead>
 		<tbody class="table-group-divider">
@@ -37,14 +33,6 @@ else
 					<td><a target="_blank" href="@terrain.LocationUrl">Link</a></td>
 					<td>@terrain.City</td>
 					<td>@terrain.GamesCount</td>
-					@if (User?.Identity?.IsAuthenticated ?? false)
-					{
-						<td>
-							<a asp-controller="Terrain" asp-action="Edit" asp-route-id="@terrain.Id" class="btn btn-outline-info">Edit</a>
-							<a asp-controller="Terrain" asp-action="Status" asp-route-id="@terrain.Id" class="btn btn-outline-warning">Set Inactive</a>
-							<a asp-controller="Terrain" asp-action="Delete" asp-route-id="@terrain.Id" class="btn btn-outline-danger">Delete</a>
-						</td>
-					}
 				</tr>
 			}
 		</tbody>

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using ProjectAirsoft.Data.Models;
 using ProjectAirsoft.Services.Data.Interfaces;
 using ProjectAirsoft.ViewModels.AdminArea;
 
@@ -94,6 +95,18 @@ namespace ProjectAirsoft.Web.Areas.Admin.Controllers
 			if (userExists == false)
 			{
 				return RedirectToAction(nameof(Index));
+			}
+
+			string adminUsername = User.Identity!.Name!;
+
+			ApplicationUser? admin = await userService.GetUserAsync(adminUsername);
+
+			if (admin != null)
+			{
+				if (admin.Id.ToString() == userId)
+				{
+					return RedirectToAction(nameof(Index));
+				}
 			}
 
 			bool result = await userService.DeleteUserAsync(userId);

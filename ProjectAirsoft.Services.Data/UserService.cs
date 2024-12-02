@@ -116,5 +116,10 @@ namespace ProjectAirsoft.Services.Data
 
 			return true;
 		}
+
+		public async Task<ApplicationUser?> GetUserAsync(string username)
+		{
+			return await userManager.FindByNameAsync(username);
+		}
 	}
 }

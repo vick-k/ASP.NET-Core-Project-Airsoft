@@ -1,4 +1,5 @@
-﻿using ProjectAirsoft.ViewModels.AdminArea;
+﻿using ProjectAirsoft.Data.Models;
+using ProjectAirsoft.ViewModels.AdminArea;
 
 namespace ProjectAirsoft.Services.Data.Interfaces
 {
@@ -7,6 +8,8 @@ namespace ProjectAirsoft.Services.Data.Interfaces
 		Task<IEnumerable<UserIndexViewModel>> GetAllUsersAsync();
 
 		Task<bool> UserExistsAsync(string id);
+
+		Task<ApplicationUser?> GetUserAsync(string username);
 
 		Task<bool> AssignUserToRoleAsync(string userId, string role);
 

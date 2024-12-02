@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ProjectAirsoft.Data.Models;
 using ProjectAirsoft.Services.Data.Interfaces;
+using ProjectAirsoft.ViewModels.AdminArea;
 using ProjectAirsoft.ViewModels.Team;
 using ProjectAirsoft.ViewModels.User;
 using ProjectAirsoft.Web.Data;
@@ -301,6 +302,32 @@ namespace ProjectAirsoft.Services.Data
 			await dbContext.SaveChangesAsync();
 
 			return true;
+		}
+
+		public async Task<IEnumerable<TeamViewModel>> GetAllTeamsForAdminAreaAsync()
+		{
+			List<Team> teams = await dbContext.Teams
+				.AsNoTracking()
+				.Where(t => t.IsDeleted == false)
+				.Include(t => t.City)
+				.Include(t => t.Leader)
+				.OrderBy(t => t.Name)
+				.ToListAsync();
+			List<TeamViewModel> teamViewModels = new List<TeamViewModel>();
+
+			foreach (Team team in teams)
+			{
+				teamViewModels.Add(new TeamViewModel()
+				{
+					Id = team.Id.ToString(),
+					Name = team.Name,
+					City = team.City.Name,
+					Leader = team.Leader.UserName!,
+					IsDeleted = team.IsDeleted
+				});
+			}
+
+			return teamViewModels;
 		}
 	}
 }

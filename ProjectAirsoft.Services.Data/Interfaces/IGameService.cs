@@ -1,4 +1,5 @@
-﻿using ProjectAirsoft.ViewModels.Comment;
+﻿using ProjectAirsoft.ViewModels.AdminArea;
+using ProjectAirsoft.ViewModels.Comment;
 using ProjectAirsoft.ViewModels.Game;
 
 namespace ProjectAirsoft.Services.Data.Interfaces
@@ -40,5 +41,7 @@ namespace ProjectAirsoft.Services.Data.Interfaces
 		Task<bool> DeleteCommentAsync(int id);
 
 		Task<GameRegisteredPlayersViewModel> GetGameRegisteredPlayersAsync(Guid id);
+
+		Task<IEnumerable<GameViewModel>> GetAllGamesForAdminAreaAsync();
 	}
 }

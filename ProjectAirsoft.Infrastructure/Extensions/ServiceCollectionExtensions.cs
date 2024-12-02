@@ -14,6 +14,7 @@ namespace ProjectAirsoft.Infrastructure.Extensions
 			services.AddScoped<IGameService, GameService>();
 			services.AddScoped<ITeamService, TeamService>();
 			services.AddScoped<ITerrainService, TerrainService>();
+			services.AddScoped<IUserService, UserService>();
 
 			return services;
 		}

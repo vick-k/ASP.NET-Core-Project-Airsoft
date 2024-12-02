@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ProjectAirsoft.Data.Models;
 using ProjectAirsoft.Services.Data.Interfaces;
+using ProjectAirsoft.ViewModels.AdminArea;
 using ProjectAirsoft.ViewModels.Terrain;
 using ProjectAirsoft.Web.Data;
 
@@ -198,6 +199,32 @@ namespace ProjectAirsoft.Services.Data
 			await dbContext.SaveChangesAsync();
 
 			return true;
+		}
+
+		public async Task<IEnumerable<TerrainViewModel>> GetAllTerrainsForAdminAreaAsync()
+		{
+			List<Terrain> terrains = await dbContext.Terrains
+				.AsNoTracking()
+				.Where(t => t.IsDeleted == false)
+				.Include(t => t.City)
+				.OrderBy(t => t.Name)
+				.ToListAsync();
+			List<TerrainViewModel> terrainViewModels = new List<TerrainViewModel>();
+
+			foreach (Terrain terrain in terrains)
+			{
+				terrainViewModels.Add(new TerrainViewModel()
+				{
+					Id = terrain.Id.ToString(),
+					Name = terrain.Name,
+					Location = terrain.LocationUrl,
+					City = terrain.City.Name,
+					IsActive = terrain.IsActive,
+					IsDeleted = terrain.IsDeleted
+				});
+			}
+
+			return terrainViewModels;
 		}
 	}
 }

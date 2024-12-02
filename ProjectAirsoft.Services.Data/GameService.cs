@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ProjectAirsoft.Data.Models;
 using ProjectAirsoft.Services.Data.Interfaces;
+using ProjectAirsoft.ViewModels.AdminArea;
 using ProjectAirsoft.ViewModels.Comment;
 using ProjectAirsoft.ViewModels.Game;
 using ProjectAirsoft.ViewModels.User;
@@ -472,6 +473,38 @@ namespace ProjectAirsoft.Services.Data
 			}
 
 			return viewModel;
+		}
+
+		public async Task<IEnumerable<GameViewModel>> GetAllGamesForAdminAreaAsync()
+		{
+			List<Game> games = await dbContext.Games
+				.AsNoTracking()
+				.Where(g => g.IsDeleted == false)
+				.Include(g => g.Terrain)
+				.Include(g => g.Organizer)
+				.OrderBy(g => g.Date)
+				.ToListAsync();
+			List<GameViewModel> gameViewModels = new List<GameViewModel>();
+
+			foreach (Game game in games)
+			{
+				int registeredPlayers = await GetGameRegisteredPlayersCountAsync(game.Id);
+
+				gameViewModels.Add(new GameViewModel()
+				{
+					Id = game.Id.ToString(),
+					Name = game.Name,
+					Date = game.Date.ToString(CustomDateFormat),
+					Capacity = game.Capacity,
+					RegisteredPlayers = registeredPlayers,
+					Fee = game.Fee,
+					Terrain = game.Terrain.Name,
+					Organizer = game.Organizer.UserName!,
+					IsDeleted = game.IsDeleted
+				});
+			}
+
+			return gameViewModels;
 		}
 	}
 }

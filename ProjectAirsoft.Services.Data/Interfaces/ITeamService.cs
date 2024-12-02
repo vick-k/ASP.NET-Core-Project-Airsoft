@@ -1,4 +1,5 @@
 ﻿using ProjectAirsoft.Data.Models;
+using ProjectAirsoft.ViewModels.AdminArea;
 using ProjectAirsoft.ViewModels.Team;
 
 namespace ProjectAirsoft.Services.Data.Interfaces
@@ -28,5 +29,7 @@ namespace ProjectAirsoft.Services.Data.Interfaces
 		Task<TeamDeleteViewModel> GetTeamForDeleteAsync(string id);
 
 		Task<bool> DeleteTeamAsync(Guid id);
+
+		Task<IEnumerable<TeamViewModel>> GetAllTeamsForAdminAreaAsync();
 	}
 }

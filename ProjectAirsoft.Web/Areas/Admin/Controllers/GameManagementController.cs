@@ -1,49 +1,20 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using ProjectAirsoft.Data.Models;
 using ProjectAirsoft.Services.Data.Interfaces;
-using ProjectAirsoft.Web.Areas.Admin.ViewModels;
-using ProjectAirsoft.Web.Data;
-
-using static ProjectAirsoft.Common.ApplicationConstants;
+using ProjectAirsoft.ViewModels.AdminArea;
 
 namespace ProjectAirsoft.Web.Areas.Admin.Controllers
 {
 	[Area("Admin")]
 	[Authorize(Roles = "Admin")]
-	public class GameManagementController(ApplicationDbContext dbContext, IBaseService baseService, IGameService gameService) : Controller
+	public class GameManagementController(IBaseService baseService, IGameService gameService) : Controller
 	{
 		[HttpGet]
 		public async Task<IActionResult> Index()
 		{
-			List<Game> games = await dbContext.Games
-				.Where(g => g.IsDeleted == false)
-				.Include(g => g.Terrain)
-				.Include(g => g.Organizer)
-				.OrderBy(g => g.Date)
-				.ToListAsync();
-			List<GameViewModel> gameViewModels = new List<GameViewModel>();
+			IEnumerable<GameViewModel> games = await gameService.GetAllGamesForAdminAreaAsync();
 
-			foreach (Game game in games)
-			{
-				int registeredPlayers = await gameService.GetGameRegisteredPlayersCountAsync(game.Id);
-
-				gameViewModels.Add(new GameViewModel()
-				{
-					Id = game.Id.ToString(),
-					Name = game.Name,
-					Date = game.Date.ToString(CustomDateFormat),
-					Capacity = game.Capacity,
-					RegisteredPlayers = registeredPlayers,
-					Fee = game.Fee,
-					Terrain = game.Terrain.Name,
-					Organizer = game.Organizer.UserName!,
-					IsDeleted = game.IsDeleted
-				});
-			}
-
-			return View(gameViewModels);
+			return View(games);
 		}
 
 		[HttpPost]

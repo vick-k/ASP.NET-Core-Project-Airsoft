@@ -1,43 +1,22 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using ProjectAirsoft.Data.Models;
 using ProjectAirsoft.Services.Data.Interfaces;
+using ProjectAirsoft.ViewModels.AdminArea;
 using ProjectAirsoft.ViewModels.City;
 using ProjectAirsoft.ViewModels.Terrain;
-using ProjectAirsoft.Web.Areas.Admin.ViewModels;
-using ProjectAirsoft.Web.Data;
 
 namespace ProjectAirsoft.Web.Areas.Admin.Controllers
 {
 	[Area("Admin")]
 	[Authorize(Roles = "Admin")]
-	public class TerrainManagementController(ApplicationDbContext dbContext, IBaseService baseService, ITerrainService terrainService, ICityService cityService) : Controller
+	public class TerrainManagementController(IBaseService baseService, ITerrainService terrainService, ICityService cityService) : Controller
 	{
 		[HttpGet]
 		public async Task<IActionResult> Index()
 		{
-			List<Terrain> terrains = await dbContext.Terrains
-				.Where(t => t.IsDeleted == false)
-				.Include(t => t.City)
-				.OrderBy(t => t.Name)
-				.ToListAsync();
-			List<TerrainViewModel> terrainViewModels = new List<TerrainViewModel>();
+			IEnumerable<TerrainViewModel> terrains = await terrainService.GetAllTerrainsForAdminAreaAsync();
 
-			foreach (Terrain terrain in terrains)
-			{
-				terrainViewModels.Add(new TerrainViewModel()
-				{
-					Id = terrain.Id.ToString(),
-					Name = terrain.Name,
-					Location = terrain.LocationUrl,
-					City = terrain.City.Name,
-					IsActive = terrain.IsActive,
-					IsDeleted = terrain.IsDeleted
-				});
-			}
-
-			return View(terrainViewModels);
+			return View(terrains);
 		}
 
 		[HttpGet]

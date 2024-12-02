@@ -1,4 +1,4 @@
-﻿namespace ProjectAirsoft.Web.Areas.Admin.ViewModels
+﻿namespace ProjectAirsoft.ViewModels.AdminArea
 {
 	public class TerrainViewModel
 	{

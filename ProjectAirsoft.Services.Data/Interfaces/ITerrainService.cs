@@ -1,4 +1,4 @@
-﻿using ProjectAirsoft.ViewModels.Game;
+﻿using ProjectAirsoft.ViewModels.AdminArea;
 using ProjectAirsoft.ViewModels.Terrain;
 
 namespace ProjectAirsoft.Services.Data.Interfaces
@@ -24,5 +24,7 @@ namespace ProjectAirsoft.Services.Data.Interfaces
 		Task<TerrainDeleteViewModel> GetTerrainForDeleteAsync(string id);
 
 		Task<bool> DeleteTerrainAsync(Guid id);
+
+		Task<IEnumerable<TerrainViewModel>> GetAllTerrainsForAdminAreaAsync();
 	}
 }

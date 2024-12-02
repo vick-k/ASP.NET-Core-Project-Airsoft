@@ -1,6 +1,6 @@
-﻿namespace ProjectAirsoft.Web.Areas.Admin.ViewModels
+﻿namespace ProjectAirsoft.ViewModels.AdminArea
 {
-	public class UserViewModel
+	public class UserIndexViewModel
 	{
 		public string Id { get; set; } = null!;
 

@@ -1,0 +1,40 @@
+﻿@using ProjectAirsoft.Web.Areas.Admin.ViewModels;
+@model IEnumerable<TeamViewModel>
+
+@{
+	ViewData["Title"] = "Team Management";
+}
+
+<div class="container mt-5">
+	<h1 class="text-center mb-4">@ViewData["Title"]</h1>
+
+	<table class="table table-bordered table-hover">
+		<caption>Total teams: @Model.Count()</caption>
+		<thead>
+			<tr>
+				<th>Team Name</th>
+				<th>City</th>
+				<th>Leader</th>
+				<th>Actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var team in Model)
+			{
+				<tr>
+					<td>@team.Name</td>
+					<td>@team.City</td>
+					<td>@team.Leader</td>
+					<td>
+						<a target="_blank" asp-area="" asp-action="Details" asp-controller="Team" asp-route-id="@team.Id" class="btn btn-info btn-sm">Details</a>
+
+						<form method="post" asp-area="Admin" asp-action="DeleteTeam" asp-controller="TeamManagement" class="d-inline">
+							<input type="hidden" name="id" value="@team.Id" />
+							<button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this team?');">Delete</button>
+						</form>
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+</div>

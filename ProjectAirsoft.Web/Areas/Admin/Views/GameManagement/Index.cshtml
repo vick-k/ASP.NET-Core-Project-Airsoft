@@ -32,9 +32,9 @@
 					<td>@game.Terrain</td>
 					<td>@game.Organizer</td>
 					<td>
-						<a asp-area="" asp-action="Details" asp-controller="Game" asp-route-id="@game.Id" class="btn btn-info btn-sm">Details</a>
+						<a target="_blank" asp-area="" asp-action="Details" asp-controller="Game" asp-route-id="@game.Id" class="btn btn-info btn-sm">Details</a>
 
-						<form method="post" asp-action="DeleteGame" asp-controller="GameManagement" asp-area="Admin" class="d-inline ms-2">
+						<form method="post" asp-action="DeleteGame" asp-controller="GameManagement" asp-area="Admin" class="d-inline">
 							<input type="hidden" name="id" value="@game.Id" />
 							<button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this game?');">Delete</button>
 						</form>

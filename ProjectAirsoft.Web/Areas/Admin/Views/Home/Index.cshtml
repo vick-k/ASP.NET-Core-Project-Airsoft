@@ -37,7 +37,7 @@
             <div class="card shadow h-100">
                 <div class="card-body d-flex flex-column align-items-center text-center">
                     <h5 class="card-title">Manage Terrains</h5>
-                    <p class="card-text text-muted">Edit, change status and delete terrains.</p>
+                    <p class="card-text text-muted">Add, edit, change status and delete terrains.</p>
                     <a asp-area="Admin" asp-controller="TerrainManagement" asp-action="Index" class="btn btn-primary mt-auto w-100">
                         Go to Terrains
                     </a>
@@ -52,6 +52,18 @@
                     <p class="card-text text-muted">View and delete teams.</p>
                     <a asp-area="Admin" asp-controller="TeamManagement" asp-action="Index" class="btn btn-primary mt-auto w-100">
                         Go to Teams
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow h-100">
+                <div class="card-body d-flex flex-column align-items-center text-center">
+                    <h5 class="card-title">Manage Cities</h5>
+                    <p class="card-text text-muted">Add and edit cities.</p>
+                    <a asp-area="Admin" asp-controller="CityManagement" asp-action="Index" class="btn btn-primary mt-auto w-100">
+                        Go to Cities
                     </a>
                 </div>
             </div>

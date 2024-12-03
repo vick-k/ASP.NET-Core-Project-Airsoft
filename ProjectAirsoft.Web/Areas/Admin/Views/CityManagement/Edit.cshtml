@@ -1,0 +1,27 @@
+﻿@using ProjectAirsoft.ViewModels.City;
+@model CityFormModel
+
+@{
+	ViewData["Title"] = "Edit City";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<form asp-action="Edit" class="mt-4" method="post">
+	<div class="row">
+		<div class="form-group mb-3 col-md-4">
+			<label asp-for="Name" class="control-label fw-bold">City</label>
+			<input asp-for="Name" class="form-control" aria-required="true" placeholder="Enter the name of the city" />
+			<span asp-validation-for="Name" class="text-danger fst-italic"></span>
+		</div>
+	</div>
+
+	<div class="form-group mt-4">
+		<button type="submit" class="btn btn-outline-success">Save Changes</button>
+	</div>
+	<a asp-action="Index" class="btn btn-outline-secondary mt-2">Cancel</a>
+</form>
+
+@section Scripts {
+	<partial name="_ValidationScriptsPartial" />
+}

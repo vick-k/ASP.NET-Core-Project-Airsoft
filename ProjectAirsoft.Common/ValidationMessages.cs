@@ -41,6 +41,13 @@
 			public const string RequiredCityMessage = "The city is required.";
 		}
 
+		public static class City
+		{
+			public const string RequiredNameMessage = "The city name is required.";
+			public const string NameMinLengthMessage = "The city name length must be at least {1} characters.";
+			public const string NameMaxLengthMessage = "The city name length cannot be more than {1} characters.";
+		}
+
 		public static class Comment
 		{
 			public const string RequiredContentMessage = "The comment cannot be empty.";

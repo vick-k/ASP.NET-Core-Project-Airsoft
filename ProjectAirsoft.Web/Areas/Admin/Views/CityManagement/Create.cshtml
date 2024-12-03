@@ -1,0 +1,27 @@
+﻿@using ProjectAirsoft.ViewModels.City;
+@model CityInputViewModel
+
+@{
+	ViewData["Title"] = "Add New Cities";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<form asp-action="Create" class="mt-4" method="post">
+	<div class="row">
+		<div class="form-group mb-3 col-md-4">
+			<label asp-for="CityNames" class="control-label fw-bold">City Names</label>
+			<textarea asp-for="CityNames" class="form-control" aria-required="true" placeholder="Enter the name of each city on a new line" rows="7"></textarea>
+			<span asp-validation-for="CityNames" class="text-danger fst-italic"></span>
+		</div>
+	</div>
+
+	<div class="form-group mt-4">
+		<button type="submit" class="btn btn-outline-success">Add Cities</button>
+	</div>
+	<a asp-action="Index" class="btn btn-outline-secondary mt-2">Back to All Cities</a>
+</form>
+
+@section Scripts {
+	<partial name="_ValidationScriptsPartial" />
+}

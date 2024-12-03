@@ -59,5 +59,33 @@ namespace ProjectAirsoft.Web.Areas.Admin.Controllers
 			// add success message
 			return RedirectToAction(nameof(Index));
 		}
+
+		[HttpGet]
+		public IActionResult Create()
+		{
+			CityInputViewModel viewModel = new CityInputViewModel();
+
+			return View(viewModel);
+		}
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> Create(CityInputViewModel viewModel)
+		{
+			if (!ModelState.IsValid)
+			{
+				return View(viewModel);
+			}
+
+			bool result = await cityService.AddCityAsync(viewModel);
+
+			if (result == false)
+			{
+				// add generic error message
+				return View(viewModel);
+			}
+
+			return RedirectToAction(nameof(Index));
+		}
 	}
 }

@@ -14,5 +14,7 @@ namespace ProjectAirsoft.Services.Data.Interfaces
 		Task<bool> EditCityAsync(CityFormModel viewModel, int id);
 
 		Task<bool> CityExistsAsync(int id);
+
+		Task<bool> AddCityAsync(CityInputViewModel viewModel);
 	}
 }

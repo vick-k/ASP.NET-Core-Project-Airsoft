@@ -84,5 +84,27 @@ namespace ProjectAirsoft.Services.Data
 
 			return result;
 		}
+
+		public async Task<bool> AddCityAsync(CityInputViewModel viewModel)
+		{
+			string[]? cityNames = viewModel.CityNames
+				.Split(Environment.NewLine);
+
+			foreach (string city in cityNames)
+			{
+				string trimmedCity = city.Trim();
+
+				City newCity = new City()
+				{
+					Name = trimmedCity
+				};
+
+				await dbContext.Cities.AddAsync(newCity);
+			}
+
+			await dbContext.SaveChangesAsync();
+
+			return true;
+		}
 	}
 }

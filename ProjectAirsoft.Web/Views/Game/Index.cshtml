@@ -6,7 +6,12 @@
 	var today = DateTime.Today;
 }
 
-<h2>All Games</h2>
+<h2 class="d-inline">All Games</h2>
+
+@if (User.IsInRole("Admin") || User.IsInRole("Manager"))
+{
+	<span class="ms-2"><a asp-controller="Game" asp-action="Create" class="btn btn-outline-success mb-2">Create Game</a></span>
+}
 
 <hr class="d-none d-md-block my-3">
 

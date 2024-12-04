@@ -23,6 +23,7 @@ namespace ProjectAirsoft.Web.Controllers
 		}
 
 		[HttpGet]
+		[Authorize(Roles = "Admin, Manager")]
 		public async Task<IActionResult> Create()
 		{
 			IEnumerable<TerrainListModel> terrains = await terrainService.GetAllTerrainsForListAsync();
@@ -36,6 +37,7 @@ namespace ProjectAirsoft.Web.Controllers
 		}
 
 		[HttpPost]
+		[Authorize(Roles = "Admin, Manager")]
 		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> Create(GameFormModel viewModel)
 		{

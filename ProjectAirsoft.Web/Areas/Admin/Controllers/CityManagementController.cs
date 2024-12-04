@@ -81,7 +81,7 @@ namespace ProjectAirsoft.Web.Areas.Admin.Controllers
 
 			if (result == false)
 			{
-				// add generic error message
+				// add error message
 				return View(viewModel);
 			}
 

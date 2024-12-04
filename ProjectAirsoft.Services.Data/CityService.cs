@@ -92,6 +92,15 @@ namespace ProjectAirsoft.Services.Data
 
 			foreach (string city in cityNames)
 			{
+				bool cityExists = await dbContext.Cities
+					.AsNoTracking()
+					.AnyAsync(c => c.Name == city);
+
+				if (cityExists)
+				{
+					return false;
+				}
+
 				string trimmedCity = city.Trim();
 
 				City newCity = new City()

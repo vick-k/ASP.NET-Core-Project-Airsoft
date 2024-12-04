@@ -6,6 +6,14 @@
 	var today = DateTime.Today;
 }
 
+@if (TempData["Alert"] != null)
+{
+	<div class="alert alert-danger alert-dismissible fade show" role="alert">
+		@TempData["Alert"]
+		<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+	</div>
+}
+
 <h2 class="d-inline">All Games</h2>
 
 @if (User.IsInRole("Admin") || User.IsInRole("Manager"))

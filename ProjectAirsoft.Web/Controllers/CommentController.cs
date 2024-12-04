@@ -5,6 +5,8 @@ using ProjectAirsoft.Data.Models;
 using ProjectAirsoft.Services.Data.Interfaces;
 using ProjectAirsoft.ViewModels.Comment;
 
+using static ProjectAirsoft.Common.AlertMessages;
+
 namespace ProjectAirsoft.Web.Controllers
 {
 	[Authorize]
@@ -24,7 +26,8 @@ namespace ProjectAirsoft.Web.Controllers
 
 			if (result == false)
 			{
-				// add generic error message
+				TempData["Alert"] = AddCommentFailMessage;
+
 				return RedirectToAction("Details", "Game", new { id = viewModel.GameId });
 			}
 
@@ -38,17 +41,27 @@ namespace ProjectAirsoft.Web.Controllers
 
 			if (!commentExists)
 			{
-				// add error message
-				return RedirectToAction("Details", "Game");
+				TempData["Alert"] = CommentDoesNotExistMessage;
+
+				return RedirectToAction("Index", "Game");
 			}
 
 			CommentDeleteViewModel viewModel = await gameService.GetCommentForDeleteAsync(id);
+
+			if (viewModel == null)
+			{
+				TempData["Alert"] = CommentDoesNotExistMessage;
+
+				return RedirectToAction("Index", "Game");
+			}
+
 			string userId = userManager.GetUserId(User)!;
 
-			if (viewModel == null || userId != viewModel.AuthorId)
+			if (userId != viewModel.AuthorId)
 			{
-				// add error message
-				return RedirectToAction("Details", "Game");
+				TempData["Alert"] = CommentNotOwnerMessage;
+
+				return RedirectToAction("Details", "Game", new { id = viewModel.GameId });
 			}
 
 			return View(viewModel);
@@ -57,27 +70,39 @@ namespace ProjectAirsoft.Web.Controllers
 		[HttpPost]
 		public async Task<IActionResult> Delete(CommentDeleteViewModel viewModel)
 		{
+			CommentDeleteViewModel commentFromDeleteForm = await gameService.GetCommentForDeleteAsync(viewModel.Id);
+
+			if (commentFromDeleteForm.AuthorId != viewModel.AuthorId)
+			{
+				TempData["Alert"] = CommentGenericErrorMessage;
+
+				return RedirectToAction("Index", "Game");
+			}
+
 			bool commentExists = await gameService.CommentExistsAsync(viewModel.Id);
 
 			if (!commentExists)
 			{
-				// add error message
-				return RedirectToAction("Details", "Game");
+				TempData["Alert"] = CommentDoesNotExistMessage;
+
+				return RedirectToAction("Details", "Game", new { id = viewModel.GameId });
 			}
 
 			string userId = userManager.GetUserId(User)!;
 
 			if (userId != viewModel.AuthorId)
 			{
-				// add error message
-				return RedirectToAction("Details", "Game");
+				TempData["Alert"] = CommentNotOwnerMessage;
+
+				return RedirectToAction("Details", "Game", new { id = viewModel.GameId });
 			}
 
 			bool result = await gameService.DeleteCommentAsync(viewModel.Id);
 
 			if (result == false)
 			{
-				// add error message
+				TempData["Alert"] = CommentGenericErrorMessage;
+
 				return RedirectToAction("Details", "Game", new { id = viewModel.GameId });
 			}
 

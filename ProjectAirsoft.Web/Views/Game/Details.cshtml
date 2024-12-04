@@ -7,10 +7,18 @@
 }
 
 <div class="container">
-	@if (TempData["Alert"] != null)
+	@if (TempData["AlertDanger"] != null)
 	{
 		<div class="alert alert-danger alert-dismissible fade show" role="alert">
-			@TempData["Alert"]
+			@TempData["AlertDanger"]
+			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+		</div>
+	}
+
+	@if (TempData["AlertSuccess"] != null)
+	{
+		<div class="alert alert-success alert-dismissible fade show" role="alert">
+			@TempData["AlertSuccess"]
 			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 		</div>
 	}

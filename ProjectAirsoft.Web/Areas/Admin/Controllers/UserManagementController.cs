@@ -4,6 +4,9 @@ using ProjectAirsoft.Data.Models;
 using ProjectAirsoft.Services.Data.Interfaces;
 using ProjectAirsoft.ViewModels.AdminArea;
 
+using static ProjectAirsoft.Common.AlertMessages.User;
+using static ProjectAirsoft.Common.ApplicationConstants;
+
 namespace ProjectAirsoft.Web.Areas.Admin.Controllers
 {
 	[Area("Admin")]
@@ -33,6 +36,8 @@ namespace ProjectAirsoft.Web.Areas.Admin.Controllers
 
 			if (userExists == false)
 			{
+				TempData[AlertDanger] = UserDoesNotExistMessage;
+
 				return RedirectToAction(nameof(Index));
 			}
 
@@ -40,8 +45,12 @@ namespace ProjectAirsoft.Web.Areas.Admin.Controllers
 
 			if (result == false)
 			{
+				TempData[AlertDanger] = UserAssignRoleFailMessage;
+
 				return RedirectToAction(nameof(Index));
 			}
+
+			TempData[AlertSuccess] = UserAssignRoleSuccessMessage;
 
 			return RedirectToAction(nameof(Index));
 		}
@@ -61,6 +70,8 @@ namespace ProjectAirsoft.Web.Areas.Admin.Controllers
 
 			if (userExists == false)
 			{
+				TempData[AlertDanger] = UserDoesNotExistMessage;
+
 				return RedirectToAction(nameof(Index));
 			}
 
@@ -73,8 +84,12 @@ namespace ProjectAirsoft.Web.Areas.Admin.Controllers
 
 			if (result == false)
 			{
+				TempData[AlertDanger] = UserRemoveRoleFailMessage;
+
 				return RedirectToAction(nameof(Index));
 			}
+
+			TempData[AlertSuccess] = UserRemoveRoleSuccessMessage;
 
 			return RedirectToAction(nameof(Index));
 		}
@@ -94,6 +109,8 @@ namespace ProjectAirsoft.Web.Areas.Admin.Controllers
 
 			if (userExists == false)
 			{
+				TempData[AlertDanger] = UserDoesNotExistMessage;
+
 				return RedirectToAction(nameof(Index));
 			}
 
@@ -105,6 +122,8 @@ namespace ProjectAirsoft.Web.Areas.Admin.Controllers
 			{
 				if (admin.Id.ToString() == userId)
 				{
+					TempData[AlertDanger] = AdminDeleteHimselfErrorMessage;
+
 					return RedirectToAction(nameof(Index));
 				}
 			}
@@ -113,8 +132,12 @@ namespace ProjectAirsoft.Web.Areas.Admin.Controllers
 
 			if (result == false)
 			{
+				TempData[AlertDanger] = UserDeleteFailMessage;
+
 				return RedirectToAction(nameof(Index));
 			}
+
+			TempData[AlertSuccess] = UserDeleteSuccessMessage;
 
 			return RedirectToAction(nameof(Index));
 		}

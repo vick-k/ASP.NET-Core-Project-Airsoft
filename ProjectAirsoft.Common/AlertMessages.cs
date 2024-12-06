@@ -74,5 +74,17 @@
 			public const string DeleteTerrainFailMessage = "Some error appears when trying to delete the terrain.";
 			public const string DeleteTerrainSuccessMessage = "The terrain has been deleted.";
 		}
+
+		public static class User
+		{
+			public const string UserDoesNotExistMessage = "The user doesn't exists.";
+			public const string UserAssignRoleFailMessage = "Some error appears when trying to assign a role to the user.";
+			public const string UserAssignRoleSuccessMessage = "The role has been assigned successfully to the user.";
+			public const string UserRemoveRoleFailMessage = "Some error appears when trying to remove a role from the user.";
+			public const string UserRemoveRoleSuccessMessage = "The role has been removed from the user.";
+			public const string AdminDeleteHimselfErrorMessage = "You cannot delete yourself.";
+			public const string UserDeleteFailMessage = "Some error appears when trying to delete the user.";
+			public const string UserDeleteSuccessMessage = "The user has been deleted.";
+		}
 	}
 }

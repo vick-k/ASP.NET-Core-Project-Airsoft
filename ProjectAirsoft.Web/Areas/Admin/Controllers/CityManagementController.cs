@@ -4,6 +4,9 @@ using ProjectAirsoft.Services.Data.Interfaces;
 using ProjectAirsoft.ViewModels.AdminArea;
 using ProjectAirsoft.ViewModels.City;
 
+using static ProjectAirsoft.Common.AlertMessages.City;
+using static ProjectAirsoft.Common.ApplicationConstants;
+
 namespace ProjectAirsoft.Web.Areas.Admin.Controllers
 {
 	[Area("Admin")]
@@ -44,7 +47,8 @@ namespace ProjectAirsoft.Web.Areas.Admin.Controllers
 
 			if (!cityExists)
 			{
-				// add error message
+				TempData[AlertDanger] = CityDoesNotExistMessage;
+
 				return RedirectToAction(nameof(Index));
 			}
 
@@ -52,11 +56,13 @@ namespace ProjectAirsoft.Web.Areas.Admin.Controllers
 
 			if (!isEdited)
 			{
-				// add error message
+				TempData[AlertDanger] = CityEditFailMessage;
+
 				return View(viewModel);
 			}
 
-			// add success message
+			TempData[AlertSuccess] = CityEditSuccessMessage;
+
 			return RedirectToAction(nameof(Index));
 		}
 
@@ -81,7 +87,8 @@ namespace ProjectAirsoft.Web.Areas.Admin.Controllers
 
 			if (result == false)
 			{
-				// add error message
+				TempData[AlertDanger] = CityAlreadyExistMessage;
+
 				return View(viewModel);
 			}
 

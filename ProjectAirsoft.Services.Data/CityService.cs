@@ -90,7 +90,7 @@ namespace ProjectAirsoft.Services.Data
 			string[]? cityNames = viewModel.CityNames
 				.Split(Environment.NewLine);
 
-			foreach (string city in cityNames)
+			foreach (string city in cityNames.Distinct())
 			{
 				bool cityExists = await dbContext.Cities
 					.AsNoTracking()

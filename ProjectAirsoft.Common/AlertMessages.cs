@@ -52,5 +52,13 @@
 			public const string DeleteTeamSuccessMessage = "The team has been deleted.";
 			public const string DeleteTeamNotOwnerMessage = "You cannot delete some else's team.";
 		}
+
+		public static class City
+		{
+			public const string CityDoesNotExistMessage = "The city you are trying to edit doesn't exists.";
+			public const string CityEditFailMessage = "Some error appears when trying to edit the city.";
+			public const string CityEditSuccessMessage = "The city has been edited successfully.";
+			public const string CityAlreadyExistMessage = "One or more cities you are trying to add already exist.";
+		}
 	}
 }

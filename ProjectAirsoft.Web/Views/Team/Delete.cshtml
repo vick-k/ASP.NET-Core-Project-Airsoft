@@ -18,5 +18,5 @@
 
 <form asp-action="Delete" method="post">
 	<button type="submit" class="btn btn-outline-danger">Confirm Delete</button>
-	<a asp-action="Index" class="btn btn-outline-secondary">Cancel</a>
+	<a asp-action="Details" asp-route-id="@Model.Id" class="btn btn-outline-secondary">Cancel</a>
 </form>

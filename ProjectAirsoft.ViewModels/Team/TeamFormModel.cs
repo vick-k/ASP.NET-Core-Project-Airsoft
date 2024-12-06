@@ -20,6 +20,8 @@ namespace ProjectAirsoft.ViewModels.Team
 		[Required(ErrorMessage = RequiredCityMessage)]
 		public int CityId { get; set; }
 
+		public string? LeaderId { get; set; }
+
 		public IEnumerable<CityListModel>? Cities { get; set; }
 	}
 }

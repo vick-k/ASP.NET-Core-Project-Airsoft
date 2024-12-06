@@ -6,6 +6,9 @@ using ProjectAirsoft.Services.Data.Interfaces;
 using ProjectAirsoft.ViewModels.City;
 using ProjectAirsoft.ViewModels.Team;
 
+using static ProjectAirsoft.Common.AlertMessages.Team;
+using static ProjectAirsoft.Common.ApplicationConstants;
+
 namespace ProjectAirsoft.Web.Controllers
 {
 	[Authorize]
@@ -48,10 +51,13 @@ namespace ProjectAirsoft.Web.Controllers
 
 			if (result == false)
 			{
-				// add generic error message
+				TempData[AlertDanger] = AddTeamFailMessage;
 				viewModel.Cities = await cityService.GetAllCitiesForListAsync();
+
 				return View(viewModel);
 			}
+
+			TempData[AlertSuccess] = AddTeamSuccessMessage;
 
 			return RedirectToAction(nameof(Index));
 		}
@@ -93,7 +99,8 @@ namespace ProjectAirsoft.Web.Controllers
 
 			if (user!.TeamId != null)
 			{
-				// add error message
+				TempData[AlertDanger] = JoinTeamAlreadyInTeamMessage;
+
 				return RedirectToAction(nameof(Index));
 			}
 
@@ -101,7 +108,8 @@ namespace ProjectAirsoft.Web.Controllers
 
 			if (viewModel == null)
 			{
-				// add error message
+				TempData[AlertDanger] = TeamGenericErrorMessage;
+
 				return RedirectToAction(nameof(Index));
 			}
 
@@ -123,7 +131,8 @@ namespace ProjectAirsoft.Web.Controllers
 
 			if (user!.TeamId != null)
 			{
-				// add error message
+				TempData[AlertDanger] = JoinTeamAlreadyInTeamMessage;
+
 				return RedirectToAction(nameof(Index));
 			}
 
@@ -131,11 +140,13 @@ namespace ProjectAirsoft.Web.Controllers
 
 			if (result == false)
 			{
-				// add error message
+				TempData[AlertDanger] = JoinTeamFailMessage;
+
 				return RedirectToAction(nameof(Index));
 			}
 
-			// add success message
+			TempData[AlertSuccess] = JoinTeamSuccessMessage;
+
 			return RedirectToAction(nameof(Details), new { id = viewModel.Id });
 		}
 
@@ -154,7 +165,8 @@ namespace ProjectAirsoft.Web.Controllers
 
 			if (user!.TeamId == null)
 			{
-				// add error message
+				TempData[AlertDanger] = LeaveTeamNotInTeamMessage;
+
 				return RedirectToAction(nameof(Index));
 			}
 
@@ -162,13 +174,15 @@ namespace ProjectAirsoft.Web.Controllers
 
 			if (viewModel == null)
 			{
-				// add error message
+				TempData[AlertDanger] = LeaveTeamFailMessage;
+
 				return RedirectToAction(nameof(Index));
 			}
 
 			if (viewModel.Id != user.TeamId.ToString() || viewModel.Leader == user.UserName)
 			{
-				// add error message
+				TempData[AlertDanger] = LeaveTeamFailMessage;
+
 				return RedirectToAction(nameof(Index));
 			}
 
@@ -190,7 +204,8 @@ namespace ProjectAirsoft.Web.Controllers
 
 			if (user!.TeamId == null)
 			{
-				// add error message
+				TempData[AlertDanger] = LeaveTeamNotInTeamMessage;
+
 				return RedirectToAction(nameof(Index));
 			}
 
@@ -198,11 +213,13 @@ namespace ProjectAirsoft.Web.Controllers
 
 			if (result == false)
 			{
-				// add error message
+				TempData[AlertDanger] = LeaveTeamFailMessage;
+
 				return RedirectToAction(nameof(Index));
 			}
 
-			// add success message
+			TempData[AlertSuccess] = LeaveTeamSuccessMessage;
+
 			return RedirectToAction(nameof(Index));
 		}
 
@@ -223,6 +240,8 @@ namespace ProjectAirsoft.Web.Controllers
 
 			if (viewModel == null)
 			{
+				TempData[AlertDanger] = TeamGenericErrorMessage;
+
 				return RedirectToAction(nameof(Index));
 			}
 
@@ -241,12 +260,15 @@ namespace ProjectAirsoft.Web.Controllers
 
 			if (!isGuidValid)
 			{
+				TempData[AlertDanger] = EditTeamFailMessage;
+
 				return RedirectToAction(nameof(Index));
 			}
 
 			if (!ModelState.IsValid)
 			{
 				viewModel.Cities = await cityService.GetAllCitiesForListAsync();
+
 				return View(viewModel);
 			}
 
@@ -254,7 +276,19 @@ namespace ProjectAirsoft.Web.Controllers
 
 			if (teamExists == false)
 			{
-				// add error message
+				TempData[AlertDanger] = TeamDoesNotExistMessage;
+
+				return RedirectToAction(nameof(Index));
+			}
+
+			string userId = userManager.GetUserId(User)!;
+
+			TeamFormModel teamFromEditForm = await teamService.GetTeamForEditAsync(id, userId);
+
+			if (teamFromEditForm == null || teamFromEditForm.LeaderId != userId)
+			{
+				TempData[AlertDanger] = EditTeamNotOwnerMessage;
+
 				return RedirectToAction(nameof(Index));
 			}
 
@@ -262,12 +296,14 @@ namespace ProjectAirsoft.Web.Controllers
 
 			if (isEdited == false)
 			{
-				// add generic error message
+				TempData[AlertDanger] = EditTeamFailMessage;
 				viewModel.Cities = await cityService.GetAllCitiesForListAsync();
+
 				return View(viewModel);
 			}
 
-			// add success message
+			TempData[AlertSuccess] = EditTeamSuccessMessage;
+
 			return RedirectToAction(nameof(Details), new { id });
 		}
 
@@ -310,15 +346,27 @@ namespace ProjectAirsoft.Web.Controllers
 				return RedirectToAction(nameof(Index));
 			}
 
+			ApplicationUser? user = await userManager.GetUserAsync(User);
+			TeamDeleteViewModel teamFromDeleteForm = await teamService.GetTeamForDeleteAsync(viewModel.Id);
+
+			if (user!.UserName != teamFromDeleteForm.Leader)
+			{
+				TempData[AlertDanger] = DeleteTeamNotOwnerMessage;
+
+				return RedirectToAction(nameof(Index));
+			}
+
 			bool result = await teamService.DeleteTeamAsync(teamGuid);
 
 			if (result == false)
 			{
-				// add error message
+				TempData[AlertDanger] = DeleteTeamFailMessage;
+
 				return RedirectToAction(nameof(Index));
 			}
 
-			// add success message
+			TempData[AlertSuccess] = DeleteTeamSuccessMessage;
+
 			return RedirectToAction(nameof(Index));
 		}
 	}

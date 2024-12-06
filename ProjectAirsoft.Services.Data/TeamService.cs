@@ -219,6 +219,7 @@ namespace ProjectAirsoft.Services.Data
 				viewModel.Name = team.Name;
 				viewModel.LogoUrl = team.LogoUrl;
 				viewModel.CityId = team.CityId;
+				viewModel.LeaderId = userId;
 			}
 			else
 			{

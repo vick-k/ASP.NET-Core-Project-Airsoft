@@ -12,9 +12,25 @@
 <h4>@Model.Name</h4>
 <p>@Model.City</p>
 
-<p class="text-warning mt-3">Are you sure you want to change the status to Inactive of this terrain?</p>
+@if (Model.IsActive)
+{
+	<p class="text-warning mt-3">Are you sure you want to change the status of this terrain to Inactive?</p>
+}
+else
+{
+	<p class="text-success mt-3">Are you sure you want to change the status of this terrain to Active?</p>
+}
+
 
 <form asp-action="Status" method="post">
-	<button type="submit" class="btn btn-outline-warning">Yes, Set to Inactive</button>
+	@if (Model.IsActive)
+	{
+		<button type="submit" class="btn btn-outline-warning">Yes, Set to Inactive</button>
+	}
+	else
+	{
+		<button type="submit" class="btn btn-outline-success">Yes, Set to Active</button>
+	}
+	
 	<a asp-action="Index" class="btn btn-outline-secondary">Cancel</a>
 </form>

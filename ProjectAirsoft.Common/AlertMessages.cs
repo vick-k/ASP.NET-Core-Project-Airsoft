@@ -61,5 +61,18 @@
 			public const string CityEditSuccessMessage = "The city has been edited successfully.";
 			public const string CityAlreadyExistMessage = "One or more cities you are trying to add already exist.";
 		}
+
+		public static class Terrain
+		{
+			public const string TerrainDuplicateMessage = "There is already a terrain with the same name and city.";
+			public const string AddTerrainSuccessMessage = "The terrain has been added successfully.";
+			public const string TerrainDoesNotExistMessage = "The terrain you are trying to edit doesn't exists.";
+			public const string EditTerrainFailMessage = "Some error appears when trying to edit the terrain.";
+			public const string EditTerrainSuccessMessage = "The terrain has been edited successfully.";
+			public const string TerrainChangeStatusFailMessage = "Some error appears when trying to change the status of the terrain.";
+			public const string TerrainChangeStatusSuccessMessage = "The terrain status has been successfully changed.";
+			public const string DeleteTerrainFailMessage = "Some error appears when trying to delete the terrain.";
+			public const string DeleteTerrainSuccessMessage = "The terrain has been deleted.";
+		}
 	}
 }

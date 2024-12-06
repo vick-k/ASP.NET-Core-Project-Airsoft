@@ -52,6 +52,14 @@ namespace ProjectAirsoft.Services.Data
 
 		public async Task<bool> AddTerrainAsync(TerrainFormModel viewModel)
 		{
+			bool isDuplicate = await dbContext.Terrains
+				.AnyAsync(t => t.Name == viewModel.Name && t.CityId == viewModel.CityId);
+
+			if (isDuplicate)
+			{
+				return false;
+			}
+
 			Terrain terrain = new Terrain()
 			{
 				Name = viewModel.Name,
@@ -165,7 +173,7 @@ namespace ProjectAirsoft.Services.Data
 			Terrain? terrain = await dbContext.Terrains
 				.AsNoTracking()
 				.Include(t => t.City)
-				.Where(t => t.IsDeleted == false && t.IsActive == true)
+				.Where(t => t.IsDeleted == false)
 				.FirstOrDefaultAsync(t => t.Id.ToString() == id);
 
 			TerrainStatusViewModel viewModel = new TerrainStatusViewModel();
@@ -175,6 +183,7 @@ namespace ProjectAirsoft.Services.Data
 				viewModel.Id = terrain.Id.ToString();
 				viewModel.Name = terrain.Name;
 				viewModel.City = terrain.City.Name;
+				viewModel.IsActive = terrain.IsActive;
 			}
 			else
 			{
@@ -187,7 +196,7 @@ namespace ProjectAirsoft.Services.Data
 		public async Task<bool> TerrainStatusChangeAsync(Guid id)
 		{
 			Terrain? terrain = await dbContext.Terrains
-				.Where(t => t.IsDeleted == false && t.IsActive == true)
+				.Where(t => t.IsDeleted == false)
 				.FirstOrDefaultAsync(t => t.Id == id);
 
 			if (terrain == null)
@@ -195,7 +204,7 @@ namespace ProjectAirsoft.Services.Data
 				return false;
 			}
 
-			terrain.IsActive = false;
+			terrain.IsActive = !terrain.IsActive;
 			await dbContext.SaveChangesAsync();
 
 			return true;

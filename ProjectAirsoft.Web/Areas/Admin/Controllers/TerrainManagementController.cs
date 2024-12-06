@@ -5,6 +5,9 @@ using ProjectAirsoft.ViewModels.AdminArea;
 using ProjectAirsoft.ViewModels.City;
 using ProjectAirsoft.ViewModels.Terrain;
 
+using static ProjectAirsoft.Common.AlertMessages.Terrain;
+using static ProjectAirsoft.Common.ApplicationConstants;
+
 namespace ProjectAirsoft.Web.Areas.Admin.Controllers
 {
 	[Area("Admin")]
@@ -39,6 +42,7 @@ namespace ProjectAirsoft.Web.Areas.Admin.Controllers
 			if (!ModelState.IsValid)
 			{
 				viewModel.Cities = await cityService.GetAllCitiesForListAsync();
+
 				return View(viewModel);
 			}
 
@@ -46,9 +50,13 @@ namespace ProjectAirsoft.Web.Areas.Admin.Controllers
 
 			if (result == false)
 			{
-				// add generic error message
+				TempData[AlertDanger] = TerrainDuplicateMessage;
+				viewModel.Cities = await cityService.GetAllCitiesForListAsync();
+
 				return View(viewModel);
 			}
+
+			TempData[AlertSuccess] = AddTerrainSuccessMessage;
 
 			return RedirectToAction(nameof(Index));
 		}
@@ -71,8 +79,7 @@ namespace ProjectAirsoft.Web.Areas.Admin.Controllers
 				return RedirectToAction(nameof(Index));
 			}
 
-			IEnumerable<CityListModel> cities = await cityService.GetAllCitiesForListAsync();
-			viewModel.Cities = cities;
+			viewModel.Cities = await cityService.GetAllCitiesForListAsync();
 
 			return View(viewModel);
 		}
@@ -92,6 +99,7 @@ namespace ProjectAirsoft.Web.Areas.Admin.Controllers
 			if (!ModelState.IsValid)
 			{
 				viewModel.Cities = await cityService.GetAllCitiesForListAsync();
+
 				return View(viewModel);
 			}
 
@@ -99,7 +107,8 @@ namespace ProjectAirsoft.Web.Areas.Admin.Controllers
 
 			if (!terrainExists)
 			{
-				// add error message
+				TempData[AlertDanger] = TerrainDoesNotExistMessage;
+
 				return RedirectToAction(nameof(Index));
 			}
 
@@ -107,12 +116,14 @@ namespace ProjectAirsoft.Web.Areas.Admin.Controllers
 
 			if (!isEdited)
 			{
-				// add generic error message
+				TempData[AlertDanger] = EditTerrainFailMessage;
 				viewModel.Cities = await cityService.GetAllCitiesForListAsync();
+
 				return View(viewModel);
 			}
 
-			// add success message
+			TempData[AlertSuccess] = EditTerrainSuccessMessage;
+
 			return RedirectToAction(nameof(Index));
 		}
 
@@ -152,11 +163,13 @@ namespace ProjectAirsoft.Web.Areas.Admin.Controllers
 
 			if (result == false)
 			{
-				// add error message
+				TempData[AlertDanger] = TerrainChangeStatusFailMessage;
+
 				return RedirectToAction(nameof(Index));
 			}
 
-			// add success message
+			TempData[AlertSuccess] = TerrainChangeStatusSuccessMessage;
+
 			return RedirectToAction(nameof(Index));
 		}
 
@@ -196,11 +209,13 @@ namespace ProjectAirsoft.Web.Areas.Admin.Controllers
 
 			if (result == false)
 			{
-				// add error message
+				TempData[AlertDanger] = DeleteTerrainFailMessage;
+
 				return RedirectToAction(nameof(Index));
 			}
 
-			// add success message
+			TempData[AlertSuccess] = DeleteTerrainSuccessMessage;
+
 			return RedirectToAction(nameof(Index));
 		}
 	}

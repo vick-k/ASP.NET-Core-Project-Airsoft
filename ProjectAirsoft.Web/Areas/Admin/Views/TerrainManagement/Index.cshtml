@@ -47,6 +47,10 @@
 						{
 							<a asp-area="Admin" asp-action="Status" asp-controller="TerrainManagement" asp-route-id="@terrain.Id" class="btn btn-warning btn-sm">Set Inactive</a>
 						}
+						else
+						{
+							<a asp-area="Admin" asp-action="Status" asp-controller="TerrainManagement" asp-route-id="@terrain.Id" class="btn btn-success btn-sm">Set Active</a>
+						}
 
 						<a asp-area="Admin" asp-action="Delete" asp-controller="TerrainManagement" asp-route-id="@terrain.Id" class="btn btn-danger btn-sm">Delete</a>
 					</td>

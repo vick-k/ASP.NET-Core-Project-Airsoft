@@ -13,6 +13,7 @@
 			public const string GameGenericErrorMessage = "An unexpected error appears.";
 			public const string GameCancelSuccessMessage = "The game has been canceled.";
 			public const string DeleteGameNowOwnerMessage = "You cannot delete someone else's game.";
+			public const string DeleteGameFailMessage = "Some error appears when trying to delete a game.";
 			public const string DeleteGameSuccessMessage = "The game has been deleted.";
 		}
 

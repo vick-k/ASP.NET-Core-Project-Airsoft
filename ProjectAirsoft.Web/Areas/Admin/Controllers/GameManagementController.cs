@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using ProjectAirsoft.Services.Data.Interfaces;
 using ProjectAirsoft.ViewModels.AdminArea;
 
+using static ProjectAirsoft.Common.AlertMessages.Game;
+using static ProjectAirsoft.Common.ApplicationConstants;
+
 namespace ProjectAirsoft.Web.Areas.Admin.Controllers
 {
 	[Area("Admin")]
@@ -32,11 +35,13 @@ namespace ProjectAirsoft.Web.Areas.Admin.Controllers
 
 			if (result == false)
 			{
-				// add error message
+				TempData[AlertDanger] = DeleteGameFailMessage;
+
 				return RedirectToAction(nameof(Index));
 			}
 
-			// add success message
+			TempData[AlertSuccess] = DeleteGameSuccessMessage;
+
 			return RedirectToAction(nameof(Index));
 		}
 	}

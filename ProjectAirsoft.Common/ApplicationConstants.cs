@@ -12,5 +12,8 @@
 		public const string AdminRoleName = "Admin";
 		public const string ManagerRoleName = "Manager";
 		public const string UserRoleName = "User";
+
+		public const string AlertDanger = "AlertDanger";
+		public const string AlertSuccess = "AlertSuccess";
 	}
 }

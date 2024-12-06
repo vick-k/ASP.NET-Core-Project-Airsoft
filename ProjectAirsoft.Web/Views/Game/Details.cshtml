@@ -7,21 +7,6 @@
 }
 
 <div class="container">
-	@if (TempData["AlertDanger"] != null)
-	{
-		<div class="alert alert-danger alert-dismissible fade show" role="alert">
-			@TempData["AlertDanger"]
-			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-		</div>
-	}
-
-	@if (TempData["AlertSuccess"] != null)
-	{
-		<div class="alert alert-success alert-dismissible fade show" role="alert">
-			@TempData["AlertSuccess"]
-			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-		</div>
-	}
 
 	<img src="@Model.ImageUrl" height="400" />
 	<h2>@Model.Name</h2>

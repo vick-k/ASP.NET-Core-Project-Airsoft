@@ -7,6 +7,7 @@ using ProjectAirsoft.ViewModels.Game;
 using ProjectAirsoft.ViewModels.Terrain;
 
 using static ProjectAirsoft.Common.AlertMessages.Game;
+using static ProjectAirsoft.Common.ApplicationConstants;
 using static ProjectAirsoft.Common.ValidationMessages.Game;
 
 namespace ProjectAirsoft.Web.Controllers
@@ -55,12 +56,12 @@ namespace ProjectAirsoft.Web.Controllers
 			if (result == false)
 			{
 				viewModel.Terrains = await terrainService.GetAllTerrainsForListAsync();
-				TempData["AlertDanger"] = AddGameFailMessage;
+				TempData[AlertDanger] = AddGameFailMessage;
 
 				return View(viewModel);
 			}
 
-			TempData["AlertSuccess"] = AddGameSuccessMessage;
+			TempData[AlertSuccess] = AddGameSuccessMessage;
 
 			return RedirectToAction(nameof(Index));
 		}
@@ -111,7 +112,7 @@ namespace ProjectAirsoft.Web.Controllers
 
 			if (viewModel.OrganizerId != userId)
 			{
-				TempData["AlertDanger"] = EditGameNotOwnerMessage;
+				TempData[AlertDanger] = EditGameNotOwnerMessage;
 
 				return RedirectToAction(nameof(Index));
 			}
@@ -131,7 +132,7 @@ namespace ProjectAirsoft.Web.Controllers
 
 			if (!isGuidValid)
 			{
-				TempData["AlertDanger"] = EditGameGenericMessage;
+				TempData[AlertDanger] = EditGameGenericMessage;
 
 				return RedirectToAction(nameof(Index));
 			}
@@ -147,7 +148,7 @@ namespace ProjectAirsoft.Web.Controllers
 
 			if (gameExists == false)
 			{
-				TempData["AlertDanger"] = GameDoesNotExistMessage;
+				TempData[AlertDanger] = GameDoesNotExistMessage;
 
 				return RedirectToAction(nameof(Index));
 			}
@@ -158,14 +159,14 @@ namespace ProjectAirsoft.Web.Controllers
 
 			if (gameFromEditForm.OrganizerId != userId)
 			{
-				TempData["AlertDanger"] = EditGameNotOwnerMessage;
+				TempData[AlertDanger] = EditGameNotOwnerMessage;
 
 				return RedirectToAction(nameof(Index));
 			}
 
 			if (viewModel.OrganizerId != userId)
 			{
-				TempData["AlertDanger"] = EditGameNotOwnerMessage;
+				TempData[AlertDanger] = EditGameNotOwnerMessage;
 
 				return RedirectToAction(nameof(Index));
 			}
@@ -184,13 +185,13 @@ namespace ProjectAirsoft.Web.Controllers
 					return View(viewModel);
 				}
 
-				TempData["AlertDanger"] = EditGameGenericMessage;
+				TempData[AlertDanger] = EditGameGenericMessage;
 				viewModel.Terrains = await terrainService.GetAllTerrainsForListAsync();
 
 				return View(viewModel);
 			}
 
-			TempData["AlertSuccess"] = EditGameSuccessMessage;
+			TempData[AlertSuccess] = EditGameSuccessMessage;
 
 			return RedirectToAction(nameof(Details), new { id });
 		}
@@ -211,7 +212,7 @@ namespace ProjectAirsoft.Web.Controllers
 
 			if (viewModel == null || userId != viewModel.OrganizerId)
 			{
-				TempData["AlertDanger"] = GameGenericErrorMessage;
+				TempData[AlertDanger] = GameGenericErrorMessage;
 
 				return RedirectToAction(nameof(Index));
 			}
@@ -236,12 +237,12 @@ namespace ProjectAirsoft.Web.Controllers
 
 			if (result == false)
 			{
-				TempData["AlertDanger"] = GameGenericErrorMessage;
+				TempData[AlertDanger] = GameGenericErrorMessage;
 
 				return RedirectToAction(nameof(Index));
 			}
 
-			TempData["AlertSuccess"] = GameCancelSuccessMessage;
+			TempData[AlertSuccess] = GameCancelSuccessMessage;
 
 			return RedirectToAction(nameof(Index));
 		}
@@ -262,7 +263,7 @@ namespace ProjectAirsoft.Web.Controllers
 
 			if (viewModel == null || userId != viewModel.OrganizerId)
 			{
-				TempData["AlertDanger"] = GameGenericErrorMessage;
+				TempData[AlertDanger] = GameGenericErrorMessage;
 
 				return RedirectToAction(nameof(Index));
 			}
@@ -286,14 +287,14 @@ namespace ProjectAirsoft.Web.Controllers
 
 			if (gameFromDeleteForm.OrganizerId != userId)
 			{
-				TempData["AlertDanger"] = DeleteGameNowOwnerMessage;
+				TempData[AlertDanger] = DeleteGameNowOwnerMessage;
 
 				return RedirectToAction(nameof(Index));
 			}
 
 			if (userId != viewModel.OrganizerId)
 			{
-				TempData["AlertDanger"] = DeleteGameNowOwnerMessage;
+				TempData[AlertDanger] = DeleteGameNowOwnerMessage;
 
 				return RedirectToAction(nameof(Index));
 			}
@@ -302,12 +303,12 @@ namespace ProjectAirsoft.Web.Controllers
 
 			if (result == false)
 			{
-				TempData["AlertDanger"] = GameGenericErrorMessage;
+				TempData[AlertDanger] = GameGenericErrorMessage;
 
 				return RedirectToAction(nameof(Index));
 			}
 
-			TempData["AlertSuccess"] = DeleteGameSuccessMessage;
+			TempData[AlertSuccess] = DeleteGameSuccessMessage;
 
 			return RedirectToAction(nameof(Index));
 		}
@@ -328,7 +329,7 @@ namespace ProjectAirsoft.Web.Controllers
 
 			if (viewModel == null)
 			{
-				TempData["AlertDanger"] = GameGenericErrorMessage;
+				TempData[AlertDanger] = GameGenericErrorMessage;
 
 				return RedirectToAction(nameof(Index));
 			}

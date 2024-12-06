@@ -6,6 +6,7 @@ using ProjectAirsoft.Services.Data.Interfaces;
 using ProjectAirsoft.ViewModels.Comment;
 
 using static ProjectAirsoft.Common.AlertMessages.Comment;
+using static ProjectAirsoft.Common.ApplicationConstants;
 
 namespace ProjectAirsoft.Web.Controllers
 {
@@ -26,7 +27,7 @@ namespace ProjectAirsoft.Web.Controllers
 
 			if (result == false)
 			{
-				TempData["AlertDanger"] = AddCommentFailMessage;
+				TempData[AlertDanger] = AddCommentFailMessage;
 
 				return RedirectToAction("Details", "Game", new { id = viewModel.GameId });
 			}
@@ -41,7 +42,7 @@ namespace ProjectAirsoft.Web.Controllers
 
 			if (!commentExists)
 			{
-				TempData["AlertDanger"] = CommentDoesNotExistMessage;
+				TempData[AlertDanger] = CommentDoesNotExistMessage;
 
 				return RedirectToAction("Index", "Game");
 			}
@@ -50,7 +51,7 @@ namespace ProjectAirsoft.Web.Controllers
 
 			if (viewModel == null)
 			{
-				TempData["AlertDanger"] = CommentDoesNotExistMessage;
+				TempData[AlertDanger] = CommentDoesNotExistMessage;
 
 				return RedirectToAction("Index", "Game");
 			}
@@ -59,7 +60,7 @@ namespace ProjectAirsoft.Web.Controllers
 
 			if (userId != viewModel.AuthorId)
 			{
-				TempData["AlertDanger"] = CommentNotOwnerMessage;
+				TempData[AlertDanger] = CommentNotOwnerMessage;
 
 				return RedirectToAction("Details", "Game", new { id = viewModel.GameId });
 			}
@@ -74,7 +75,7 @@ namespace ProjectAirsoft.Web.Controllers
 
 			if (commentFromDeleteForm.AuthorId != viewModel.AuthorId)
 			{
-				TempData["AlertDanger"] = CommentGenericErrorMessage;
+				TempData[AlertDanger] = CommentGenericErrorMessage;
 
 				return RedirectToAction("Index", "Game");
 			}
@@ -83,7 +84,7 @@ namespace ProjectAirsoft.Web.Controllers
 
 			if (!commentExists)
 			{
-				TempData["AlertDanger"] = CommentDoesNotExistMessage;
+				TempData[AlertDanger] = CommentDoesNotExistMessage;
 
 				return RedirectToAction("Details", "Game", new { id = viewModel.GameId });
 			}
@@ -92,7 +93,7 @@ namespace ProjectAirsoft.Web.Controllers
 
 			if (userId != viewModel.AuthorId)
 			{
-				TempData["AlertDanger"] = CommentNotOwnerMessage;
+				TempData[AlertDanger] = CommentNotOwnerMessage;
 
 				return RedirectToAction("Details", "Game", new { id = viewModel.GameId });
 			}
@@ -101,7 +102,7 @@ namespace ProjectAirsoft.Web.Controllers
 
 			if (result == false)
 			{
-				TempData["AlertDanger"] = CommentGenericErrorMessage;
+				TempData[AlertDanger] = CommentGenericErrorMessage;
 
 				return RedirectToAction("Details", "Game", new { id = viewModel.GameId });
 			}

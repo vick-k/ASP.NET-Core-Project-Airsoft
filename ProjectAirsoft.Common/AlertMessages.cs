@@ -23,5 +23,14 @@
 			public const string CommentNotOwnerMessage = "You cannot delete someone else's comment.";
 			public const string CommentGenericErrorMessage = "Some error appears when trying to delete a comment.";
 		}
+
+		public static class GameList
+		{
+			public const string GameRegisterFailMessage = "Some error appears when trying to register for a game.";
+			public const string GameRegisterFullMessage = "The game is full.";
+			public const string GameRegisterSuccessMessage = "You have been successfully registered for the game.";
+			public const string GameUnregisterFailMessage = "Some error appears when trying to unregister for a game.";
+			public const string GameUnregisterSuccessMessage = "You have been successfully unregistered from the game.";
+		}
 	}
 }

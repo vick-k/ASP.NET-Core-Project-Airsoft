@@ -5,6 +5,9 @@ using ProjectAirsoft.Data.Models;
 using ProjectAirsoft.Services.Data.Interfaces;
 using ProjectAirsoft.ViewModels.GameList;
 
+using static ProjectAirsoft.Common.AlertMessages.GameList;
+using static ProjectAirsoft.Common.ApplicationConstants;
+
 namespace ProjectAirsoft.Web.Controllers
 {
 	[Authorize]
@@ -28,7 +31,8 @@ namespace ProjectAirsoft.Web.Controllers
 
 			if (!isGuidValid)
 			{
-				// add error message
+				TempData[AlertDanger] = GameRegisterFailMessage;
+
 				return RedirectToAction("Index", "Game");
 			}
 
@@ -42,16 +46,19 @@ namespace ProjectAirsoft.Web.Controllers
 
 				if (registeredPlayers == gameCapacity)
 				{
-					// add error message
+					TempData[AlertDanger] = GameRegisterFullMessage;
+
 					return RedirectToAction("Details", "Game", new { id });
 				}
 
-				// add generic error message
+				TempData[AlertDanger] = GameRegisterFailMessage;
+
 				return RedirectToAction("Details", "Game", new { id });
 			}
 
-			// add successful message
-			return RedirectToAction("Index", "Game");
+			TempData[AlertSuccess] = GameRegisterSuccessMessage;
+
+			return RedirectToAction("Details", "Game", new { id });
 		}
 
 		[HttpPost]
@@ -62,12 +69,14 @@ namespace ProjectAirsoft.Web.Controllers
 
 			if (result == false)
 			{
-				// add error message
+				TempData[AlertDanger] = GameUnregisterFailMessage;
+
 				return RedirectToAction("Details", "Game", new { id });
 			}
 
-			// add successful message
-			return RedirectToAction("Index", "Game");
+			TempData[AlertSuccess] = GameUnregisterSuccessMessage;
+
+			return RedirectToAction("Details", "Game", new { id });
 		}
 	}
 }

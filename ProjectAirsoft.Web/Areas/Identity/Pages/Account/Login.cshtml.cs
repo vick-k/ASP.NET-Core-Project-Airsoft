@@ -3,18 +3,13 @@
 #nullable disable
 
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Logging;
 using ProjectAirsoft.Data.Models;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+
+using static ProjectAirsoft.Common.ApplicationConstants;
 
 namespace ProjectAirsoft.Web.Areas.Identity.Pages.Account
 {
@@ -120,6 +115,16 @@ namespace ProjectAirsoft.Web.Areas.Identity.Pages.Account
 						await _signInManager.SignOutAsync();
 						TempData["ErrorMessage"] = "This user has been deleted. For more information, please contact the system administrator.";
 						return RedirectToPage();
+					}
+
+					if (user != null)
+					{
+						var roles = await _userManager.GetRolesAsync(user);
+
+						if (roles.Contains(AdminRoleName))
+						{
+							return LocalRedirect("/Admin");
+						}
 					}
 
 					_logger.LogInformation("User logged in.");

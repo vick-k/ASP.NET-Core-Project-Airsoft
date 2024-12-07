@@ -35,7 +35,6 @@ namespace ProjectAirsoft.Web.Areas.Admin.Controllers
 		}
 
 		[HttpPost]
-		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> Edit(CityFormModel viewModel, int id)
 		{
 			if (!ModelState.IsValid)
@@ -75,7 +74,6 @@ namespace ProjectAirsoft.Web.Areas.Admin.Controllers
 		}
 
 		[HttpPost]
-		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> Create(CityInputViewModel viewModel)
 		{
 			if (!ModelState.IsValid)

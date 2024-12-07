@@ -40,7 +40,6 @@ namespace ProjectAirsoft.Web.Controllers
 
 		[HttpPost]
 		[Authorize(Roles = "Admin, Manager")]
-		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> Create(GameFormModel viewModel)
 		{
 			if (!ModelState.IsValid)
@@ -124,7 +123,6 @@ namespace ProjectAirsoft.Web.Controllers
 		}
 
 		[HttpPost]
-		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> Edit(GameFormModel viewModel, string id)
 		{
 			Guid gameGuid = Guid.Empty;

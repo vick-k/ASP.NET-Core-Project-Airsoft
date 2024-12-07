@@ -36,7 +36,6 @@ namespace ProjectAirsoft.Web.Areas.Admin.Controllers
 		}
 
 		[HttpPost]
-		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> Create(TerrainFormModel viewModel)
 		{
 			if (!ModelState.IsValid)
@@ -85,7 +84,6 @@ namespace ProjectAirsoft.Web.Areas.Admin.Controllers
 		}
 
 		[HttpPost]
-		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> Edit(TerrainFormModel viewModel, string id)
 		{
 			Guid terrainGuid = Guid.Empty;

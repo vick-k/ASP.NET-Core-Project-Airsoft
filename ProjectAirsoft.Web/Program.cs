@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProjectAirsoft.Data.Configurations;
 using ProjectAirsoft.Data.Models;
@@ -27,7 +28,10 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole<Guid>>(options =>
 
 builder.Services.AddCustomServices();
 
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews(configuration =>
+{
+	configuration.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+});
 builder.Services.AddRazorPages();
 
 WebApplication app = builder.Build();

@@ -14,7 +14,6 @@ namespace ProjectAirsoft.Web.Controllers
 	public class CommentController(IGameService gameService, UserManager<ApplicationUser> userManager) : Controller
 	{
 		[HttpPost]
-		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> Create(CommentFormModel viewModel)
 		{
 			if (!ModelState.IsValid)

@@ -37,7 +37,6 @@ namespace ProjectAirsoft.Web.Controllers
 		}
 
 		[HttpPost]
-		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> Create(TeamFormModel viewModel)
 		{
 			if (!ModelState.IsValid)
@@ -252,7 +251,6 @@ namespace ProjectAirsoft.Web.Controllers
 		}
 
 		[HttpPost]
-		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> Edit(TeamFormModel viewModel, string id)
 		{
 			Guid teamGuid = Guid.Empty;

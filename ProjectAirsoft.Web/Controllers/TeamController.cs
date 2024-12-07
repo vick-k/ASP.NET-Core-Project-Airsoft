@@ -16,9 +16,21 @@ namespace ProjectAirsoft.Web.Controllers
 	{
 		[HttpGet]
 		[AllowAnonymous]
-		public async Task<IActionResult> Index()
+		public async Task<IActionResult> Index(string? city = null)
 		{
-			IEnumerable<TeamIndexViewModel> allTeams = await teamService.GetAllTeamsAsync();
+			IEnumerable<TeamIndexViewModel> allTeams = await teamService.GetAllTeamsAsync(city);
+
+			IEnumerable<CityListModel> cities = await cityService.GetAllCitiesForListAsync();
+
+			List<string> cityNames = new List<string>();
+
+			foreach (CityListModel c in cities)
+			{
+				cityNames.Add(c.Name);
+			}
+
+			ViewBag.AllCities = cityNames;
+			ViewBag.SelectedCity = city;
 
 			return View(allTeams);
 		}

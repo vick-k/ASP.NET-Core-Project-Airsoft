@@ -11,17 +11,48 @@
 	var currentUser = await UserManager.GetUserAsync(User);
 }
 
-<h2 class="d-inline">@ViewData["Title"]</h2>
-@if (currentUser != null && currentUser.TeamId == null)
-{
-	<span class="ms-2"><a asp-controller="Team" asp-action="Create" class="btn btn-outline-success mb-2">Create Team</a></span>
-}
+<div class="d-flex align-items-center mb-3">
+	<h2 class="me-auto mb-0">@ViewData["Title"]</h2>
 
+	@if (currentUser != null && currentUser.TeamId == null)
+	{
+		<a asp-controller="Team" asp-action="Create" class="btn btn-outline-success me-2">Create Team</a>
+	}
+
+	<div class="btn-group dropend">
+		<button class="btn btn-outline-primary dropdown-toggle shadow-none" type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-offset="0,10">
+			City
+		</button>
+		<ul class="dropdown-menu">
+			<li>
+				<a class="dropdown-item @(ViewBag.SelectedCity == null ? "active" : "")" asp-action="Index">All</a>
+			</li>
+			<li>
+				<hr class="dropdown-divider">
+			</li>
+			@foreach (var city in ViewBag.AllCities)
+			{
+				<li>
+					<a class="dropdown-item @(ViewBag.SelectedCity == city ? "active" : "")" asp-action="Index" asp-route-city="@city">@city</a>
+				</li>
+			}
+		</ul>
+	</div>
+
+</div>
 <hr />
 
 @if (Model.Count() == 0)
 {
-	<p>There are no teams created yet. Be the first to create one - <a asp-controller="Team" asp-action="Create">Create Team</a>.</p>
+	@if (ViewBag.SelectedCity == null)
+	{
+		<p>There are no teams created yet. Be the first to create one - <a asp-controller="Team" asp-action="Create">Create Team</a>.</p>
+	}
+	else
+	{
+		<p>There are no teams in @ViewBag.SelectedCity.</p>
+	}
+	
 }
 else
 {

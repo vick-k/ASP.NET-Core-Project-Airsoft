@@ -10,13 +10,21 @@ namespace ProjectAirsoft.Services.Data
 {
 	public class TeamService(ApplicationDbContext dbContext) : BaseService, ITeamService
 	{
-		public async Task<IEnumerable<TeamIndexViewModel>> GetAllTeamsAsync()
+		public async Task<IEnumerable<TeamIndexViewModel>> GetAllTeamsAsync(string? city = null)
 		{
 			List<Team> teams = await dbContext.Teams
 				.AsNoTracking()
 				.Include(t => t.City)
 				.Include(t => t.Leader)
 				.ToListAsync();
+
+			if (!string.IsNullOrEmpty(city))
+			{
+				city = city.ToLower().Trim();
+				teams = teams
+					.Where(t => t.City.Name.ToLower() == city)
+					.ToList();
+			}
 
 			IEnumerable<TeamIndexViewModel> teamIndexViewModels = teams
 				.Where(t => t.IsDeleted == false)

@@ -17,12 +17,12 @@ namespace ProjectAirsoft.Web.Controllers
 	{
 		[HttpGet]
 		[AllowAnonymous]
-		public async Task<IActionResult> Index(string? terrain = null)
+		public async Task<IActionResult> Index(AllGamesFilterViewModel viewModel)
 		{
-			IEnumerable<GameIndexViewModel> allGames = await gameService.GetAllGamesAsync(terrain);
+			IEnumerable<GameIndexViewModel> allGames = await gameService.GetAllGamesAsync(viewModel);
+			int allGamesCount = await gameService.GetGamesCountByFilterAsync(viewModel);
 
 			IEnumerable<TerrainListModel> terrains = await terrainService.GetAllTerrainsForListAsync();
-
 			List<string> terrainNames = new List<string>();
 
 			foreach (TerrainListModel t in terrains)
@@ -30,10 +30,17 @@ namespace ProjectAirsoft.Web.Controllers
 				terrainNames.Add(t.Name);
 			}
 
-			ViewBag.AllTerrains = terrainNames;
-			ViewBag.SelectedTerrain = terrain;
+			AllGamesFilterViewModel filteredViewModel = new AllGamesFilterViewModel()
+			{
+				Games = allGames,
+				TerrainFilter = viewModel.TerrainFilter,
+				AllTerrains = terrainNames,
+				CurrentPage = viewModel.CurrentPage,
+				EntitiesPerPage = viewModel.EntitiesPerPage,
+				TotalPages = (int)Math.Ceiling((double)allGamesCount / viewModel.EntitiesPerPage!.Value)
+			};
 
-			return View(allGames);
+			return View(filteredViewModel);
 		}
 
 		[HttpGet]

@@ -14,24 +14,32 @@ namespace ProjectAirsoft.Services.Data
 {
 	public class GameService(ApplicationDbContext dbContext) : BaseService, IGameService
 	{
-		public async Task<IEnumerable<GameIndexViewModel>> GetAllGamesAsync(string? terrain = null)
+		public async Task<IEnumerable<GameIndexViewModel>> GetAllGamesAsync(AllGamesFilterViewModel viewModel)
 		{
 			List<Game> games = await dbContext.Games
 				.AsNoTracking()
+				.Where(g => g.IsDeleted == false)
+				.OrderBy(g => g.Date)
 				.Include(g => g.Terrain)
 				.ToListAsync();
 
-			if (!string.IsNullOrEmpty(terrain))
+			if (!string.IsNullOrEmpty(viewModel.TerrainFilter))
 			{
-				terrain = terrain.ToLower().Trim();
+				viewModel.TerrainFilter = viewModel.TerrainFilter.ToLower().Trim();
 				games = games
-					.Where(g => g.Terrain.Name.ToLower() == terrain)
+					.Where(g => g.Terrain.Name.ToLower() == viewModel.TerrainFilter)
+					.ToList();
+			}
+
+			if (viewModel.CurrentPage.HasValue && viewModel.EntitiesPerPage.HasValue)
+			{
+				games = games
+					.Skip(viewModel.EntitiesPerPage.Value * (viewModel.CurrentPage.Value - 1))
+					.Take(viewModel.EntitiesPerPage.Value)
 					.ToList();
 			}
 
 			IEnumerable<GameIndexViewModel> gameIndexViewModels = games
-				.Where(g => g.IsDeleted == false)
-				.OrderBy(g => g.Date)
 				.Select(g => new GameIndexViewModel()
 				{
 					Id = g.Id.ToString(),
@@ -513,6 +521,20 @@ namespace ProjectAirsoft.Services.Data
 			}
 
 			return gameViewModels;
+		}
+
+		public async Task<int> GetGamesCountByFilterAsync(AllGamesFilterViewModel viewModel)
+		{
+			AllGamesFilterViewModel viewModelCopy = new AllGamesFilterViewModel()
+			{
+				CurrentPage = null,
+				EntitiesPerPage = null,
+				TerrainFilter = viewModel.TerrainFilter
+			};
+
+			int gamesCount = (await GetAllGamesAsync(viewModelCopy)).Count();
+
+			return gamesCount;
 		}
 	}
 }

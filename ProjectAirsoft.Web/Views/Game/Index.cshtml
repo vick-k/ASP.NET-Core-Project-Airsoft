@@ -1,5 +1,5 @@
 ﻿@using ProjectAirsoft.ViewModels.Game;
-@model IEnumerable<GameIndexViewModel>
+@model AllGamesFilterViewModel
 
 @{
 	ViewData["Title"] = "Games";
@@ -20,91 +20,136 @@
 		</button>
 		<ul class="dropdown-menu">
 			<li>
-				<a class="dropdown-item @(ViewBag.SelectedTerrain == null ? "active" : "")" asp-action="Index">All</a>
+				<a class="dropdown-item @(Model.TerrainFilter == null ? "active" : "")" asp-action="Index">All</a>
 			</li>
 			<li>
 				<hr class="dropdown-divider">
 			</li>
-			@foreach (var terrain in ViewBag.AllTerrains)
+			@if (Model.AllTerrains != null)
 			{
-				<li>
-					<a class="dropdown-item @(ViewBag.SelectedTerrain == terrain ? "active" : "")" asp-action="Index" asp-route-terrain="@terrain">@terrain</a>
-				</li>
+				@foreach (string terrain in Model.AllTerrains)
+				{
+					<li>
+						<a class="dropdown-item @(Model.TerrainFilter == terrain.ToLower() ? "active" : "")" asp-action="Index" asp-route-terrainFilter="@terrain">@terrain</a>
+					</li>
+				}
 			}
+
 		</ul>
 	</div>
 </div>
 
 <hr />
 
-@if (Model.Count() == 0)
+@if (Model.Games != null && Model.Games.Count() == 0)
 {
-	@if (ViewBag.SelectedTerrain == null)
+	@if (Model.TerrainFilter == null)
 	{
 		<p>There are no games created yet. Be the first to create one - <a asp-controller="Game" asp-action="Create">Create Game</a>.</p>
 	}
 	else
 	{
-		<p>There are no games on @ViewBag.SelectedTerrain.</p>
+		<p>There are no games on @Model.TerrainFilter.</p>
 	}
 
 }
 else
 {
 	<div class="row">
-		@foreach (var game in Model)
+		@if (Model.Games != null)
 		{
-			<div class="col-md-4">
-				<a asp-action="Details" asp-route-id="@game.Id" class="text-decoration-none">
-					<div class="card mb-4 shadow-sm">
-						@if (game.IsCanceled == true)
-						{
-							<div class="card-header text-center bg-danger bg-gradient" style="--bs-bg-opacity: .7;">
-								<strong>Canceled</strong>
-							</div>
-						}
-						else
-						{
-							@if (DateTime.Parse(game.Date) > today)
+			@foreach (var game in Model.Games)
+			{
+				<div class="col-md-4">
+					<a asp-action="Details" asp-route-id="@game.Id" class="text-decoration-none">
+						<div class="card mb-4 shadow-sm">
+							@if (game.IsCanceled == true)
 							{
-								<div class="card-header text-center bg-warning bg-gradient" style="--bs-bg-opacity: .7;">
-									<strong>Upcoming</strong>
-								</div>
-							}
-							else if (DateTime.Parse(game.Date) == today)
-							{
-								<div class="card-header text-center bg-success bg-gradient" style="--bs-bg-opacity: .7;">
-									<strong>Today</strong>
+								<div class="card-header text-center bg-danger bg-gradient" style="--bs-bg-opacity: .7;">
+									<strong>Canceled</strong>
 								</div>
 							}
 							else
 							{
-								<div class="card-header text-center bg-secondary bg-gradient" style="--bs-bg-opacity: .7;">
-									<strong>Ended</strong>
-								</div>
+								@if (DateTime.Parse(game.Date) > today)
+								{
+									<div class="card-header text-center bg-warning bg-gradient" style="--bs-bg-opacity: .7;">
+										<strong>Upcoming</strong>
+									</div>
+								}
+								else if (DateTime.Parse(game.Date) == today)
+								{
+									<div class="card-header text-center bg-success bg-gradient" style="--bs-bg-opacity: .7;">
+										<strong>Today</strong>
+									</div>
+								}
+								else
+								{
+									<div class="card-header text-center bg-secondary bg-gradient" style="--bs-bg-opacity: .7;">
+										<strong>Ended</strong>
+									</div>
+								}
 							}
-						}
 
-						@if (DateTime.Parse(game.Date) < today)
-						{
-							<img src="@game.ImageUrl" class="card-img-top img-grayscale" alt="Game Image" style="height: 200px; object-fit: cover;">
-						}
-						else
-						{
-							<img src="@game.ImageUrl" class="card-img-top" alt="Game Image" style="height: 200px; object-fit: cover;">
-						}
+							@if (DateTime.Parse(game.Date) < today)
+							{
+								<img src="@game.ImageUrl" class="card-img-top img-grayscale" alt="Game Image" style="height: 200px; object-fit: cover;">
+							}
+							else
+							{
+								<img src="@game.ImageUrl" class="card-img-top" alt="Game Image" style="height: 200px; object-fit: cover;">
+							}
 
-						<div class="card-body">
-							<h4 class="card-title">@game.Name</h4>
-							<p class="card-text">@game.Terrain</p>
-							<span class="stretched-link"></span>
+							<div class="card-body">
+								<h4 class="card-title">@game.Name</h4>
+								<p class="card-text">@game.Terrain</p>
+								<span class="stretched-link"></span>
+							</div>
+							<div class="card-footer text-center">
+								<strong>@game.Date</strong>
+							</div>
 						</div>
-						<div class="card-footer text-center">
-							<strong>@game.Date</strong>
-						</div>
-					</div>
-				</a>
-			</div>
+					</a>
+				</div>
+			}
 		}
+
 	</div>
+
+	<nav aria-label="Page navigation" class="mt-4">
+		<ul class="pagination">
+			@if (Model.CurrentPage > 1)
+			{
+				<li class="page-item">
+					<a class="page-link" asp-action="Index"
+					   asp-route-currentPage="@(Model.CurrentPage - 1)"
+					   asp-route-terrainFilter="@Model.TerrainFilter">
+						Previous
+					</a>
+				</li>
+			}
+
+			@for (int i = 1; i <= Model.TotalPages; i++)
+			{
+				<li class="page-item @(i == Model.CurrentPage ? "active" : "")">
+					<a class="page-link" asp-action="Index"
+					   asp-route-currentPage="@i"
+					   asp-route-terrainFilter="@Model.TerrainFilter">
+						@i
+					</a>
+				</li>
+			}
+
+			@if (Model.CurrentPage < Model.TotalPages)
+			{
+				<li class="page-item">
+					<a class="page-link" asp-action="Index"
+					   asp-route-currentPage="@(Model.CurrentPage + 1)"
+					   asp-route-terrainFilter="@Model.TerrainFilter">
+						Next
+					</a>
+				</li>
+			}
+		</ul>
+	</nav>
 }

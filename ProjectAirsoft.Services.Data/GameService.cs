@@ -14,12 +14,20 @@ namespace ProjectAirsoft.Services.Data
 {
 	public class GameService(ApplicationDbContext dbContext) : BaseService, IGameService
 	{
-		public async Task<IEnumerable<GameIndexViewModel>> GetAllGamesAsync()
+		public async Task<IEnumerable<GameIndexViewModel>> GetAllGamesAsync(string? terrain = null)
 		{
 			List<Game> games = await dbContext.Games
 				.AsNoTracking()
 				.Include(g => g.Terrain)
 				.ToListAsync();
+
+			if (!string.IsNullOrEmpty(terrain))
+			{
+				terrain = terrain.ToLower().Trim();
+				games = games
+					.Where(g => g.Terrain.Name.ToLower() == terrain)
+					.ToList();
+			}
 
 			IEnumerable<GameIndexViewModel> gameIndexViewModels = games
 				.Where(g => g.IsDeleted == false)

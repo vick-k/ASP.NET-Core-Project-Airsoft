@@ -6,12 +6,34 @@
 	var today = DateTime.Today;
 }
 
-<h2 class="d-inline">All Games</h2>
+<div class="d-flex align-items-center mb-3">
+	<h2 class="me-auto mb-0">All Games</h2>
 
-@if (User.IsInRole("Admin") || User.IsInRole("Manager"))
-{
-	<span class="ms-2"><a asp-controller="Game" asp-action="Create" class="btn btn-outline-success mb-2">Create Game</a></span>
-}
+	@if (User.IsInRole("Admin") || User.IsInRole("Manager"))
+	{
+		<a asp-controller="Game" asp-action="Create" class="btn btn-outline-success me-2">Create Game</a>
+	}
+
+	<div class="btn-group dropend">
+		<button class="btn btn-outline-primary dropdown-toggle shadow-none" type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-offset="0,10">
+			Terrain
+		</button>
+		<ul class="dropdown-menu">
+			<li>
+				<a class="dropdown-item @(ViewBag.SelectedTerrain == null ? "active" : "")" asp-action="Index">All</a>
+			</li>
+			<li>
+				<hr class="dropdown-divider">
+			</li>
+			@foreach (var terrain in ViewBag.AllTerrains)
+			{
+				<li>
+					<a class="dropdown-item @(ViewBag.SelectedTerrain == terrain ? "active" : "")" asp-action="Index" asp-route-terrain="@terrain">@terrain</a>
+				</li>
+			}
+		</ul>
+	</div>
+</div>
 
 <hr class="d-none d-md-block my-3">
 

@@ -17,9 +17,21 @@ namespace ProjectAirsoft.Web.Controllers
 	{
 		[HttpGet]
 		[AllowAnonymous]
-		public async Task<IActionResult> Index()
+		public async Task<IActionResult> Index(string? terrain = null)
 		{
-			IEnumerable<GameIndexViewModel> allGames = await gameService.GetAllGamesAsync();
+			IEnumerable<GameIndexViewModel> allGames = await gameService.GetAllGamesAsync(terrain);
+
+			IEnumerable<TerrainListModel> terrains = await terrainService.GetAllTerrainsForListAsync();
+
+			List<string> terrainNames = new List<string>();
+
+			foreach (TerrainListModel t in terrains)
+			{
+				terrainNames.Add(t.Name);
+			}
+
+			ViewBag.AllTerrains = terrainNames;
+			ViewBag.SelectedTerrain = terrain;
 
 			return View(allGames);
 		}

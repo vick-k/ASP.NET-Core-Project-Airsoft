@@ -15,7 +15,7 @@
         @if (await UserManager.IsInRoleAsync(currentUser!, AdminRoleName))
         {
             <li class="nav-item">
-                <a asp-area="Admin" asp-controller="Home" class="btn btn-outline-success me-2">Admin Panel</a>
+                <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="btn btn-outline-success me-2">Admin Panel</a>
             </li>
         }
         

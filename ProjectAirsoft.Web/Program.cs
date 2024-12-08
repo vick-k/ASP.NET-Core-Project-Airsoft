@@ -43,6 +43,7 @@ using (IServiceScope scope = app.Services.CreateScope())
 
 	DatabaseSeeder.SeedRoles(services);
 	DatabaseSeeder.AssignAdminRole(services);
+	DatabaseSeeder.AssignManagerRole(services);
 }
 
 // Configure the HTTP request pipeline.

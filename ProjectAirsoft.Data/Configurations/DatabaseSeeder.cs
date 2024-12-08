@@ -56,15 +56,42 @@ namespace ProjectAirsoft.Data.Configurations
 				}
 			}
 
-			bool isInRole = userManager.IsInRoleAsync(adminUser, "Admin").GetAwaiter().GetResult();
+			bool isInRole = userManager.IsInRoleAsync(adminUser, AdminRoleName).GetAwaiter().GetResult();
 
 			if (!isInRole)
 			{
-				IdentityResult addRoleResult = userManager.AddToRoleAsync(adminUser, "Admin").GetAwaiter().GetResult();
+				IdentityResult addRoleResult = userManager.AddToRoleAsync(adminUser, AdminRoleName).GetAwaiter().GetResult();
 
 				if (!addRoleResult.Succeeded)
 				{
 					throw new Exception($"Failed to assign admin role to user: {adminUserName}");
+				}
+			}
+		}
+
+		public static void AssignManagerRole(IServiceProvider serviceProvider)
+		{
+			UserManager<ApplicationUser> userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+
+			string managerUserName = "manager";
+			string managerEmail = "manager@gmail.com";
+
+			ApplicationUser? managerUser = userManager.FindByEmailAsync(managerEmail).GetAwaiter().GetResult();
+
+			if (managerUser == null)
+			{
+				throw new Exception($"The manager with username '{managerEmail}' has not been seeded into the database.");
+			}
+
+			bool isInRole = userManager.IsInRoleAsync(managerUser, ManagerRoleName).GetAwaiter().GetResult();
+
+			if (!isInRole)
+			{
+				IdentityResult addRoleResult = userManager.AddToRoleAsync(managerUser, ManagerRoleName).GetAwaiter().GetResult();
+
+				if (!addRoleResult.Succeeded)
+				{
+					throw new Exception($"Failed to assign admin role to user: {managerUserName}");
 				}
 			}
 		}

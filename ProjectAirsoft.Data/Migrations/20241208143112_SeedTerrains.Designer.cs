@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ProjectAirsoft.Web.Data;
 
@@ -11,9 +12,11 @@ using ProjectAirsoft.Web.Data;
 namespace ProjectAirsoft.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241208143112_SeedTerrains")]
+    partial class SeedTerrains
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -225,59 +228,6 @@ namespace ProjectAirsoft.Data.Migrations
                     b.HasIndex("TeamId");
 
                     b.ToTable("AspNetUsers", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("184bf0c1-f0c6-41ba-94f4-fc8efcb6d0f9"),
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "e2828fdd-980f-41d0-bac2-2f8a30538ce6",
-                            Email = "player1@gmail.com",
-                            EmailConfirmed = false,
-                            IsDeleted = false,
-                            LockoutEnabled = true,
-                            NormalizedEmail = "PLAYER1@GMAIL.COM",
-                            NormalizedUserName = "PLAYER1",
-                            PasswordHash = "AQAAAAIAAYagAAAAEBZnpUEZ4czhZ1l08HcDlzfyoYPQFrFzOkkRNH8VGfko1FCMv8+/fowLEPEXir9Gvg==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "094377f0-813c-49b8-9dff-159f05206053",
-                            TwoFactorEnabled = false,
-                            UserName = "player1"
-                        },
-                        new
-                        {
-                            Id = new Guid("d2c05c9e-643e-4fd0-9ab4-b01fa657c6b2"),
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "4204148f-0754-4012-ab45-ab17bd7403aa",
-                            Email = "player2@gmail.com",
-                            EmailConfirmed = false,
-                            IsDeleted = false,
-                            LockoutEnabled = true,
-                            NormalizedEmail = "PLAYER2@GMAIL.COM",
-                            NormalizedUserName = "PLAYER2",
-                            PasswordHash = "AQAAAAIAAYagAAAAEI8GMjBqjbJLjQa4k7pcPhYC80H1i19qsg4SFgSkPITHQyEDa2ftdQyJjuuY6vgjaQ==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "fb7bce0c-e5a7-4ecb-8e4e-800d542498ca",
-                            TwoFactorEnabled = false,
-                            UserName = "player2"
-                        },
-                        new
-                        {
-                            Id = new Guid("0e773424-25ab-4d83-a5c9-a5f3665ef336"),
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "0fc17956-b5b2-490f-bd14-b31de1289650",
-                            Email = "manager@gmail.com",
-                            EmailConfirmed = false,
-                            IsDeleted = false,
-                            LockoutEnabled = true,
-                            NormalizedEmail = "MANAGER@GMAIL.COM",
-                            NormalizedUserName = "MANAGER",
-                            PasswordHash = "AQAAAAIAAYagAAAAEA8N2sKcVQUCBr+bFvwv5HKHfb5ZCk7JhYbm6nta02rxk6iE997Ugbh3GYX755HdKA==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "20dfb824-3278-495e-a401-43fb8bdf61f3",
-                            TwoFactorEnabled = false,
-                            UserName = "manager"
-                        });
                 });
 
             modelBuilder.Entity("ProjectAirsoft.Data.Models.City", b =>

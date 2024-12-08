@@ -26,7 +26,7 @@ namespace ProjectAirsoft.Web.Controllers
 				}
 			}
 
-			return View("Error500");
+			return View("Error");
 		}
 	}
 }

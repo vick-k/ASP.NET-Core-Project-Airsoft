@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using ProjectAirsoft.Data.Configurations;
 using ProjectAirsoft.Data.Models;
 using System.Reflection;
 
@@ -8,9 +9,12 @@ namespace ProjectAirsoft.Web.Data
 {
 	public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityRole<Guid>, Guid>
 	{
-		public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+		private readonly bool seedDb;
+
+		public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, bool seedDb = true)
 			: base(options)
 		{
+			this.seedDb = seedDb;
 		}
 
 		public virtual DbSet<Game> Games { get; set; } = null!;
@@ -27,9 +31,17 @@ namespace ProjectAirsoft.Web.Data
 
 		protected override void OnModelCreating(ModelBuilder builder)
 		{
-			base.OnModelCreating(builder);
+			builder.ApplyConfiguration(new UserGameConfiguration());
 
-			builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+			if (seedDb)
+			{
+				builder.ApplyConfiguration(new ApplicationUserConfiguration());
+				builder.ApplyConfiguration(new CityConfiguration());
+				builder.ApplyConfiguration(new GameConfiguration());
+				builder.ApplyConfiguration(new TerrainConfiguration());
+			}
+
+			base.OnModelCreating(builder);
 		}
 	}
 }

@@ -23,6 +23,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{2C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectAirsoft.Services.Data", "ProjectAirsoft.Services.Data\ProjectAirsoft.Services.Data.csproj", "{556FAC37-2C9F-41A2-9DFE-EE234C6988AD}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{37847325-9B67-44F4-84C9-E77016238127}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectAirsoft.Services.Tests", "ProjectAirsoft.Services.Tests\ProjectAirsoft.Services.Tests.csproj", "{0FD41FAA-5C7F-4546-B4E9-49E64A25E7FC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -57,6 +61,10 @@ Global
 		{556FAC37-2C9F-41A2-9DFE-EE234C6988AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{556FAC37-2C9F-41A2-9DFE-EE234C6988AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{556FAC37-2C9F-41A2-9DFE-EE234C6988AD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0FD41FAA-5C7F-4546-B4E9-49E64A25E7FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0FD41FAA-5C7F-4546-B4E9-49E64A25E7FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0FD41FAA-5C7F-4546-B4E9-49E64A25E7FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0FD41FAA-5C7F-4546-B4E9-49E64A25E7FC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -68,6 +76,7 @@ Global
 		{F85B25F3-C5D7-462F-982F-961CC68F5D54} = {2279EDC9-9E1B-476C-BF87-7B1EC9D27484}
 		{81523607-DE4D-4DB8-B536-F757E2ABE8C2} = {2279EDC9-9E1B-476C-BF87-7B1EC9D27484}
 		{556FAC37-2C9F-41A2-9DFE-EE234C6988AD} = {2C2F3086-05F6-4BD7-8372-78B4C7C2B22E}
+		{0FD41FAA-5C7F-4546-B4E9-49E64A25E7FC} = {37847325-9B67-44F4-84C9-E77016238127}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D9D27547-AFF2-43D9-A7A2-4DC50D8A5B41}

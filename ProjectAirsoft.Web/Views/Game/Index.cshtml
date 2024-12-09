@@ -30,7 +30,7 @@
 				@foreach (string terrain in Model.AllTerrains)
 				{
 					<li>
-						<a class="dropdown-item @(Model.TerrainFilter == terrain.ToLower() ? "active" : "")" asp-action="Index" asp-route-terrainFilter="@terrain">@terrain</a>
+						<a class="dropdown-item @(Model.TerrainFilter == terrain ? "active" : "")" asp-action="Index" asp-route-terrainFilter="@terrain">@terrain</a>
 					</li>
 				}
 			}

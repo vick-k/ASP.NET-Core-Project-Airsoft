@@ -9,6 +9,8 @@ namespace ProjectAirsoft.ViewModels.Game
 {
 	public class GameFormModel
 	{
+		public string? Id { get; set; }
+
 		[Required(ErrorMessage = RequiredNameMessage)]
 		[MinLength(NameMinLength, ErrorMessage = NameMinLengthMessage)]
 		[MaxLength(NameMaxLength, ErrorMessage = NameMaxLengthMessage)]

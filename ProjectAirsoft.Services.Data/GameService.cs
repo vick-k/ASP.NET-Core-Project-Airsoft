@@ -25,9 +25,8 @@ namespace ProjectAirsoft.Services.Data
 
 			if (!string.IsNullOrEmpty(viewModel.TerrainFilter))
 			{
-				viewModel.TerrainFilter = viewModel.TerrainFilter.ToLower().Trim();
 				games = games
-					.Where(g => g.Terrain.Name.ToLower() == viewModel.TerrainFilter)
+					.Where(g => g.Terrain.Name.ToLower() == viewModel.TerrainFilter.ToLower().Trim())
 					.ToList();
 			}
 
@@ -155,6 +154,7 @@ namespace ProjectAirsoft.Services.Data
 
 			if (game != null)
 			{
+				viewModel.Id = game.Id.ToString();
 				viewModel.Name = game.Name;
 				viewModel.Description = game.Description;
 				viewModel.ImageUrl = game.ImageUrl;

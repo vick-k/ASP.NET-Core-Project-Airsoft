@@ -109,6 +109,7 @@ namespace ProjectAirsoft.Web.Controllers
 		}
 
 		[HttpGet]
+		[Authorize(Roles = "Admin, Manager")]
 		public async Task<IActionResult> Edit(string id)
 		{
 			Guid gameGuid = Guid.Empty;
@@ -142,12 +143,13 @@ namespace ProjectAirsoft.Web.Controllers
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> Edit(GameFormModel viewModel, string id)
+		[Authorize(Roles = "Admin, Manager")]
+		public async Task<IActionResult> Edit(GameFormModel viewModel)
 		{
 			Guid gameGuid = Guid.Empty;
-			bool isGuidValid = baseService.IsGuidValid(id, ref gameGuid);
+			bool isGuidValid = baseService.IsGuidValid(viewModel.Id, ref gameGuid);
 
-			if (!isGuidValid)
+			if (!isGuidValid || viewModel.Id == null)
 			{
 				TempData[AlertDanger] = EditGameGenericMessage;
 
@@ -161,7 +163,7 @@ namespace ProjectAirsoft.Web.Controllers
 				return View(viewModel);
 			}
 
-			bool gameExists = await gameService.GameExistsAsync(id);
+			bool gameExists = await gameService.GameExistsAsync(viewModel.Id);
 
 			if (gameExists == false)
 			{
@@ -172,7 +174,7 @@ namespace ProjectAirsoft.Web.Controllers
 
 			string? userId = userManager.GetUserId(User);
 
-			GameFormModel gameFromEditForm = await gameService.GetGameForEditAsync(id);
+			GameFormModel gameFromEditForm = await gameService.GetGameForEditAsync(viewModel.Id);
 
 			if (gameFromEditForm.OrganizerId != userId)
 			{
@@ -210,10 +212,11 @@ namespace ProjectAirsoft.Web.Controllers
 
 			TempData[AlertSuccess] = EditGameSuccessMessage;
 
-			return RedirectToAction(nameof(Details), new { id });
+			return RedirectToAction(nameof(Details), new { id = viewModel.Id });
 		}
 
 		[HttpGet]
+		[Authorize(Roles = "Admin, Manager")]
 		public async Task<IActionResult> Cancel(string id)
 		{
 			Guid gameGuid = Guid.Empty;
@@ -238,6 +241,7 @@ namespace ProjectAirsoft.Web.Controllers
 		}
 
 		[HttpPost]
+		[Authorize(Roles = "Admin, Manager")]
 		public async Task<IActionResult> Cancel(GameDeleteViewModel viewModel)
 		{
 			Guid gameGuid = Guid.Empty;
@@ -265,6 +269,7 @@ namespace ProjectAirsoft.Web.Controllers
 		}
 
 		[HttpGet]
+		[Authorize(Roles = "Admin, Manager")]
 		public async Task<IActionResult> Delete(string id)
 		{
 			Guid gameGuid = Guid.Empty;
@@ -289,6 +294,7 @@ namespace ProjectAirsoft.Web.Controllers
 		}
 
 		[HttpPost]
+		[Authorize(Roles = "Admin, Manager")]
 		public async Task<IActionResult> Delete(GameDeleteViewModel viewModel)
 		{
 			Guid gameGuid = Guid.Empty;

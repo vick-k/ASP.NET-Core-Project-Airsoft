@@ -29,6 +29,7 @@
 <p class="text-danger mt-3">Are you sure you want to cancel this game?</p>
 
 <form asp-action="Cancel" method="post">
+	<input type="hidden" asp-for="Id" />
 	<input type="hidden" asp-for="OrganizerId" />
 	<button type="submit" class="btn btn-outline-danger">Confirm Cancel</button>
 	<a asp-action="Details" asp-route-id="@Model.Id" class="btn btn-outline-secondary">Back</a>

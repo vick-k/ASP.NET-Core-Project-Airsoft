@@ -263,12 +263,12 @@ namespace ProjectAirsoft.Web.Controllers
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> Edit(TeamFormModel viewModel, string id)
+		public async Task<IActionResult> Edit(TeamFormModel viewModel)
 		{
 			Guid teamGuid = Guid.Empty;
-			bool isGuidValid = baseService.IsGuidValid(id, ref teamGuid);
+			bool isGuidValid = baseService.IsGuidValid(viewModel.Id, ref teamGuid);
 
-			if (!isGuidValid)
+			if (!isGuidValid || viewModel.Id == null)
 			{
 				TempData[AlertDanger] = EditTeamFailMessage;
 
@@ -282,7 +282,7 @@ namespace ProjectAirsoft.Web.Controllers
 				return View(viewModel);
 			}
 
-			bool teamExists = await teamService.TeamExistsAsync(id);
+			bool teamExists = await teamService.TeamExistsAsync(viewModel.Id);
 
 			if (teamExists == false)
 			{
@@ -293,7 +293,7 @@ namespace ProjectAirsoft.Web.Controllers
 
 			string userId = userManager.GetUserId(User)!;
 
-			TeamFormModel teamFromEditForm = await teamService.GetTeamForEditAsync(id, userId);
+			TeamFormModel teamFromEditForm = await teamService.GetTeamForEditAsync(viewModel.Id, userId);
 
 			if (teamFromEditForm == null || teamFromEditForm.LeaderId != userId)
 			{
@@ -314,7 +314,7 @@ namespace ProjectAirsoft.Web.Controllers
 
 			TempData[AlertSuccess] = EditTeamSuccessMessage;
 
-			return RedirectToAction(nameof(Details), new { id });
+			return RedirectToAction(nameof(Details), new { id = viewModel.Id });
 		}
 
 		[HttpGet]

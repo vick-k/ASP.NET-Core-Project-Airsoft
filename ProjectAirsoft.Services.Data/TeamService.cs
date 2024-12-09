@@ -224,6 +224,7 @@ namespace ProjectAirsoft.Services.Data
 
 			if (team != null)
 			{
+				viewModel.Id = team.Id.ToString();
 				viewModel.Name = team.Name;
 				viewModel.LogoUrl = team.LogoUrl;
 				viewModel.CityId = team.CityId;

@@ -44,7 +44,6 @@ using (IServiceScope scope = app.Services.CreateScope())
 	DatabaseSeeder.SeedRoles(services);
 	DatabaseSeeder.AssignAdminRole(services);
 	DatabaseSeeder.AssignManagerRole(services);
-	DatabaseSeeder.AssignUserTeamId(services);
 }
 
 // Configure the HTTP request pipeline.

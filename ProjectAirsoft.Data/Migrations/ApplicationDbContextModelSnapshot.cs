@@ -231,16 +231,16 @@ namespace ProjectAirsoft.Data.Migrations
                         {
                             Id = new Guid("184bf0c1-f0c6-41ba-94f4-fc8efcb6d0f9"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "f4983579-1168-48b7-8e4f-f242b0859ec0",
+                            ConcurrencyStamp = "e2828fdd-980f-41d0-bac2-2f8a30538ce6",
                             Email = "player1@gmail.com",
                             EmailConfirmed = false,
                             IsDeleted = false,
                             LockoutEnabled = true,
                             NormalizedEmail = "PLAYER1@GMAIL.COM",
                             NormalizedUserName = "PLAYER1",
-                            PasswordHash = "AQAAAAIAAYagAAAAECmSChtVxQEtgoPpIF8FFL7xKL1WEl0GUrKlnN62GKpUXnkC2BtsnhOH8k+x34REaA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEBZnpUEZ4czhZ1l08HcDlzfyoYPQFrFzOkkRNH8VGfko1FCMv8+/fowLEPEXir9Gvg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "b9242c54-dccc-4eca-a61f-3c2cb44f4e20",
+                            SecurityStamp = "094377f0-813c-49b8-9dff-159f05206053",
                             TwoFactorEnabled = false,
                             UserName = "player1"
                         },
@@ -248,16 +248,16 @@ namespace ProjectAirsoft.Data.Migrations
                         {
                             Id = new Guid("d2c05c9e-643e-4fd0-9ab4-b01fa657c6b2"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "100717ab-a483-4200-a76a-18eb0672d7cc",
+                            ConcurrencyStamp = "4204148f-0754-4012-ab45-ab17bd7403aa",
                             Email = "player2@gmail.com",
                             EmailConfirmed = false,
                             IsDeleted = false,
                             LockoutEnabled = true,
                             NormalizedEmail = "PLAYER2@GMAIL.COM",
                             NormalizedUserName = "PLAYER2",
-                            PasswordHash = "AQAAAAIAAYagAAAAED8KOp0Whl+0LjZ98zE3Dd6DvLAwrGjHAjsPcPiqOhTnM9g4bIL5HkvJENFKFUCo1Q==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEI8GMjBqjbJLjQa4k7pcPhYC80H1i19qsg4SFgSkPITHQyEDa2ftdQyJjuuY6vgjaQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "8ab1ada7-ac57-4094-9a4f-8ec1619a692c",
+                            SecurityStamp = "fb7bce0c-e5a7-4ecb-8e4e-800d542498ca",
                             TwoFactorEnabled = false,
                             UserName = "player2"
                         },
@@ -265,16 +265,16 @@ namespace ProjectAirsoft.Data.Migrations
                         {
                             Id = new Guid("0e773424-25ab-4d83-a5c9-a5f3665ef336"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "ae2d88fd-c3fc-4f53-b16f-bbb3388f3e77",
+                            ConcurrencyStamp = "0fc17956-b5b2-490f-bd14-b31de1289650",
                             Email = "manager@gmail.com",
                             EmailConfirmed = false,
                             IsDeleted = false,
                             LockoutEnabled = true,
                             NormalizedEmail = "MANAGER@GMAIL.COM",
                             NormalizedUserName = "MANAGER",
-                            PasswordHash = "AQAAAAIAAYagAAAAEH2kMUnbd+D2Dw9VwVRxWdfSDUXcPDQ9LorkYOlel5I+M4DS82/HdoWN8FTmuls+iA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEA8N2sKcVQUCBr+bFvwv5HKHfb5ZCk7JhYbm6nta02rxk6iE997Ugbh3GYX755HdKA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "7379def1-f076-45c3-96df-bacc11cf569b",
+                            SecurityStamp = "20dfb824-3278-495e-a401-43fb8bdf61f3",
                             TwoFactorEnabled = false,
                             UserName = "manager"
                         });
@@ -297,7 +297,7 @@ namespace ProjectAirsoft.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Cities");
+                    b.ToTable("Cities", (string)null);
 
                     b.HasData(
                         new
@@ -388,7 +388,7 @@ namespace ProjectAirsoft.Data.Migrations
 
                     b.HasIndex("GameId");
 
-                    b.ToTable("Comments");
+                    b.ToTable("Comments", (string)null);
                 });
 
             modelBuilder.Entity("ProjectAirsoft.Data.Models.Game", b =>
@@ -455,7 +455,7 @@ namespace ProjectAirsoft.Data.Migrations
 
                     b.HasIndex("TerrainId");
 
-                    b.ToTable("Games");
+                    b.ToTable("Games", (string)null);
                 });
 
             modelBuilder.Entity("ProjectAirsoft.Data.Models.Team", b =>
@@ -494,27 +494,7 @@ namespace ProjectAirsoft.Data.Migrations
 
                     b.HasIndex("LeaderId");
 
-                    b.ToTable("Teams");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("6ec23209-e40e-49a2-8ea4-052e83a2fe4d"),
-                            CityId = 3,
-                            IsDeleted = false,
-                            LeaderId = new Guid("184bf0c1-f0c6-41ba-94f4-fc8efcb6d0f9"),
-                            LogoUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhpEkZQsmay7ehKLLMajwMXwhdo_hGLtBR6A&s",
-                            Name = "Drazki Spec. Ops. Group"
-                        },
-                        new
-                        {
-                            Id = new Guid("c379084f-85f5-43c9-a448-17c5514059d6"),
-                            CityId = 10,
-                            IsDeleted = false,
-                            LeaderId = new Guid("d2c05c9e-643e-4fd0-9ab4-b01fa657c6b2"),
-                            LogoUrl = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDoQ68zwAWyAjM0wwucWB7FbRO_l0EUmMwLg&s",
-                            Name = "OPFOR TCD"
-                        });
+                    b.ToTable("Teams", (string)null);
                 });
 
             modelBuilder.Entity("ProjectAirsoft.Data.Models.Terrain", b =>
@@ -554,7 +534,7 @@ namespace ProjectAirsoft.Data.Migrations
 
                     b.HasIndex("CityId");
 
-                    b.ToTable("Terrains");
+                    b.ToTable("Terrains", (string)null);
 
                     b.HasData(
                         new
@@ -627,7 +607,7 @@ namespace ProjectAirsoft.Data.Migrations
 
                     b.HasIndex("GameId");
 
-                    b.ToTable("UsersGames");
+                    b.ToTable("UsersGames", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>

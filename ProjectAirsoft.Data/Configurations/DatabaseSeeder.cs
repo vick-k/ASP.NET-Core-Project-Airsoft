@@ -95,36 +95,5 @@ namespace ProjectAirsoft.Data.Configurations
 				}
 			}
 		}
-
-		public static async void AssignUserTeamId(IServiceProvider serviceProvider)
-		{
-			UserManager<ApplicationUser> userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
-			ApplicationDbContext dbContext = serviceProvider.GetRequiredService<ApplicationDbContext>();
-
-			string playerOneUserName = "player1";
-			string playerOneEmail = "player1@gmail.com";
-			string playerTwoUserName = "player2";
-			string playerTwoEmail = "player2@gmail.com";
-
-			ApplicationUser? playerOneUser = userManager.FindByEmailAsync(playerOneEmail).GetAwaiter().GetResult();
-
-			if (playerOneUser == null)
-			{
-				throw new Exception($"The user with username {playerOneUserName} has not been seeded into the database.");
-			}
-
-			playerOneUser.TeamId = Guid.Parse("6ec23209-e40e-49a2-8ea4-052e83a2fe4d");
-
-			ApplicationUser? playerTwoUser = userManager.FindByEmailAsync(playerTwoEmail).GetAwaiter().GetResult();
-
-			if (playerTwoUser == null)
-			{
-				throw new Exception($"The user with username {playerTwoUserName} has not been seeded into the database.");
-			}
-
-			playerTwoUser.TeamId = Guid.Parse("c379084f-85f5-43c9-a448-17c5514059d6");
-
-			await dbContext.SaveChangesAsync();
-		}
 	}
 }

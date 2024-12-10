@@ -13,25 +13,25 @@ namespace ProjectAirsoft.Services.Tests
 	{
 		private DbContextOptions<ApplicationDbContext> dbOptions;
 		private ApplicationDbContext dbContext;
-
 		private ICityService cityService;
 
-		[OneTimeSetUp]
-		public void OneTimeSetup()
+		[SetUp]
+		public void SetUp()
 		{
 			dbOptions = new DbContextOptionsBuilder<ApplicationDbContext>()
 				.UseInMemoryDatabase("ApplicationDbInMemory" + Guid.NewGuid().ToString())
 				.Options;
 
 			dbContext = new ApplicationDbContext(dbOptions, false);
-
+			dbContext.Database.EnsureDeleted();
 			dbContext.Database.EnsureCreated();
+
 			SeedDatabase(dbContext);
 
 			cityService = new CityService(dbContext);
 		}
 
-		[OneTimeTearDown]
+		[TearDown]
 		public void TearDownBase()
 		{
 			dbContext.Dispose();
@@ -42,9 +42,11 @@ namespace ProjectAirsoft.Services.Tests
 		{
 			var allCities = await cityService.GetAllCitiesForListAsync();
 
+			Assert.That(allCities.Count, Is.EqualTo(Cities.Count));
 			Assert.That(allCities.Any(c => c.Name == "Sofia"));
 			Assert.That(allCities.Any(c => c.Name == "Plovdiv"));
 			Assert.That(allCities.Any(c => c.Name == "Varna"));
+			Assert.That(allCities.Any(c => c.Name == "Burgas"));
 		}
 
 		[TestCase(1, 2, 3)]

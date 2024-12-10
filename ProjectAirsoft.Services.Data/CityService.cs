@@ -69,6 +69,15 @@ namespace ProjectAirsoft.Services.Data
 				return false;
 			}
 
+			bool cityNameAlreadyExists = await dbContext.Cities
+				.AsNoTracking()
+				.AnyAsync(c => c.Name == viewModel.Name);
+
+			if (cityNameAlreadyExists)
+			{
+				return false;
+			}
+
 			city.Name = viewModel.Name;
 
 			await dbContext.SaveChangesAsync();

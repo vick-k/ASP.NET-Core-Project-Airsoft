@@ -42,7 +42,7 @@ namespace ProjectAirsoft.Services.Tests
 		{
 			var allTerrains = await terrainService.GetAllTerrainsForListAsync();
 
-			Assert.That(allTerrains.Count, Is.EqualTo(3));
+			Assert.That(allTerrains.Count, Is.EqualTo(Terrains.Count));
 			Assert.That(allTerrains.Any(t => t.Name == "Residence"));
 			Assert.That(allTerrains.Any(t => t.Name == "Airsoft Sofia Field"));
 			Assert.That(allTerrains.Any(t => t.Name == "BoinoPole"));

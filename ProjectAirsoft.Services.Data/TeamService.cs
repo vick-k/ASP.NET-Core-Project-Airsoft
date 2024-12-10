@@ -233,6 +233,8 @@ namespace ProjectAirsoft.Services.Data
 			else
 			{
 				viewModel = null!;
+
+				return viewModel;
 			}
 
 			if (team!.LeaderId.ToString() != userId)

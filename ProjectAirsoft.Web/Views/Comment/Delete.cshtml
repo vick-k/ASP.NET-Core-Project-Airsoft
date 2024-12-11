@@ -19,6 +19,6 @@
 	<input type="hidden" asp-for="Id" />
 	<input type="hidden" asp-for="GameId" />
 	<input type="hidden" asp-for="AuthorId" />
-	<button type="submit" class="btn btn-outline-danger">Confirm Delete</button>
-	<a asp-controller="Game" asp-action="Details" asp-route-id="@Model.GameId" class="btn btn-outline-secondary">Cancel</a>
+	<button type="submit" class="btn btn-outline-danger"><i class="bi-check2-square me-2"></i>Confirm Delete</button>
+	<a asp-controller="Game" asp-action="Details" asp-route-id="@Model.GameId" class="btn btn-outline-secondary"><i class="bi-arrow-left-circle me-2"></i>Cancel</a>
 </form>

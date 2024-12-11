@@ -31,6 +31,6 @@
 <form asp-action="Cancel" method="post">
 	<input type="hidden" asp-for="Id" />
 	<input type="hidden" asp-for="OrganizerId" />
-	<button type="submit" class="btn btn-outline-danger">Confirm Cancel</button>
-	<a asp-action="Details" asp-route-id="@Model.Id" class="btn btn-outline-secondary">Back</a>
+	<button type="submit" class="btn btn-outline-danger"><i class="bi-check2-square me-2"></i>Confirm Cancel</button>
+	<a asp-action="Details" asp-route-id="@Model.Id" class="btn btn-outline-secondary"><i class="bi-arrow-left-circle me-2"></i>Back</a>
 </form>

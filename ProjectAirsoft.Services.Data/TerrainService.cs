@@ -14,6 +14,7 @@ namespace ProjectAirsoft.Services.Data
 			List<TerrainListModel> terrains = await dbContext.Terrains
 				.AsNoTracking()
 				.Where(t => t.IsDeleted == false && t.IsActive)
+				.OrderBy(t => t.Name)
 				.Select(t => new TerrainListModel()
 				{
 					Id = t.Id.ToString(),

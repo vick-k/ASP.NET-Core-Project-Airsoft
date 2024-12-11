@@ -25,17 +25,17 @@
 			@if (User.Identity.Name == Model.Organizer && Model.IsCanceled == false && DateTime.Parse(Model.Date) >= today)
 			{
 				<div class="me-2">
-					<a asp-action="Cancel" asp-route-id="@Model.Id" class="btn btn-outline-danger">Cancel Game</a>
+					<a asp-action="Cancel" asp-route-id="@Model.Id" class="btn btn-outline-danger"><i class="bi-stop-circle me-2"></i>Cancel Game</a>
 				</div>
 			}
 
 			@if (User.Identity.Name == Model.Organizer)
 			{
 				<div class="me-2">
-					<a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-info">Edit</a>
+					<a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-info"><i class="bi-pencil-square me-2"></i>Edit</a>
 				</div>
 				<div class="me-2">
-					<a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-outline-danger">Delete</a>
+					<a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-outline-danger"><i class="bi-x-circle me-2"></i>Delete</a>
 				</div>
 			}
 
@@ -46,18 +46,18 @@
 					@if (Model.RegisteredPlayers < Model.Capacity)
 					{
 						<form asp-controller="GameList" asp-action="AddToGameList" asp-route-id="@Model.Id" method="post" class="d-inline">
-							<button type="submit" class="btn btn-outline-success">Register</button>
+							<button type="submit" class="btn btn-outline-success"><i class="bi-check-square me-2"></i>Register</button>
 						</form>
 					}
 					else
 					{
-						<button class="btn btn-outline-light" disabled>Game is Full</button>
+						<button class="btn btn-outline-light" disabled><i class="bi-emoji-frown me-2"></i>Game is Full</button>
 					}
 				}
 				else
 				{
 					<form asp-controller="GameList" asp-action="RemoveFromGameList" asp-route-id="@Model.Id" method="post" class="d-inline">
-						<button type="submit" class="btn btn-outline-warning">Unregister</button>
+						<button type="submit" class="btn btn-outline-warning"><i class="bi-box-arrow-left me-2"></i>Unregister</button>
 					</form>
 				}
 			}
@@ -65,10 +65,10 @@
 	}
 
 	<div class="d-block mt-2">
-		<a asp-action="RegisteredPlayers" asp-route-id="@Model.Id" class="btn btn-outline-primary">View Registered Players</a>
+		<a asp-action="RegisteredPlayers" asp-route-id="@Model.Id" class="btn btn-outline-primary"><i class="bi-three-dots-vertical me-2"></i>View Registered Players</a>
 	</div>
 	<div class="d-block mt-2">
-		<a asp-action="Index" class="btn btn-outline-secondary">Back to All Games</a>
+		<a asp-action="Index" class="btn btn-outline-secondary"><i class="bi-arrow-left-circle me-2"></i>Back to All Games</a>
 	</div>
 
 	<partial name="_CommentsPartial" model="@Model.Comments" />

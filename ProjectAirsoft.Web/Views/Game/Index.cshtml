@@ -11,12 +11,12 @@
 
 	@if (User.IsInRole("Admin") || User.IsInRole("Manager"))
 	{
-		<a asp-controller="Game" asp-action="Create" class="btn btn-outline-success me-2">Create Game</a>
+		<a asp-controller="Game" asp-action="Create" class="btn btn-outline-success me-2"><i class="bi-plus-circle me-2"></i>Create Game</a>
 	}
 
 	<div class="btn-group dropend">
 		<button class="btn btn-outline-primary dropdown-toggle shadow-none" type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-offset="0,10">
-			Terrain
+			<i class="bi-geo-alt me-2"></i>Terrain
 		</button>
 		<ul class="dropdown-menu">
 			<li>
@@ -102,11 +102,11 @@ else
 
 							<div class="card-body">
 								<h4 class="card-title">@game.Name</h4>
-								<p class="card-text">@game.Terrain</p>
+								<span><i class="bi-geo-alt me-2"></i><span class="card-text">@game.Terrain</span></span>
 								<span class="stretched-link"></span>
 							</div>
 							<div class="card-footer text-center">
-								<strong>@game.Date</strong>
+								<span><i class="bi-calendar me-2"></i><strong>@game.Date</strong></span>
 							</div>
 						</div>
 					</a>

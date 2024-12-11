@@ -9,7 +9,7 @@
 <div class="d-flex align-items-center mb-3">
 	<h2 class="me-auto mb-0">Upcoming Games</h2>
 
-	<a asp-controller="Game" asp-action="Index" class="btn btn-outline-primary me-2">View All Games</a>
+	<a asp-controller="Game" asp-action="Index" class="btn btn-outline-primary me-2"><i class="bi-three-dots-vertical me-2"></i>View All Games</a>
 </div>
 
 <hr />
@@ -52,11 +52,11 @@ else
 
 						<div class="card-body">
 							<h4 class="card-title">@game.Name</h4>
-							<p class="card-text">@game.Terrain</p>
+							<span><i class="bi-geo-alt me-2"></i><span class="card-text">@game.Terrain</span></span>
 							<span class="stretched-link"></span>
 						</div>
 						<div class="card-footer text-center">
-							<strong>@game.Date</strong>
+							<span><i class="bi-calendar me-2"></i><strong>@game.Date</strong></span>
 						</div>
 					</div>
 				</a>

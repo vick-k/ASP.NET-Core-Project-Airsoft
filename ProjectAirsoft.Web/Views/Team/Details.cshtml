@@ -38,15 +38,15 @@
 		@if (User.Identity.Name == Model.Leader)
 		{
 			<div class="d-block mt-2 mb-2">
-				<a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-info">Edit</a>
+				<a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-info"><i class="bi-pencil-square me-2"></i>Edit</a>
 			</div>
 			<div class="d-block mt-2 mb-2">
-				<a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-outline-danger">Delete</a>
+				<a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-outline-danger"><i class="bi-x-circle me-2"></i>Delete</a>
 			</div>
 		}
 	}
 
 	<div class="d-block mt-2">
-		<a asp-action="Index" class="btn btn-outline-secondary">Back to All Teams</a>
+		<a asp-action="Index" class="btn btn-outline-secondary"><i class="bi-arrow-left-circle me-2"></i>Back to All Teams</a>
 	</div>
 </div>

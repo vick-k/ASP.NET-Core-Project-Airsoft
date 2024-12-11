@@ -21,45 +21,47 @@
 
 	@if (User?.Identity?.IsAuthenticated ?? false)
 	{
-		@if (User.Identity.Name == Model.Organizer && Model.IsCanceled == false && DateTime.Parse(Model.Date) >= today)
-		{
-			<div class="d-block mt-2 mb-2">
-				<a asp-action="Cancel" asp-route-id="@Model.Id" class="btn btn-outline-danger">Cancel Game</a>
-			</div>
-		}
-
-		@if (User.Identity.Name == Model.Organizer)
-		{
-			<div class="d-block mt-2 mb-2">
-				<a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-info">Edit</a>
-			</div>
-			<div class="d-block mt-2 mb-2">
-				<a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-outline-danger">Delete</a>
-			</div>
-		}
-
-		@if (!Model.IsCanceled && DateTime.Parse(Model.Date) >= today)
-		{
-			@if (!Model.IsUserRegistered)
+		<div class="d-flex">
+			@if (User.Identity.Name == Model.Organizer && Model.IsCanceled == false && DateTime.Parse(Model.Date) >= today)
 			{
-				@if (Model.RegisteredPlayers < Model.Capacity)
+				<div class="me-2">
+					<a asp-action="Cancel" asp-route-id="@Model.Id" class="btn btn-outline-danger">Cancel Game</a>
+				</div>
+			}
+
+			@if (User.Identity.Name == Model.Organizer)
+			{
+				<div class="me-2">
+					<a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-info">Edit</a>
+				</div>
+				<div class="me-2">
+					<a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-outline-danger">Delete</a>
+				</div>
+			}
+
+			@if (!Model.IsCanceled && DateTime.Parse(Model.Date) >= today)
+			{
+				@if (!Model.IsUserRegistered)
 				{
-					<form asp-controller="GameList" asp-action="AddToGameList" asp-route-id="@Model.Id" method="post" class="d-inline">
-						<button type="submit" class="btn btn-outline-success">Register</button>
-					</form>
+					@if (Model.RegisteredPlayers < Model.Capacity)
+					{
+						<form asp-controller="GameList" asp-action="AddToGameList" asp-route-id="@Model.Id" method="post" class="d-inline">
+							<button type="submit" class="btn btn-outline-success">Register</button>
+						</form>
+					}
+					else
+					{
+						<button class="btn btn-outline-light" disabled>Game is Full</button>
+					}
 				}
 				else
 				{
-					<button class="btn btn-outline-light" disabled>Game is Full</button>
+					<form asp-controller="GameList" asp-action="RemoveFromGameList" asp-route-id="@Model.Id" method="post" class="d-inline">
+						<button type="submit" class="btn btn-outline-warning">Unregister</button>
+					</form>
 				}
 			}
-			else
-			{
-				<form asp-controller="GameList" asp-action="RemoveFromGameList" asp-route-id="@Model.Id" method="post" class="d-inline">
-					<button type="submit" class="btn btn-outline-warning">Unregister</button>
-				</form>
-			}
-		}
+		</div>
 	}
 
 	<div class="d-block mt-2">

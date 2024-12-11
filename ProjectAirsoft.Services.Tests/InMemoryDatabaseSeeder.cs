@@ -9,6 +9,7 @@ namespace ProjectAirsoft.Services.Tests
 		public static List<Terrain> Terrains;
 		public static List<Team> Teams;
 		public static List<ApplicationUser> Users = new List<ApplicationUser>();
+		public static List<Game> Games;
 
 		public static void SeedDatabase(ApplicationDbContext dbContext)
 		{
@@ -36,6 +37,8 @@ namespace ProjectAirsoft.Services.Tests
 				}
 			};
 
+			dbContext.Cities.AddRange(Cities);
+
 			Terrains = new List<Terrain>()
 			{
 				new Terrain()
@@ -60,6 +63,8 @@ namespace ProjectAirsoft.Services.Tests
 					CityId = 1
 				}
 			};
+
+			dbContext.Terrains.AddRange(Terrains);
 
 			ApplicationUser playerOne = new ApplicationUser()
 			{
@@ -99,6 +104,7 @@ namespace ProjectAirsoft.Services.Tests
 			Users.Add(playerOne);
 			Users.Add(playerTwo);
 			Users.Add(manager);
+			dbContext.Users.AddRange(Users);
 
 			Teams = new List<Team>()
 			{
@@ -109,7 +115,6 @@ namespace ProjectAirsoft.Services.Tests
 					LogoUrl = "https://example.com",
 					CityId = 1,
 					LeaderId = Users.First(u => u.UserName == "player1").Id
-					// add members?
 				},
 				new Team()
 				{
@@ -118,14 +123,40 @@ namespace ProjectAirsoft.Services.Tests
 					LogoUrl = "https://example.com",
 					CityId = 2,
 					LeaderId = Users.First(u => u.UserName == "player2").Id
-					// add members?
 				}
 			};
 
-			dbContext.Cities.AddRange(Cities);
-			dbContext.Terrains.AddRange(Terrains);
-			dbContext.Users.AddRange(Users);
 			dbContext.Teams.AddRange(Teams);
+
+			Games = new List<Game>()
+			{
+				new Game()
+				{
+					Id = Guid.Parse("1e83cba8-74e2-4552-9a3c-0d216016a688"),
+					Name = "Test Game #1",
+					Description = "Description for Test Game #1.",
+					Date = DateTime.Parse("2026-12-01"),
+					StartTime = "10:00",
+					Capacity = 80,
+					Fee = 2.00m,
+					TerrainId = Guid.Parse("838d3b35-4413-4721-870e-32b00bde5f8e"),
+					OrganizerId = Users.First(u => u.UserName == "manager").Id
+				},
+				new Game()
+				{
+					Id = Guid.Parse("87536500-af29-4d83-afa8-17ba088f6be8"),
+					Name = "Test Game #2",
+					Description = "Description for Test Game #2.",
+					Date = DateTime.Parse("2024-12-13"),
+					StartTime = "11:30",
+					Capacity = 120,
+					Fee = 0m,
+					TerrainId = Guid.Parse("a8177ba1-f5af-4ec4-8631-41a1a5250460"),
+					OrganizerId = Users.First(u => u.UserName == "manager").Id
+				}
+			};
+
+			dbContext.Games.AddRange(Games);
 
 			dbContext.SaveChanges();
 		}

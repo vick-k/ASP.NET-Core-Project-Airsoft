@@ -45,5 +45,7 @@ namespace ProjectAirsoft.Services.Data.Interfaces
 		Task<IEnumerable<GameViewModel>> GetAllGamesForAdminAreaAsync();
 
 		Task<int> GetGamesCountByFilterAsync(AllGamesFilterViewModel viewModel);
+
+		Task<IEnumerable<GameIndexViewModel>> GetUpcomingGamesAsync();
 	}
 }

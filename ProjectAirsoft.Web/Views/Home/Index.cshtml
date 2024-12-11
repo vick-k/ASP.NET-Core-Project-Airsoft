@@ -1,8 +1,66 @@
-﻿@{
-    ViewData["Title"] = "Home";
+﻿@using ProjectAirsoft.ViewModels.Game;
+@model IEnumerable<GameIndexViewModel>
+
+@{
+	ViewData["Title"] = "Home";
+	var today = DateTime.Today;
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="d-flex align-items-center mb-3">
+	<h2 class="me-auto mb-0">Upcoming Games</h2>
+
+	<a asp-controller="Game" asp-action="Index" class="btn btn-outline-primary me-2">View All Games</a>
 </div>
+
+<hr />
+
+@if (Model.Count() == 0)
+{
+	<p>There are no upcoming games.</p>
+}
+else
+{
+	<div class="row">
+		@foreach (var game in Model)
+		{
+			<div class="col-md-4">
+				<a asp-controller="Game" asp-action="Details" asp-route-id="@game.Id" class="text-decoration-none">
+					<div class="card mb-4 shadow-sm">
+						@if (game.IsCanceled == true)
+						{
+							<div class="card-header text-center bg-danger bg-gradient" style="--bs-bg-opacity: .7;">
+								<strong>Canceled</strong>
+							</div>
+						}
+						else
+						{
+							@if (DateTime.Parse(game.Date) > today)
+							{
+								<div class="card-header text-center bg-warning bg-gradient" style="--bs-bg-opacity: .7;">
+									<strong>Upcoming</strong>
+								</div>
+							}
+							else if (DateTime.Parse(game.Date) == today)
+							{
+								<div class="card-header text-center bg-success bg-gradient" style="--bs-bg-opacity: .7;">
+									<strong>Today</strong>
+								</div>
+							}
+						}
+
+						<img src="@game.ImageUrl" class="card-img-top" alt="Game Image" style="height: 200px; object-fit: cover;">
+
+						<div class="card-body">
+							<h4 class="card-title">@game.Name</h4>
+							<p class="card-text">@game.Terrain</p>
+							<span class="stretched-link"></span>
+						</div>
+						<div class="card-footer text-center">
+							<strong>@game.Date</strong>
+						</div>
+					</div>
+				</a>
+			</div>
+		}
+	</div>
+}

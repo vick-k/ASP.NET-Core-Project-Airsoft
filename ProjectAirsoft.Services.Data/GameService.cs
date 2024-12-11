@@ -536,5 +536,30 @@ namespace ProjectAirsoft.Services.Data
 
 			return gamesCount;
 		}
+
+		public async Task<IEnumerable<GameIndexViewModel>> GetUpcomingGamesAsync()
+		{
+			List<Game> games = await dbContext.Games
+				.AsNoTracking()
+				.Where(g => g.IsDeleted == false)
+				.Where(g => g.Date >= DateTime.Today)
+				.OrderBy(g => g.Date)
+				.Include(g => g.Terrain)
+				.Take(3)
+				.ToListAsync();
+
+			IEnumerable<GameIndexViewModel> gameIndexViewModels = games
+				.Select(g => new GameIndexViewModel()
+				{
+					Id = g.Id.ToString(),
+					Name = g.Name,
+					ImageUrl = g.ImageUrl != null ? g.ImageUrl : DefaultGameImage,
+					Date = g.Date.ToString(CustomDateFormat),
+					Terrain = g.Terrain.Name,
+					IsCanceled = g.IsCanceled
+				});
+
+			return gameIndexViewModels;
+		}
 	}
 }

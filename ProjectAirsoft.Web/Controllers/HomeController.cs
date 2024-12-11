@@ -1,14 +1,18 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using ProjectAirsoft.Web.Models;
-using System.Diagnostics;
+using ProjectAirsoft.Services.Data.Interfaces;
+using ProjectAirsoft.ViewModels.Game;
 
 namespace ProjectAirsoft.Web.Controllers
 {
-	public class HomeController : Controller
+	[AllowAnonymous]
+	public class HomeController(IGameService gameService) : Controller
 	{
-		public IActionResult Index()
+		public async Task<IActionResult> Index()
 		{
-			return View();
+			IEnumerable<GameIndexViewModel> upcomingGames = await gameService.GetUpcomingGamesAsync();
+
+			return View(upcomingGames);
 		}
 
 		public IActionResult Error(int? statusCode = null)

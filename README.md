@@ -1,7 +1,19 @@
 # Project Airsoft
 ### Web project for the SoftUni course ASP.NET Advanced - September 2024
+Project Airsoft is a web application designed to streamline the management of airsoft events. It enables users to browse and register for events, post comments, explore airsoft terrains, and create or join airsoft teams, among other features.
+
+## Technologies Used
+### Backend
+- ASP.NET Core (MVC)
+- Entity Framework Core
+- MS SQL Server
+### Frontend
+- Razor View
+- Bootstrap
+### Testing
+- NUnit
 #
-To check the project, clone the repo or download it:
+**To check the project, clone the repo or download it:**
 - Clone using Web URL - https://github.com/vick-k/ASP.NET-Core-Project-Airsoft.git
 - Download link - https://github.com/vick-k/ASP.NET-Core-Project-Airsoft/archive/refs/heads/main.zip
 
